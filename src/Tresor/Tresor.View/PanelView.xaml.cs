@@ -7,15 +7,12 @@
     {
         #region Konstruktoren und Destruktoren
 
+        private IPanelViewModel viewModel;
+
         /// <summary>Initialisiert eine neue Instanz der <see cref="PanelView"/> Klasse.</summary>
         public PanelView()
         {
             InitializeComponent();
-        }
-
-        public PanelView(IPanelViewModel viewModel): this()
-        {
-            DataContext = viewModel;
         }
 
         #endregion

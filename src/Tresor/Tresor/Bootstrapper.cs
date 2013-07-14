@@ -46,10 +46,12 @@
         /// <summary>Registriert alle benötigten Typen beim IoC Container.</summary>
         private static void RegisterAll()
         {
-            Container.RegisterType<IPanelModel, PanelModel>();
+            //Container.RegisterType<IPanelModel, PanelModel>();
+            var panelModel = new PanelModel();
+            Container.RegisterInstance<IPanelModel>(panelModel);
             Container.RegisterType<IPanelViewModel, PanelViewModel>();
             Container.RegisterType<UserControl, PanelView>();
-        }
+}
 
         /// <summary>Löst alle benötigten Typen auf.</summary>
         private static void ResolveAll()
@@ -64,11 +66,5 @@
         }
 
         #endregion
-
-        /// <summary>Zeigt einen Dialog, welcher eine <see cref="System.Exception"/> darstellt.</summary>
-        /// <param name="exception">Die <see cref="System.Exception"/> welche dargestellt werden soll.</param>
-        public static void ShowException(Exception exception)
-        {
-        }
     }
 }

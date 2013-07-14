@@ -1,5 +1,8 @@
-﻿<UserControl x:Class="Tresor.View.PanelView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:tresor="clr-namespace:Tresor" xmlns:userControls="clr-namespace:Tresor.View.UserControls" Focusable="False" d:DesignHeight="300" d:DesignWidth="300" mc:Ignorable="d">
+﻿<UserControl x:Class="Tresor.View.PanelView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:tresor="clr-namespace:Tresor" xmlns:userControls="clr-namespace:Tresor.View.UserControls"
+             xmlns:mvvm="clr-namespace:Tresor.Framework.MVVM;assembly=Tresor.Framework"
+             Focusable="False" d:DesignHeight="300" d:DesignWidth="300" mc:Ignorable="d">
     <Grid>
+        <Button mvvm:SingleEventCommand.RoutedEventName="Click" mvvm:SingleEventCommand.TheCommandToRun="{Binding AddPasswordCommand}" Height="30" Width="100" Content="Hallo Schweinebacke"/>
         <ItemsControl ItemsSource="{Binding Passwords}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>

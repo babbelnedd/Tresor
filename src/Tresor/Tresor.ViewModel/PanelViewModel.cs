@@ -1,11 +1,15 @@
 ﻿namespace Tresor.ViewModel
 {
+    using System;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
+
+    using Cinch;
 
     using Tresor.Contracts.Model;
     using Tresor.Contracts.Utilities;
     using Tresor.Contracts.ViewModel;
+    using Tresor.Framework.MVVM;
     using Tresor.Utilities;
 
     /// <summary>ViewModel für die PanelView.</summary>
@@ -17,6 +21,7 @@
         private IPanelModel model;
 
         #endregion
+
 
         #region Öffentliche Eigenschaften
 
@@ -48,6 +53,13 @@
         {
             this.model = model;
             model.PropertyChanged += ModelChanged;
+
+            AddPasswordCommand = new SimpleCommand<object, SCommandArgs>(AddPassword);
+        }
+
+        private void AddPassword(SCommandArgs obj)
+        {
+
         }
 
         #endregion
@@ -66,5 +78,7 @@
         }
 
         #endregion
+
+        public SimpleCommand<object, SCommandArgs> AddPasswordCommand { get; private set; }
     }
 }
