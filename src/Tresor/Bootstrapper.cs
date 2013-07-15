@@ -27,7 +27,6 @@
         public static void LoadApplication()
         {
             RegisterAll();
-            ResolveAll();
             StartApplication();
         }
 
@@ -39,24 +38,25 @@
         private static void LoadMainWindow()
         {
             var mainWindow = Container.Resolve<MainWindow>();
+            
+            var panelView = Container.Resolve<PanelView>();
+            var panelViewModel = Container.Resolve<PanelViewModel>();
+
+            mainWindow.ViewControl.Content = panelView;
+            ((PanelView)mainWindow.ViewControl.Content).DataContext = panelViewModel;
+
             mainWindow.ShowDialog();
         }
 
         /// <summary>Registriert alle benötigten Typen beim IoC Container.</summary>
         private static void RegisterAll()
         {
-            //Container.RegisterType<IPanelModel, PanelModel>();
             var panelModel = new PanelModel();
             Container.RegisterInstance<IPanelModel>(panelModel);
             Container.RegisterType<IPanelViewModel, PanelViewModel>();
             Container.RegisterType<UserControl, PanelView>();
-}
-
-        /// <summary>Löst alle benötigten Typen auf.</summary>
-        private static void ResolveAll()
-        {
-            Container.Resolve<PanelView>();
         }
+
 
         /// <summary>Startet die Anwendung.</summary>
         private static void StartApplication()

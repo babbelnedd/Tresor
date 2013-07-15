@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{71788082-6D35-485E-90CF-C668265A9573}</ProjectGuid>
+    <ProjectGuid>{430D4B56-9181-4EDE-96C9-D7567D976A68}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tresor.Framework</RootNamespace>
-    <AssemblyName>Tresor.Framework</AssemblyName>
+    <RootNamespace>Tresor.Model</RootNamespace>
+    <AssemblyName>Tresor.Model</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -16,38 +16,42 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\..\bin\Debug\Tresor.Model.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MVVM\EventHooker.cs" />
+    <Compile Include="PanelModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="MVVM\SCommandArgs.cs" />
-    <Compile Include="MVVM\SingleEventCommand.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\ThirdParty\ThirdParty.csproj">
+      <Project>{142236D2-E662-468B-897A-0B37AF468659}</Project>
+      <Name>ThirdParty</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tresor.Contracts\Tresor.Contracts.csproj">
+      <Project>{6371E6A3-66F5-4356-831F-CC2D614681A9}</Project>
+      <Name>Tresor.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tresor.Utilities\Tresor.Utilities.csproj">
+      <Project>{2895CEA1-F0B8-460F-ABEB-1D2A3E171491}</Project>
+      <Name>Tresor.Utilities</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
