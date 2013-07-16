@@ -1,6 +1,7 @@
 ﻿namespace Tresor.Contracts.Utilities
 {
     using System.ComponentModel;
+    using System.Runtime.Serialization;
 
     public interface IPassword : INotifyPropertyChanged
     {

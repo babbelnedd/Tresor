@@ -48,9 +48,33 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Test.cs" />
+    <Compile Include="Tools\PasswordStorage.cs" />
+    <Compile Include="Tresor.Model\PanelModelTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Tresor.ViewModel\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ThirdParty\ThirdParty.csproj">
+      <Project>{142236D2-E662-468B-897A-0B37AF468659}</Project>
+      <Name>ThirdParty</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tresor.Contracts\Tresor.Contracts.csproj">
+      <Project>{6371E6A3-66F5-4356-831F-CC2D614681A9}</Project>
+      <Name>Tresor.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tresor.Model\Tresor.Model.csproj">
+      <Project>{430D4B56-9181-4EDE-96C9-D7567D976A68}</Project>
+      <Name>Tresor.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tresor.Utilities\Tresor.Utilities.csproj">
+      <Project>{2895CEA1-F0B8-460F-ABEB-1D2A3E171491}</Project>
+      <Name>Tresor.Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

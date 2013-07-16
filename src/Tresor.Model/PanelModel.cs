@@ -94,6 +94,17 @@
 
         #endregion
 
+        #region Öffentliche Methoden und Operatoren
+
+        /// <summary>Fügt ein Passwort hinzu.</summary>
+        /// <param name="password">Das hinzuzufügende Passwort.</param>
+        public void AddPassword(IPassword password)
+        {
+            Passwords.Add(password);
+        }
+
+        #endregion
+
         #region Methoden
 
         /// <summary>Tritt ein wenn sich die Auflistung von Passwörtern geändert hat.</summary>
@@ -136,6 +147,7 @@
             return result;
         }
 
+        /// <summary>Beginnt die Überwachung aller Passwörter.</summary>
         private void ObservePasswords()
         {
             foreach (var password in Passwords)
@@ -149,10 +161,7 @@
         /// <param name="arguments">Überprüft anhand der Eigenschaft PropertyName welche Eigenschaft sich geändert hat.</param>
         private void PasswordChanged(object sender, PropertyChangedEventArgs arguments)
         {
-            if (arguments.PropertyName == "IsDirty" && ((Password)sender).IsDirty)
-            {
                 OnPropertyChanged("IsDirty");
-            }
         }
 
         /// <summary>Speichert die reingereichten Passwörter. <strong>Hierbei werden die vorhandenen Passwörter überschrieben.</strong></summary>

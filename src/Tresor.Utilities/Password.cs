@@ -1,10 +1,13 @@
 ﻿namespace Tresor.Utilities
 {
     using System;
+    using System.Runtime.Serialization;
+
+    using Tresor.Contracts.Utilities;
 
     /// <summary>Stellt ein Passwort dar.</summary>
     [Serializable]
-    public class Password : NotifyPropertyChanged
+    public class Password : NotifyPropertyChanged, IPassword
     {
         #region Konstanten und Felder
 
@@ -94,7 +97,7 @@
         {
             return Account;
         }
-
+        
         private Password clone;
 
         public void BeginEdit()
