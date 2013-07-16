@@ -1,6 +1,5 @@
 ﻿namespace Tresor.ViewModel
 {
-    using System;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
 
@@ -22,8 +21,10 @@
 
         #endregion
 
-
         #region Öffentliche Eigenschaften
+
+        /// <summary>Holt die Kommandostruktur zum Hinzufügen eines Passworts.</summary>
+        public SimpleCommand<object, SCommandArgs> AddPasswordCommand { get; private set; }
 
         /// <summary>Holt einen Wert, der angibt, ob es ungespeicherte Änderungen gibt.</summary>
         public bool IsDirty
@@ -57,14 +58,16 @@
             AddPasswordCommand = new SimpleCommand<object, SCommandArgs>(AddPassword);
         }
 
-        private void AddPassword(SCommandArgs obj)
-        {
-
-        }
-
         #endregion
 
         #region Methoden
+
+        /// <summary>Fügt ein Passwort hinzu.</summary>
+        /// <param name="arguments">Erwartet das hinzuzufügende Passwort im CommandParameter.</param>
+        private void AddPassword(SCommandArgs arguments)
+        {
+            var newPassword = arguments.CommandParameter;
+        }
 
         /// <summary>Tritt ein wenn sich eine Eigenschaft im Model geändert hat.</summary>
         /// <param name="sender">Dieser Parameter wird nicht verwendet.</param>
@@ -78,7 +81,5 @@
         }
 
         #endregion
-
-        public SimpleCommand<object, SCommandArgs> AddPasswordCommand { get; private set; }
     }
 }
