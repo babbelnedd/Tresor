@@ -21,14 +21,10 @@
         /// <summary>Initialisiert statische Member der <see cref="Log"/> Klasse.</summary>
         static Log()
         {
-#if DEBUG
-            var sentinelTarget = new NLogViewerTarget() { Name = "sentinel", Address = "udp://127.0.0.1:9999", IncludeNLogData = false };
-            var sentinalRule = new LoggingRule("*", LogLevel.Trace, sentinelTarget);
-            LogManager.Configuration.AddTarget("log4view", sentinelTarget);
-            LogManager.Configuration.LoggingRules.Add(sentinalRule);
-#endif
+            SetupLog4View();
             LogManager.ReconfigExistingLoggers();
             Instance = LogManager.GetCurrentClassLogger();
+            Trace("Anwendungslogger initalisiert.");
         }
 
         #endregion
@@ -41,12 +37,36 @@
         {
             try
             {
+                Trace(string.Format("Die Methode '{0}' wird nun über den Logger ausgefuehrt.", action.Method));
                 action();
             }
             catch (Exception exc)
             {
                 Instance.ErrorException(exc.Message, exc);
             }
+        }
+
+        /// <summary>Sendet eine Nachricht an den Logger.</summary>
+        /// <param name="message">Die Nachricht die gesendet werden soll.</param>
+        public static void Trace(string message)
+        {
+            Instance.Trace(message);
+        }
+
+        #endregion
+
+        #region Methoden
+
+        /// <summary>Initialisiert die Ablaufverfolgung für Log4View.</summary>
+        /// <remarks>Wird nur ausgeführt falls die Anwendung im Debug Modus läuft.</remarks>
+        private static void SetupLog4View()
+        {
+#if DEBUG
+            var sentinelTarget = new NLogViewerTarget { Name = "sentinel", Address = "udp://127.0.0.1:9999", IncludeNLogData = false };
+            var sentinalRule = new LoggingRule("*", LogLevel.Trace, sentinelTarget);
+            LogManager.Configuration.AddTarget("log4view", sentinelTarget);
+            LogManager.Configuration.LoggingRules.Add(sentinalRule);
+#endif
         }
 
         #endregion

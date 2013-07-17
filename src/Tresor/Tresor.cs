@@ -8,24 +8,26 @@
     /// <summary>Grundgerüst der Anwendung.</summary>
     internal class Tresor : Application
     {
-        /// <summary>Der Anwendungslogger.</summary>
-        private static readonly NLog.Logger Logger = Log.Instance;
-
+        // <summary>Einstigespunkt der Anwendung.</summary>
         #region Öffentliche Methoden und Operatoren
 
-        // <summary>Einstigespunkt der Anwendung.</summary>
+        /// <summary>Haupteinstiegspunkt der Anwendung.</summary>
         [STAThread]
         public static void Main()
         {
             RunApplication();
         }
 
+        #endregion
+
+        #region Methoden
+
         /// <summary>Führt die Anwendung aus.</summary>
         private static void RunApplication()
         {
-            Logger.Trace("Anwendung gestartet.", false);
+            Log.Trace("Anwendung gestartet.");
             Log.Run(Bootstrapper.LoadApplication);
-            Logger.Trace("Anwendung beendet.", false);
+            Log.Trace("Anwendung beendet.");
         }
 
         #endregion
