@@ -53,6 +53,7 @@
     <Compile Include="PanelViewModel.cs" />
     <Compile Include="PasswordViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Tresor.Contracts\Tresor.Contracts.csproj">
