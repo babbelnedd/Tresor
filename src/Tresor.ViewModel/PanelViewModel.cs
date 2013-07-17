@@ -12,7 +12,7 @@
     using Tresor.Utilities;
 
     /// <summary>ViewModel für die PanelView.</summary>
-    public class PanelViewModel : NotifyPropertyChanged, IPanelViewModel
+    public class PanelViewModel : ViewModel, IPanelViewModel
     {
         #region Konstanten und Felder
 
