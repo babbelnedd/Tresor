@@ -4,6 +4,7 @@
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
+    using System.Configuration;
     using System.IO;
     using System.Linq;
 
@@ -56,12 +57,20 @@
 
         #region Eigenschaften
 
+        /// <summary>Mitglied der Eigenschaft <see cref="FileName"/>.</summary>
+        private string fileName;
+
         /// <summary>Holt den Dateinamen der Datei welche die Passwörter enthält.</summary>
         private string FileName
         {
             get
             {
-                return string.Format("{0}\\Tresor\\save.tsr", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
+                if (string.IsNullOrEmpty(fileName))
+                {
+                    fileName = AppSettings.GetStorageFile();
+                }
+
+                return fileName;
             }
         }
 
@@ -161,7 +170,7 @@
         /// <param name="arguments">Überprüft anhand der Eigenschaft PropertyName welche Eigenschaft sich geändert hat.</param>
         private void PasswordChanged(object sender, PropertyChangedEventArgs arguments)
         {
-                OnPropertyChanged("IsDirty");
+            OnPropertyChanged("IsDirty");
         }
 
         /// <summary>Speichert die reingereichten Passwörter. <strong>Hierbei werden die vorhandenen Passwörter überschrieben.</strong></summary>
