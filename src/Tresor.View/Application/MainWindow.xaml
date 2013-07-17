@@ -8,7 +8,7 @@
                     <MenuItem Header="_Save" />
                 </MenuItem>
             </Menu>
-            <ContentControl x:Name="ViewControl" x:FieldModifier="public" />
+            <TabControl x:Name="TabControl" x:FieldModifier="public"/>
         </DockPanel>
     </Grid>
 </Window>

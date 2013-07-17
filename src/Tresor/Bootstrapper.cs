@@ -5,10 +5,15 @@
     using Microsoft.Practices.Unity;
 
     using global::Tresor.Contracts.Model;
+
     using global::Tresor.Contracts.ViewModel;
+
     using global::Tresor.Model;
+
     using global::Tresor.View;
+
     using global::Tresor.View.Application;
+
     using global::Tresor.ViewModel;
 
     /// <summary>Statischer Bootstrapper der die Anwendung verkabelt.</summary>
@@ -34,17 +39,21 @@
 
         #region Methoden
 
+        /// <summary>Erstellt die <see cref="Tresor.View.PanelView"/> und gibt diese zurück.</summary>
+        /// <returns>Die <see cref="Tresor.View.PanelView"/>.</returns>
+        private static PanelView GetPanelView()
+        {
+            var panelView = Container.Resolve<PanelView>();
+            var panelViewModel = Container.Resolve<PanelViewModel>();
+            panelView.DataContext = panelViewModel;
+            return panelView;
+        }
+
         /// <summary>Lädt das Hauptfenster.</summary>
         private static void LoadMainWindow()
         {
             var mainWindow = Container.Resolve<MainWindow>();
-            
-            var panelView = Container.Resolve<PanelView>();
-            var panelViewModel = Container.Resolve<PanelViewModel>();
-
-            mainWindow.ViewControl.Content = panelView;
-            ((PanelView)mainWindow.ViewControl.Content).DataContext = panelViewModel;
-
+            SetupTabControl(mainWindow);
             mainWindow.ShowDialog();
         }
 
@@ -57,6 +66,12 @@
             Container.RegisterType<UserControl, PanelView>();
         }
 
+        /// <summary>Setzt das TabControl auf.</summary>
+        /// <param name="window">Erwartet das MainWindow der Anwendung.</param>
+        private static void SetupTabControl(MainWindow window)
+        {
+            window.TabControl.Items.Add(new TabItem { Header = "Passwörter", ToolTip = "Alle verwalteten Passwörter", Content = GetPanelView() });
+        }
 
         /// <summary>Startet die Anwendung.</summary>
         private static void StartApplication()
