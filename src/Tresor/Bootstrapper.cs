@@ -21,7 +21,7 @@
         #region Konstanten und Felder
 
         /// <summary>Der IoC Container.</summary>
-        private readonly IUnityContainer Container = new UnityContainer();
+        private readonly IUnityContainer container = new UnityContainer();
 
         #endregion
 
@@ -42,8 +42,8 @@
         /// <returns>Die <see cref="Tresor.View.PanelView"/>.</returns>
         private PanelView GetPanelView()
         {
-            var panelView = Container.Resolve<PanelView>();
-            var panelViewModel = Container.Resolve<PanelViewModel>();
+            var panelView = container.Resolve<PanelView>();
+            var panelViewModel = container.Resolve<PanelViewModel>();
             panelViewModel.OpenTabRequested += OpenTabRequested;
             panelView.DataContext = panelViewModel;
             return panelView;
@@ -64,7 +64,7 @@
                               {
                                   Header = password.Account,
                                   ToolTip = "Passwort bearbeiten",
-                                  Content = Container.Resolve<PasswordView>()
+                                  Content = container.Resolve<PasswordView>()
                               };
 
             mainWindow.TabControl.Items.Add(tabItem);
@@ -73,7 +73,7 @@
         /// <summary>Lädt das Hauptfenster.</summary>
         private void LoadMainWindow()
         {
-            mainWindow = Container.Resolve<MainWindow>();
+            mainWindow = container.Resolve<MainWindow>();
             SetupTabControl();
             mainWindow.ShowDialog();
         }
@@ -81,9 +81,9 @@
         /// <summary>Registriert alle benötigten Typen beim IoC Container.</summary>
         private void RegisterAll()
         {
-            Container.RegisterInstance<IPanelModel>(new PanelModel());
-            Container.RegisterInstance<UserControl>(new PanelView());
-            Container.RegisterType<IPanelViewModel, PanelViewModel>();
+            container.RegisterInstance<IPanelModel>(new PanelModel());
+            container.RegisterInstance<UserControl>(new PanelView());
+            container.RegisterType<IPanelViewModel, PanelViewModel>();
         }
 
         /// <summary>Das Applikationsfenster.</summary>
