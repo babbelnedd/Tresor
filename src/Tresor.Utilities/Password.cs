@@ -22,6 +22,9 @@
         /// <summary>Mitglied der Eigenschaft <see cref="IsDirty"/>.</summary>
         private bool isDirty;
 
+        /// <summary>Mitglied der Eigenschaft <see cref="IsNew"/>.</summary>
+        private bool isNew;
+
         /// <summary>Mitglied der Eigenschaft <see cref="Key"/>.</summary>
         private string key = string.Empty;
 
@@ -70,6 +73,21 @@
             set
             {
                 isDirty = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>Holt oder setzt einen Wert, der angibt, ob das Passwort neu und ungespeichert ist.</summary>
+        public bool IsNew
+        {
+            get
+            {
+                return isNew;
+            }
+
+            set
+            {
+                isNew = value;
                 OnPropertyChanged();
             }
         }

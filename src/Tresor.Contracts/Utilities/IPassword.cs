@@ -16,6 +16,9 @@
         /// <summary>Holt oder setzt einen Wert, der angibt, ob das Passwort ungespeicherte Änderungen hat.</summary>
         bool IsDirty { get; set; }
 
+        /// <summary>Holt oder setzt einen Wert, der angibt, ob das Passwort neu und ungespeichert ist.</summary>
+        bool IsNew { get; set; }
+
         /// <summary>Holt oder setzt das eigentliche Passwort. </summary>
         string Key { get; set; }
 
