@@ -26,7 +26,7 @@
         private static void RunApplication()
         {
             Log.Trace("Anwendung gestartet.");
-            Log.Run(Bootstrapper.LoadApplication);
+            Log.Run(new Bootstrapper().LoadApplication);
             Log.Trace("Anwendung beendet.");
         }
 
