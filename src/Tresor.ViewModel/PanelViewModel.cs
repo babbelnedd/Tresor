@@ -9,7 +9,6 @@
     using Tresor.Contracts.Utilities;
     using Tresor.Contracts.ViewModel;
     using Tresor.Framework.MVVM;
-    using Tresor.Utilities;
 
     /// <summary>ViewModel für die PanelView.</summary>
     public class PanelViewModel : ViewModel, IPanelViewModel
@@ -66,7 +65,7 @@
         /// <param name="arguments">Erwartet das hinzuzufügende Passwort im CommandParameter.</param>
         private void AddPassword(SCommandArgs arguments)
         {
-            var newPassword = arguments.CommandParameter;
+            OpenTab((IPassword)arguments.CommandParameter);
         }
 
         /// <summary>Tritt ein wenn sich eine Eigenschaft im Model geändert hat.</summary>

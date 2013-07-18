@@ -5,23 +5,41 @@
     using Tresor.Contracts.Utilities;
 
     /// <summary>EventArgs für ein Argument, dass einen Tab öffnen möchte.</summary>
-    public class OpenTabRequestedEventArgs<T> : EventArgs
+    public class OpenTabRequestedEventArgs : EventArgs
     {
-        /// <summary>Mitglied der Eigenschaft <see cref="Content"/>.</summary>
-        private T content;
+        #region Konstanten und Felder
 
-        /// <summary>Holt oder setzt das Objekt, welches geöffnet werden soll.</summary>
-        public T Content
+        /// <summary>Mitglied der Eigenschaft <see cref="Content"/>.</summary>
+        private IPassword content;
+
+        #endregion
+
+        #region Öffentliche Eigenschaften
+
+        /// <summary>Holt das <see cref="IPassword"/>, welches geöffnet werden soll.</summary>
+        public IPassword Content
         {
             get
             {
                 return content;
             }
 
-            set
+            private set
             {
                 content = value;
             }
         }
+
+        #endregion
+
+        #region Konstruktoren und Destruktoren
+
+        /// <summary> Initialisiert eine neue Instanz der <see cref="OpenTabRequestedEventArgs"/> Klasse. </summary>
+        public OpenTabRequestedEventArgs(IPassword password)
+        {
+            Content = password;
+        }
+
+        #endregion
     }
 }
