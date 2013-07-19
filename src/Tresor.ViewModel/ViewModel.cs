@@ -2,13 +2,33 @@
 {
     using System;
 
+    using Cinch;
+
     using Tresor.Contracts.Utilities;
+    using Tresor.Framework.MVVM;
     using Tresor.Utilities;
     using Tresor.Utilities.EventArgs;
 
     /// <summary>Basisklasse für ViewModels.</summary>
     public abstract class ViewModel : NotifyPropertyChanged
     {
+        #region Öffentliche Eigenschaften
+
+        /// <summary>Holt die Kommandostruktru zum Öffnen eines Tabs.</summary>
+        public SimpleCommand<object, SCommandArgs> OpenTabCommand { get; private set; }
+
+        #endregion
+
+        #region Konstruktoren und Destruktoren
+
+        /// <summary> Initialisiert eine neue Instanz der <see cref="ViewModel"/> Klasse. </summary>
+        public ViewModel()
+        {
+            OpenTabCommand = new SimpleCommand<object, SCommandArgs>(OpenTab);
+        }
+
+        #endregion
+
         #region Öffentliche Ereignisse
 
         /// <summary>Ereignis das ausgelöst wird, wenn ein neuer Tab geöffnet werden soll.</summary>
@@ -27,6 +47,16 @@
             if (handler != null)
             {
                 handler(this, arguments);
+            }
+        }
+
+        protected virtual void OpenTab(SCommandArgs arguments)
+        {
+            var obj = arguments.CommandParameter;
+
+            if (obj is IPassword)
+            {
+                OpenTab((IPassword)obj);
             }
         }
 
