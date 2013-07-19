@@ -1,6 +1,7 @@
 ﻿namespace Tresor.Model
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
@@ -146,11 +147,17 @@
         /// <returns>Die geladenen Passwörter.</returns>
         private ObservableCollection<IPassword> LoadPasswords()
         {
+            var deserialized = new ObservableCollection<Password>();
             var result = new ObservableCollection<IPassword>();
 
             if (File.Exists(FileName))
             {
-                result = Serializer.Deserialize<ObservableCollection<IPassword>>(FileName);
+                deserialized = Serializer.Deserialize<ObservableCollection<Password>>(FileName);
+            }
+
+            foreach (var password in deserialized)
+            {
+                result.Add(password);
             }
 
             return result;
@@ -175,14 +182,21 @@
 
         /// <summary>Speichert die reingereichten Passwörter. <strong>Hierbei werden die vorhandenen Passwörter überschrieben.</strong></summary>
         /// <param name="passwords">Die Passwörter welche gespeichert werden sollen.</param>
-        private void Save(ObservableCollection<Password> passwords)
+        private void Save(ObservableCollection<IPassword> passwords)
         {
             if (passwords == null)
             {
                 throw new ArgumentNullException("passwords");
             }
 
-            Serializer.Serialize(FileName, passwords);
+            var toSave = new ObservableCollection<Password>();
+
+            foreach (var password in passwords)
+            {
+                toSave.Add((Password)password);
+            }
+
+            Serializer.Serialize(FileName, toSave);
         }
 
         #endregion
