@@ -1,5 +1,7 @@
 ﻿namespace Tresor
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Windows.Controls;
     using System.Windows.Input;
 
@@ -31,6 +33,9 @@
         /// <summary>Der IoC Container.</summary>
         private readonly IUnityContainer container = new UnityContainer();
 
+        /// <summary>Holt alle geöffneten Tabs von Typ <see cref="IPassword"/>.</summary>
+        private readonly List<IPassword> openTabs = new List<IPassword>();
+
         /// <summary>Das Applikationsfenster.</summary>
         private MainWindow mainWindow;
 
@@ -54,7 +59,9 @@
         /// <returns>Das neu erzeuget <see cref="TabItem"/>.</returns>
         private TabItem GetNewPasswordTab(IPassword password)
         {
-            var tabItem = GetNewTabItem(password.Account, "Passwort bearbeiten", container.Resolve<PasswordView>());
+            var view = container.Resolve<PasswordView>();
+            view.DataContext = password;
+            var tabItem = GetNewTabItem(password.Account, "Passwort bearbeiten", view);
             return tabItem;
         }
 
@@ -96,11 +103,12 @@
         private void OpenTabRequested(object sender, OpenTabRequestedEventArgs arguments)
         {
             var password = arguments.Content;
-            if (password == null)
+            if (password == null || openTabs.Any(tab => tab == password))
             {
                 return;
             }
 
+            openTabs.Add(password);
             var tabItem = GetNewPasswordTab(password);
             mainWindow.TabControl.Items.Add(tabItem);
         }
@@ -137,6 +145,9 @@
             {
                 return;
             }
+
+            var password = (IPassword)((PasswordView)tabItem.Content).DataContext;
+            openTabs.Remove(password);
 
             mainWindow.TabControl.Items.Remove(tabItem);
         }
