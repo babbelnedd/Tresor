@@ -72,7 +72,7 @@
         /// <returns>Das neu erzeugte <see cref="TabItem"/>.</returns>
         private TabItem GetNewTabItem(string header, string toolTip, object content)
         {
-            var tabItem = new TabItem { Header = header, ToolTip = toolTip, Content = content };
+            var tabItem = new TabItem { Header = header, ToolTip = toolTip, Content = content, MinWidth = 75, MaxWidth = 300 };
             tabItem.MouseUp += TabItemClicked;
 
             return tabItem;
