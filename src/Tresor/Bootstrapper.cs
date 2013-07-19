@@ -111,6 +111,7 @@
             openTabs.Add(password);
             var tabItem = GetNewPasswordTab(password);
             mainWindow.TabControl.Items.Add(tabItem);
+            tabItem.IsSelected = true;
         }
 
         /// <summary>Registriert alle benötigten Typen beim IoC Container.</summary>
