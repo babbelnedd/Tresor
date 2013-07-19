@@ -65,7 +65,6 @@
         /// <param name="arguments">Erwartet das hinzuzufügende Passwort im CommandParameter.</param>
         private void AddPassword(SCommandArgs arguments)
         {
-            OpenTab((IPassword)arguments.CommandParameter);
         }
 
         /// <summary>Tritt ein wenn sich eine Eigenschaft im Model geändert hat.</summary>
