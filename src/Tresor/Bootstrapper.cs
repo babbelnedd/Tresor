@@ -26,7 +26,7 @@
     using global::Tresor.ViewModel;
 
     /// <summary>Statischer Bootstrapper der die Anwendung verkabelt.</summary>
-    public class Bootstrapper
+    internal class Bootstrapper
     {
         #region Konstanten und Felder
 
@@ -44,7 +44,7 @@
         #region Öffentliche Methoden und Operatoren
 
         /// <summary>Lädt die Anwendung.</summary>
-        public void LoadApplication()
+        internal void LoadApplication()
         {
             RegisterAll();
             StartApplication();
@@ -60,7 +60,9 @@
         private TabItem GetNewPasswordTab(IPassword password)
         {
             var view = container.Resolve<PasswordView>();
-            view.DataContext = password;
+            var viewModel = container.Resolve<PasswordViewModel>();
+            viewModel.Password = password;
+            view.DataContext = viewModel;
             var tabItem = GetNewTabItem(password.Account, "Passwort bearbeiten", view);
             return tabItem;
         }
