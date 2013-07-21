@@ -24,6 +24,10 @@
         /// <param name="password">Das hinzuzufügende Passwort.</param>
         void AddPassword(IPassword password);
 
+        /// <summary>Prüft ob der Schlüssel zur Deserialisierung richtig ist.</summary>
+        /// <param name="key">Der zu überprüfende Schlüssel.</param>
+        bool IsKeyCorrect(string key);
+
         #endregion
     }
 }

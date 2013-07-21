@@ -1,11 +1,9 @@
 ﻿namespace Tresor.Model
 {
     using System;
-    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
-    using System.Configuration;
     using System.IO;
     using System.Linq;
 
@@ -111,6 +109,25 @@
         public void AddPassword(IPassword password)
         {
             Passwords.Add(password);
+        }
+
+        /// <summary>Prüft ob der Schlüssel zur Deserialisierung richtig ist.</summary>
+        /// <param name="key">Der zu überprüfende Schlüssel.</param>
+        public bool IsKeyCorrect(string key)
+        {
+            var result = false;
+
+            try
+            {
+                Serializer.Deserialize<ObservableCollection<Password>>(FileName, key);
+                result = true;
+            }
+            catch (Exception)
+            {
+                result = false;
+            }
+
+            return result;
         }
 
         #endregion
