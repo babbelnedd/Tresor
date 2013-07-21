@@ -24,7 +24,7 @@
         /// <summary> Initialisiert eine neue Instanz der <see cref="ViewModel"/> Klasse. </summary>
         public ViewModel()
         {
-            OpenTabCommand = new SimpleCommand<object, SCommandArgs>(OpenTab);
+            InitCommands();
         }
 
         #endregion
@@ -37,6 +37,12 @@
         #endregion
 
         #region Methoden
+
+        /// <summary>Initialisiert alle Kommandos.</summary>
+        protected virtual void InitCommands()
+        {
+            OpenTabCommand = new SimpleCommand<object, SCommandArgs>(OpenTab);
+        }
 
         /// <summary>Informiert Abonnenten von <see cref="OpenTabRequested"/> darüber, dass das Ereignis ausgelöst wurde.</summary>
         /// <param name="arguments">Die Argumente, welche zu dem Ereignis gehören.</param>
