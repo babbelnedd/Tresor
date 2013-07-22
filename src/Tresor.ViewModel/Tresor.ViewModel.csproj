@@ -50,6 +50,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\SplashViewModel.cs" />
     <Compile Include="PanelViewModel.cs" />
     <Compile Include="PasswordViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,6 +1,7 @@
 ﻿namespace Tresor.Model
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
@@ -18,8 +19,14 @@
     {
         #region Konstanten und Felder
 
+        /// <summary>Mitglied der Eigenschaft <see cref="FileName"/>.</summary>
+        private string fileName;
+
+        /// <summary>Der Schlüssel zum ver- und entschlüsseln der Passwörter.</summary>
+        private string key = string.Empty;
+
         /// <summary>Mitglied der Eigenschaft <see cref="Passwords"/>.</summary>
-        private ObservableCollection<IPassword> passwords;
+        private ObservableCollection<IPassword> passwords = new ObservableCollection<IPassword>();
 
         /// <summary>Mitglied der Eigenschaft <see cref="Serializer"/>.</summary>
         private GenericCryptoClass serializer;
@@ -55,9 +62,6 @@
         #endregion
 
         #region Eigenschaften
-
-        /// <summary>Mitglied der Eigenschaft <see cref="FileName"/>.</summary>
-        private string fileName;
 
         /// <summary>Holt den Dateinamen der Datei welche die Passwörter enthält.</summary>
         private string FileName
@@ -95,9 +99,7 @@
         public PanelModel()
         {
             CreateAppDataFolder();
-            Passwords = LoadPasswords();
             Passwords.CollectionChanged += CollectionChanged;
-            ObservePasswords();
         }
 
         #endregion
@@ -113,13 +115,15 @@
 
         /// <summary>Prüft ob der Schlüssel zur Deserialisierung richtig ist.</summary>
         /// <param name="key">Der zu überprüfende Schlüssel.</param>
+        /// <returns>True falls der Schlüssel korrekt ist, andernfalls False.</returns>
         public bool IsKeyCorrect(string key)
         {
-            var result = false;
+            bool result;
 
             try
             {
-                Serializer.Deserialize<ObservableCollection<Password>>(FileName, key);
+                Passwords = LoadPasswords(key);
+                this.key = key;
                 result = true;
             }
             catch (Exception)
@@ -128,6 +132,25 @@
             }
 
             return result;
+        }
+
+        /// <summary>Speichert die reingereichten Passwörter. <strong>Hierbei werden die vorhandenen Passwörter überschrieben.</strong></summary>
+        /// <param name="passwords">Die Passwörter welche gespeichert werden sollen.</param>
+        public void Save(IEnumerable<IPassword> passwords)
+        {
+            if (passwords == null)
+            {
+                throw new ArgumentNullException("passwords");
+            }
+
+            var toSave = new ObservableCollection<Password>();
+
+            foreach (var password in passwords)
+            {
+                toSave.Add((Password)password);
+            }
+
+            Serializer.Serialize(FileName, toSave, key);
         }
 
         #endregion
@@ -161,15 +184,16 @@
         }
 
         /// <summary>Läd alle verwalteten Passwörter.</summary>
+        /// <param name="key">Der Schlüssel zum entschlüsseln der Passwörter.</param>
         /// <returns>Die geladenen Passwörter.</returns>
-        private ObservableCollection<IPassword> LoadPasswords()
+        private ObservableCollection<IPassword> LoadPasswords(string key)
         {
             var deserialized = new ObservableCollection<Password>();
             var result = new ObservableCollection<IPassword>();
 
             if (File.Exists(FileName))
             {
-                deserialized = Serializer.Deserialize<ObservableCollection<Password>>(FileName);
+                deserialized = Serializer.Deserialize<ObservableCollection<Password>>(FileName, key);
             }
 
             foreach (var password in deserialized)
@@ -195,25 +219,6 @@
         private void PasswordChanged(object sender, PropertyChangedEventArgs arguments)
         {
             OnPropertyChanged("IsDirty");
-        }
-
-        /// <summary>Speichert die reingereichten Passwörter. <strong>Hierbei werden die vorhandenen Passwörter überschrieben.</strong></summary>
-        /// <param name="passwords">Die Passwörter welche gespeichert werden sollen.</param>
-        private void Save(ObservableCollection<IPassword> passwords)
-        {
-            if (passwords == null)
-            {
-                throw new ArgumentNullException("passwords");
-            }
-
-            var toSave = new ObservableCollection<Password>();
-
-            foreach (var password in passwords)
-            {
-                toSave.Add((Password)password);
-            }
-
-            Serializer.Serialize(FileName, toSave);
         }
 
         #endregion

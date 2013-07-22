@@ -12,6 +12,9 @@
     {
         #region Konstanten und Felder
 
+        /// <summary>Das Datenmodel.</summary>
+        private IPanelModel model;
+
         /// <summary>Mitglied der Eigenschaft <see cref="Password"/>.</summary>
         private IPassword password;
 
@@ -39,6 +42,17 @@
 
         #endregion
 
+        #region Konstruktoren und Destruktoren
+
+        /// <summary>Initialisiert eine neue Instanz der <see cref="PasswordViewModel"/> Klasse.</summary>
+        /// <param name="model">Das Datenmodel.</param>
+        public PasswordViewModel(IPanelModel model)
+        {
+            this.model = model;
+        }
+
+        #endregion
+
         #region Methoden
 
         /// <summary>Erweitert das Basisverhalten um die Initlaisierung weiterer Kommandos.</summary>
@@ -48,19 +62,10 @@
             SavePasswordCommand = new SimpleCommand<SCommandArgs, object>(SavePassword);
         }
 
-        /// <summary> Initialisiert eine neue Instanz der <see cref="PasswordViewModel"/> Klasse. </summary>
-        public PasswordViewModel(IPanelModel model)
-        {
-            this.model = model;
-        }
-
-        private IPanelModel model;
-
         /// <summary>Speichert ein Passwort.</summary>
         /// <param name="arguments">Dieser Parameter wird nicht verwendet.</param>
         private void SavePassword(object arguments)
         {
-            
         }
 
         #endregion

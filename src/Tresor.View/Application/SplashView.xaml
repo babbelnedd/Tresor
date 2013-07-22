@@ -1,0 +1,17 @@
+﻿<Window x:Class="Tresor.View.Application.SplashView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mvvm="clr-namespace:Tresor.Framework.MVVM;assembly=Tresor.Framework" xmlns:resources="clr-namespace:Tresor.Resources.Converter;assembly=Tresor.Resources" Title="SplashView" Width="300" Height="200">
+    <Window.Resources>
+        <resources:NegativeBooleanToVisibilityConverter x:Key="NegativeBooleanToVisibilityConverter" />
+    </Window.Resources>
+    <Grid Margin="6">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="25" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="Passwort eingeben" />
+        <PasswordBox Grid.Row="1" Height="24" HorizontalAlignment="Stretch" PasswordChanged="PasswordChanged" />
+        <Button Grid.Row="2" Height="28" Content="Eingeben" mvvm:SingleEventCommand.RoutedEventName="Click" mvvm:SingleEventCommand.TheCommandToRun="{Binding CheckInputCommand}" />
+        <TextBlock x:Name="txtError" Grid.Row="3" Foreground="Red" Text="Der eingegebene Schlüssel ist nicht korrekt." Visibility="{Binding KeyIsCorrect, Converter={StaticResource NegativeBooleanToVisibilityConverter}}" />
+    </Grid>
+</Window>

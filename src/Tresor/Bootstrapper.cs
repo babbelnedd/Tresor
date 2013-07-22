@@ -25,6 +25,8 @@
 
     using global::Tresor.ViewModel;
 
+    using global::Tresor.ViewModel.Application;
+
     /// <summary>Statischer Bootstrapper der die Anwendung verkabelt.</summary>
     internal class Bootstrapper
     {
@@ -41,18 +43,14 @@
 
         #endregion
 
-        #region Öffentliche Methoden und Operatoren
+        #region Methoden
 
         /// <summary>Lädt die Anwendung.</summary>
         internal void LoadApplication()
         {
             RegisterAll();
-            StartApplication();
+            LoadSplashView();
         }
-
-        #endregion
-
-        #region Methoden
 
         /// <summary>Holt ein neues TabItem, welches ein Passwort darstellt.</summary>
         /// <param name="password">Das darzustellende Passwort.</param>
@@ -91,12 +89,38 @@
             return panelView;
         }
 
+        /// <summary>Initialisiert die SplashView.</summary>
+        /// <returns>Die instanzierte SplashView.</returns>
+        private SplashView InitializeSplashView()
+        {
+            var view = container.Resolve<SplashView>();
+            var viewModel = container.Resolve<SplashViewModel>();
+            view.DataContext = viewModel;
+            viewModel.PropertyChanged += (sender, arguments) =>
+                {
+                    if (arguments.PropertyName == "KeyIsCorrect" && viewModel.KeyIsCorrect)
+                    {
+                        view.Close();
+                        StartApplication();
+                    }
+                };
+            return view;
+        }
+
         /// <summary>Lädt das Hauptfenster.</summary>
         private void LoadMainWindow()
         {
             mainWindow = container.Resolve<MainWindow>();
             SetupTabControl();
             mainWindow.ShowDialog();
+        }
+
+        /// <summary>Lädt die SplashView.</summary>
+        /// <remarks>Bei erfolgreicher Eingabe des Schlüssels zum Laden der Passwörter wird das MainWindow geladen.</remarks>
+        private void LoadSplashView()
+        {
+            var view = InitializeSplashView();
+            view.ShowDialog();
         }
 
         /// <summary>Tritt ein wenn ein neuer Tab geöffnet werden soll.</summary>
@@ -149,7 +173,7 @@
                 return;
             }
 
-            var password = (IPassword)((PasswordView)tabItem.Content).DataContext;
+            var password = ((PasswordViewModel)((PasswordView)tabItem.Content).DataContext).Password;
             openTabs.Remove(password);
 
             mainWindow.TabControl.Items.Remove(tabItem);

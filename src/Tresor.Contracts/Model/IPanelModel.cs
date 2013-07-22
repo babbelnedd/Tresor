@@ -1,5 +1,6 @@
 ﻿namespace Tresor.Contracts.Model
 {
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
 
@@ -27,6 +28,10 @@
         /// <summary>Prüft ob der Schlüssel zur Deserialisierung richtig ist.</summary>
         /// <param name="key">Der zu überprüfende Schlüssel.</param>
         bool IsKeyCorrect(string key);
+
+        /// <summary>Speichert die reingereichten Passwörter. <strong>Hierbei werden die vorhandenen Passwörter überschrieben.</strong></summary>
+        /// <param name="passwords">Die Passwörter welche gespeichert werden sollen.</param>
+        void Save(IEnumerable<IPassword> passwords);
 
         #endregion
     }

@@ -53,6 +53,7 @@
     <Compile Include="Model\IPanelModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\IPassword.cs" />
+    <Compile Include="ViewModel\Application\ISplashViewModel.cs" />
     <Compile Include="ViewModel\IPanelViewModel.cs" />
     <Compile Include="ViewModel\IPasswordViewModel.cs" />
   </ItemGroup>
