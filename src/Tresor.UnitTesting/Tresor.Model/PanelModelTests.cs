@@ -1,6 +1,8 @@
 ﻿namespace Tresor.UnitTesting.Tresor.Model
 {
     using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.IO;
     using System.Linq;
 
@@ -20,6 +22,7 @@
 
         /// <summary>Prüft ob die Methode AddPassword wirklich ein Passwort hinzufügt.</summary>
         [Test(Description = "Prüft ob die Methode AddPassword wirklich ein Passwort hinzufügt.")]
+        [Repeat(Tests)]
         public void AddPasswordIncreaseCount()
         {
             var oldCount = Model.Passwords.Count;
@@ -38,6 +41,7 @@
 
         /// <summary>Prüft, ob das Model einen Ordner für die Passwörterverwaltung angelegt hat.</summary>
         [Test(Description = "Prüft, ob das Model einen Ordner für die Passwörterverwaltung angelegt hat.")]
+        [Repeat(Tests)]
         public void FolderIsCreated()
         {
             var storageFolder = Path.GetDirectoryName(AppSettings.GetStorageFile());
@@ -49,14 +53,40 @@
 
         /// <summary>Prüft, ob IsDirty korrekt arbeitet.</summary>
         [Test(Description = "Prüft, ob IsDirty korrekt arbeitet.")]
+        [Repeat(Tests)]
         public void IsDirtyWorksCorrectly()
         {
             var anyPasswordDirty = Model.Passwords.Any(pwd => pwd.IsDirty);
             Assert.IsTrue(anyPasswordDirty == Model.IsDirty);
         }
 
+        /// <summary>Testet ob die Methode IsKeyCorrect false bei falschem Schlüssel zurückgibt.</summary>
+        [Test(Description = "Testet ob die Methode IsKeyCorrect false bei falschem Schlüssel zurückgibt.")]
+        [Repeat(Tests)]
+        public void IsKeyCorrectReturnsFalseOnWrongKey()
+        {
+            var newPasswords = new ObservableCollection<IPassword> { new Password { Account = Guid.NewGuid().ToString() } };
+            var key = new Random().Next(999999, 99999999).ToString();
+            var secondKey = new Random().Next(0, 1000).ToString();
+
+            Model.Save(newPasswords, key);
+            Assert.IsFalse(Model.IsKeyCorrect(secondKey));
+        }
+
+        /// <summary>Testet ob die Methode IsKeyCorrect true bei richtigem Schlüssel zurückgibt.</summary>
+        [Test(Description = "Testet ob die Methode IsKeyCorrect true bei richtigem Schlüssel zurückgibt.")]
+        [Repeat(Tests)]
+        public void IsKeyCorrectReturnsTrueOnCorrectKey()
+        {
+            var newPasswords = new ObservableCollection<IPassword> { new Password { Account = Guid.NewGuid().ToString() } };
+            var key = new Random().Next(999999, 99999999).ToString();
+            Model.Save(newPasswords, key);
+            Assert.IsTrue(Model.IsKeyCorrect(key));
+        }
+
         /// <summary>Prüft, dass das Model zu Beginn nicht schmutzig ist.</summary>
         [Test(Description = "Prüft, dass das Model zu Beginn nicht schmutzig ist.")]
+        [Repeat(Tests)]
         public void NotDirtyOnStart()
         {
             Model = new PanelModel();
@@ -65,13 +95,31 @@
 
         /// <summary>Prüft, dass die Eigenschaft Passwords niemals null zurückgibt.</summary>
         [Test(Description = "Prüft, dass die Eigenschaft Passwords niemals null zurückgibt.")]
+        [Repeat(Tests)]
         public void PasswordReturnsNeverNull()
         {
             Assert.IsNotNull(Model.Passwords, "Passwords gibt null zurück.");
         }
 
+        /// <summary>Testet ob das setzen der Eigenschaft Passwords OnPropertyChanged auslöst.</summary>
+        [Test(Description = "Testet ob das setzen der Eigenschaft Passwords OnPropertyChanged auslöst.")]
+        [Repeat(Tests)]
+        public void PasswordsRaiseOnPropertyChanged()
+        {
+            var changes = new List<string>();
+            Model.PropertyChanged += (sender, arguments) => changes.Add(arguments.PropertyName);
+
+            var newPasswords = new ObservableCollection<IPassword> { new Password { Account = Guid.NewGuid().ToString() } };
+            Model.Save(newPasswords);
+
+            Assert.IsNotEmpty(changes);
+            Assert.IsTrue(changes.Count == 1);
+            Assert.IsTrue(changes[0] == "Passwords");
+        }
+
         /// <summary>Prüft, ob PropertyChanged ausgelöst wird, wenn sich ein Passwort geändert hat.</summary>
         [Test(Description = "Prüft, ob PropertyChanged ausgelöst wird, wenn sich ein Passwort geändert hat.")]
+        [Repeat(Tests)]
         public void PropertyChangedIfPasswordChanges()
         {
             var testSuccesful = false;
@@ -91,24 +139,15 @@
             Assert.IsTrue(x == 1, "PropertyChanged wurde mehr als einmal ausgelöst.");
         }
 
-        /// <summary>Prüft, ob Passwörter automatisch geladen werden.</summary>
-        [Test(Description = "Prüft, ob Passwörter automatisch geladen werden.")]
-        public void LoadPasswordsAutomatically()
-        {
-            //var passwords = new ObservableCollection<IPassword>();
-            //var rndNumber = new Random().Next(10, 20);
-            //for (var i = 0; i < rndNumber; i++)
-            //{
-            //    passwords.Add(new Password { Account = Guid.NewGuid().ToString() });
-            //}
-
-            //var serializer = new GenericCryptoClass();
-            //serializer.Serialize(OriginalFolder + "\\save.tsr", passwords);
-
-            //var model = new PanelModel();
-            //Assert.IsTrue(model.Passwords.Count == rndNumber);
-        }
-
         #endregion
+
+        /// <summary>Die Methode Save wirft eine ArgumentNullException falls der Parameter Passwords null ist.</summary>
+        [Test(Description = "Die Methode Save wirft eine ArgumentNullException falls der Parameter Passwords null ist.")]
+        [Repeat(Tests)]
+        public void SaveThrowsArgumentException()
+        {
+            Assert.Throws<ArgumentNullException>(() => Model.Save(null));
+            Assert.Throws<ArgumentNullException>(() => Model.Save(null, "1234"));
+        }
     }
 }

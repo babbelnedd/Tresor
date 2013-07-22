@@ -9,6 +9,13 @@
     /// <summary>Basisklasse für Tests.</summary>
     public abstract class Test
     {
+        #region Konstanten und Felder
+
+        /// <summary>Die Anzahl der Durchläufe pro Test.</summary>
+        public const int Tests = 20;
+
+        #endregion
+
         #region Öffentliche Methoden und Operatoren
 
         /// <summary>Initialisiert die Testumgebung.</summary>
@@ -35,6 +42,11 @@
 
             if (!string.IsNullOrEmpty(storageFolder) && Directory.Exists(storageFolder))
             {
+                foreach (var file in Directory.GetFiles(storageFolder))
+                {
+                    File.Delete(file);
+                }
+
                 Directory.Delete(storageFolder);
             }
         }
