@@ -136,7 +136,8 @@
 
         /// <summary>Speichert die reingereichten Passwörter. <strong>Hierbei werden die vorhandenen Passwörter überschrieben.</strong></summary>
         /// <param name="passwords">Die Passwörter welche gespeichert werden sollen.</param>
-        public void Save(IEnumerable<IPassword> passwords)
+        /// <param name="encryptionKey">Der Schlüssel zum Verschlüsseln der Passwörter. Falls nicht angegeben wird der vorher festgelegte benutzt.</param>
+        public void Save(IEnumerable<IPassword> passwords, string encryptionKey = null)
         {
             if (passwords == null)
             {
@@ -150,7 +151,13 @@
                 toSave.Add((Password)password);
             }
 
-            Serializer.Serialize(FileName, toSave, key);
+            var keyToUse = key;
+            if (encryptionKey != null)
+            {
+                keyToUse = encryptionKey;
+            }
+
+            Serializer.Serialize(FileName, toSave, keyToUse);
         }
 
         #endregion
