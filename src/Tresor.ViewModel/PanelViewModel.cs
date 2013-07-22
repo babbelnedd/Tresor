@@ -72,10 +72,8 @@
         /// <param name="arguments">Überpüft anhand der Eigenschaft PropertyName welche Eigenschaft sich geändert hat.</param>
         private void ModelChanged(object sender, PropertyChangedEventArgs arguments)
         {
-            if (arguments.PropertyName == "IsDirty")
-            {
-                OnPropertyChanged("IsDirty");
-            }
+            OnPropertyChanged("IsDirty");
+            OnPropertyChanged("Passwords");
         }
 
         #endregion
