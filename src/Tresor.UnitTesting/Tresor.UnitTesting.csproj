@@ -57,6 +57,7 @@
     <Compile Include="Tools\PasswordStorage.cs" />
     <Compile Include="Tresor.Model\ModelTest.cs" />
     <Compile Include="Tresor.Model\PanelModelTests.cs" />
+    <Compile Include="Tresor.Model\SqlitePanelModelTests.cs" />
     <Compile Include="Tresor.ViewModel\PanelViewModelTests.cs" />
     <Compile Include="Tresor.ViewModel\SplashViewModelTests.cs" />
     <Compile Include="Tresor.ViewModel\ViewModelTest.cs" />

@@ -1,5 +1,6 @@
 ﻿namespace Tresor.Contracts.Utilities
 {
+    using System;
     using System.ComponentModel;
 
     /// <summary>Schnittstelle für ein <see cref="Tresor.Utilities.Password"/>.</summary>
@@ -21,6 +22,8 @@
 
         /// <summary>Holt oder setzt das eigentliche Passwort. </summary>
         string Key { get; set; }
+
+        Guid RecordID { get; set; }
 
         #endregion
 

@@ -134,7 +134,7 @@
         /// <summary>Registriert alle benötigten Typen beim IoC Container.</summary>
         private void RegisterAll()
         {
-            container.RegisterInstance<IPanelModel>(new PanelModel());
+            container.RegisterInstance<IPanelModel>(new SqlitePanelModel("tresor.db"));
             container.RegisterInstance<UserControl>(new PanelView());
             container.RegisterType<IPanelViewModel, PanelViewModel>();
         }

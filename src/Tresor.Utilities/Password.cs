@@ -28,6 +28,9 @@
         /// <summary>Mitglied der Eigenschaft <see cref="Key"/>.</summary>
         private string key = string.Empty;
 
+        /// <summary>Mitglied der Eigenschaft <see cref="RecordID"/>.</summary>
+        private Guid recordID;
+
         #endregion
 
         #region Öffentliche Eigenschaften
@@ -103,6 +106,20 @@
             set
             {
                 key = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Guid RecordID
+        {
+            get
+            {
+                return recordID;
+            }
+
+            set
+            {
+                recordID = value;
                 OnPropertyChanged();
             }
         }
