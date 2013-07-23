@@ -3,12 +3,11 @@
     using System;
     using System.Windows;
 
-    using global::Tresor.Logging;
+    using Tresor.Logging;
 
     /// <summary>Grundgerüst der Anwendung.</summary>
-    internal class Tresor : Application
+    internal class App : Application
     {
-        // <summary>Einstigespunkt der Anwendung.</summary>
         #region Öffentliche Methoden und Operatoren
 
         /// <summary>Haupteinstiegspunkt der Anwendung.</summary>

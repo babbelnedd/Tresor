@@ -7,25 +7,16 @@
 
     using Microsoft.Practices.Unity;
 
-    using global::Tresor.Contracts.Model;
-
-    using global::Tresor.Contracts.Utilities;
-
-    using global::Tresor.Contracts.ViewModel;
-
-    using global::Tresor.Model;
-
-    using global::Tresor.Utilities.EventArgs;
-
-    using global::Tresor.View;
-
-    using global::Tresor.View.Application;
-
-    using global::Tresor.View.UserControls;
-
-    using global::Tresor.ViewModel;
-
-    using global::Tresor.ViewModel.Application;
+    using Tresor.Contracts.Model;
+    using Tresor.Contracts.Utilities;
+    using Tresor.Contracts.ViewModel;
+    using Tresor.Model;
+    using Tresor.Utilities.EventArgs;
+    using Tresor.View;
+    using Tresor.View.Application;
+    using Tresor.View.UserControls;
+    using Tresor.ViewModel;
+    using Tresor.ViewModel.Application;
 
     /// <summary>Statischer Bootstrapper der die Anwendung verkabelt.</summary>
     internal class Bootstrapper
