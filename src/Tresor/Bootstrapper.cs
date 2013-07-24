@@ -53,6 +53,27 @@
             viewModel.Password = password;
             view.DataContext = viewModel;
             var tabItem = GetNewTabItem(password.Account, "Passwort bearbeiten", view);
+
+            password.PropertyChanged += (sender, arguments) =>
+                {
+                    tabItem.Header = password.Account;
+
+                    if (password.IsDirty)
+                    {
+                        tabItem.Header = tabItem.Header + " *";
+                    }
+                    else
+                    {
+                        if (tabItem.Header.ToString().EndsWith(" *"))
+                        {
+                            tabItem.Header = tabItem.Header.ToString().Substring(0, tabItem.Header.ToString().Length - 2);
+                        }
+                    }
+
+                };
+
+            viewModel.Password = password;
+            view.DataContext = viewModel;
             return tabItem;
         }
 
