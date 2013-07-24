@@ -110,6 +110,7 @@
             }
         }
 
+        /// <summary>Die Eindeutige Kennung des Passworts.</summary>
         public Guid RecordID
         {
             get
@@ -150,6 +151,18 @@
         {
             clone = null;
             IsDirty = true;
+        }
+
+        /// <summary>Holt einen Wert, der angibt, ob das Passwort schmutzig ist.</summary>
+        /// <returns>True wenn ungespeicherte Änderungen ausstehen, andernfalls False.</returns>
+        public bool IsCloneEqual()
+        {
+            if (Account != clone.Account || Key != clone.Key || Description != clone.Description)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>Überschreibt das Basisverhalten.</summary>

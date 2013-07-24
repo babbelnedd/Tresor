@@ -38,6 +38,10 @@
         /// <summary>Beendet die Bearbeitung eines Passworts.</summary>
         void EndEdit();
 
+        /// <summary>Holt einen Wert, der angibt, ob das Passwort schmutzig ist.</summary>
+        /// <returns>True wenn ungespeicherte Änderungen ausstehen, andernfalls False.</returns>
+        bool IsCloneEqual();
+
         /// <summary>Überschreibt das Basisverhalten.</summary>
         /// <returns>Gibt den <see cref="Account"/> zurück.</returns>
         string ToString();
