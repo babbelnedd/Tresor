@@ -134,20 +134,11 @@
         /// <summary>Speichert die reingereichten Passwörter. <strong>Hierbei werden die vorhandenen Passwörter überschrieben.</strong></summary>
         /// <param name="passwords">Die Passwörter welche gespeichert werden sollen.</param>
         /// <param name="encryptionKey">Der Schlüssel zum Verschlüsseln der Passwörter. Falls nicht angegeben wird der vorher festgelegte benutzt.</param> 
-        public void Save(ObservableCollection<IPassword> passwords, string encryptionKey = null)
+        public void Save(IEnumerable<IPassword> passwords, string encryptionKey = null)
         {
-            SetEncryptionKey(encryptionKey);
-
             foreach (var password in passwords)
             {
-                if (encryptionKey != null)
-                {
-                    Save(password, encryptionKey);
-                }
-                else
-                {
-                    Save(password);
-                }
+                Save(password, encryptionKey);
             }
         }
 
