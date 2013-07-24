@@ -100,7 +100,8 @@
         {
             SetEncryptionKey(encryptionKey);
 
-            var command = string.Format("INSERT INTO Password(Account, Password, Description) VALUES('{0}','{1}','{2}')", password.Account, password.Key, password.Description);
+            var command = string.Format(
+                "INSERT INTO Password(Account, Password, Description) VALUES('{0}','{1}','{2}')", password.Account, password.Key, password.Description);
             ExecuteNonQuery(command);
             Passwords.Add(password);
 
@@ -175,6 +176,20 @@
 
         #region Methoden
 
+        /// <summary>Überwacht den Zustand des Passworts und steuert die Eigenschaft IsDirty.</summary>
+        /// <param name="password">Das zu überwachende Passwort.</param>
+        private static void ObserveIsDirty(IPassword password)
+        {
+            password.BeginEdit();
+            password.PropertyChanged += (sender, arguments) =>
+                {
+                    if (arguments.PropertyName != "IsDirty")
+                    {
+                        password.IsDirty = !password.IsCloneEqual();
+                    }
+                };
+        }
+
         /// <summary>Schließt die Sql Verbindung.</summary>
         private void CloseConnection()
         {
@@ -237,20 +252,6 @@
                 Passwords.Add(newPw);
                 ObserveIsDirty(newPw);
             }
-        }
-
-        /// <summary>Überwacht den Zustand des Passworts und steuert die Eigenschaft IsDirty.</summary>
-        /// <param name="password">Das zu überwachende Passwort.</param>
-        private static void ObserveIsDirty(IPassword password)
-        {
-            password.BeginEdit();
-            password.PropertyChanged += (sender, arguments) =>
-                {
-                    if (arguments.PropertyName != "IsDirty")
-                    {
-                        password.IsDirty = !password.IsCloneEqual();
-                    }
-                };
         }
 
         /// <summary>Öffnet die Sql Verbindung.</summary>
