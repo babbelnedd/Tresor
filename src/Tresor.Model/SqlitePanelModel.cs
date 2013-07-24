@@ -100,8 +100,7 @@
         {
             SetEncryptionKey(encryptionKey);
 
-            var command = string.Format(
-                "INSERT INTO Password(Account, Password, Description) VALUES('{0}','{1}','{2}')", password.Account, password.Key, password.Description);
+            var command = string.Format("INSERT INTO Password(RecordID, Account, Password, Description) VALUES('{0}','{1}','{2}','{3}')", password.RecordID, password.Account, password.Key, password.Description);
             ExecuteNonQuery(command);
             Passwords.Add(password);
 
