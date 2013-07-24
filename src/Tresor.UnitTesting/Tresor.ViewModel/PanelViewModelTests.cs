@@ -1,12 +1,11 @@
 ﻿namespace Tresor.UnitTesting.Tresor.ViewModel
 {
+    using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
 
     using NUnit.Framework;
 
     using global::Tresor.Contracts.Model;
-    using global::Tresor.Contracts.Utilities;
     using global::Tresor.Contracts.ViewModel;
 
     using global::Tresor.Model;
@@ -33,7 +32,9 @@
         public override void Initalize()
         {
             base.Initalize();
-            model = new PanelModel();
+            var database = Guid.NewGuid().ToString();
+            model = new SqlitePanelModel(string.Format("{0}.db", database));
+            model.IsKeyCorrect(string.Empty);
             viewModel = new PanelViewModel(model);
         }
 
@@ -60,7 +61,7 @@
         {
             var changes = new List<string>();
             viewModel.PropertyChanged += (sender, arguments) => changes.Add(arguments.PropertyName);
-            model.AddPassword(new Password());
+            model.AddPassword(new Password { RecordID = Guid.NewGuid() });
             Assert.IsNotEmpty(changes);
             Assert.IsTrue(changes.Count == 2);
             Assert.IsTrue(changes.Contains("IsDirty"));

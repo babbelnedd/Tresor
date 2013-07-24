@@ -19,14 +19,16 @@
         /// <summary>Das ViewModel für die Unit Tests.</summary>
         private SplashViewModel viewModel;
 
-        /// <summary>Das Datenmodel, wird für Testzwecke benötigt.</summary>
-        private IPanelModel model = new PanelModel();
+        /// <summary>Das Datenmodel.</summary>
+        private IPanelModel model;
 
         /// <summary>Erweitert das Basisverhalten um die Erzeugung des ViewModels.</summary>
         public override void Initalize()
         {
             base.Initalize();
-            viewModel = new SplashViewModel(new PanelModel());
+            var database = Guid.NewGuid().ToString();
+            model = new SqlitePanelModel(string.Format("{0}.db", database));
+            viewModel = new SplashViewModel(model);
         }
 
         /// <summary>Prüft ob die Eigenschaft KeyIsCorrect beim Durchlaufen des Setters das PropertyChanged Ereignis auslöst.</summary>
@@ -59,7 +61,8 @@
         [Repeat(Tests)]
         public void KeyIsCorrectReturnsFalseOnWrongKey()
         {
-            model.Save(new ObservableCollection<IPassword> { new Password() }, "5");
+            model.IsKeyCorrect("5");
+            model.Save(new ObservableCollection<IPassword> { new Password { RecordID = Guid.NewGuid() } }, "5");
 
             viewModel.Input = "6";
             viewModel.CheckInputCommand.Execute(null);

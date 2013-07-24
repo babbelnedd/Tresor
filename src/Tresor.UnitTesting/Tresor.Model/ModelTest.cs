@@ -1,5 +1,7 @@
 ﻿namespace Tresor.UnitTesting.Tresor.Model
 {
+    using System;
+
     using global::Tresor.Contracts.Model;
 
     using global::Tresor.Model;
@@ -20,7 +22,8 @@
         public override void Initalize()
         {
             base.Initalize();
-            Model = new PanelModel();
+            var dbName = Guid.NewGuid().ToString();
+            Model = new SqlitePanelModel(string.Format("{0}.db", dbName));
         }
 
         #endregion
