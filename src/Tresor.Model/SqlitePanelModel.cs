@@ -5,6 +5,7 @@
     using System.Collections.ObjectModel;
     using System.Data;
     using System.Data.SQLite;
+    using System.Linq;
 
     using Tresor.Contracts.Model;
     using Tresor.Contracts.Utilities;
@@ -94,9 +95,16 @@
 
         /// <summary>Fügt ein Passwort hinzu.</summary>
         /// <param name="password">Das hinzuzufügende Passwort.</param>
-        public void AddPassword(IPassword password)
+        /// <param name="encryptionKey">Der Schlüssel zum Verschlüsseln der Passwörter. Falls nicht angegeben wird der vorher festgelegte benutzt.</param> 
+        public void AddPassword(IPassword password, string encryptionKey = null)
         {
-            throw new System.NotImplementedException();
+            SetEncryptionKey(encryptionKey);
+
+            var command = string.Format("INSERT INTO Password(Account, Password, Description) VALUES('{0}','{1}','{2}')", password.Account, password.Key, password.Description);
+            ExecuteNonQuery(command);
+            Passwords.Add(password);
+
+            OnPropertyChanged("Passwords");
         }
 
         /// <summary>Prüft ob der Schlüssel zur Deserialisierung richtig ist.</summary>
@@ -108,14 +116,14 @@
 
             try
             {
-                databasePassword = key;
+                SetEncryptionKey(key);
                 CreateDatabase();
                 LoadPasswords();
                 result = true;
             }
             catch (Exception)
             {
-                databasePassword = string.Empty;
+                SetEncryptionKey(string.Empty);
                 result = false;
                 CloseConnection();
             }
@@ -128,7 +136,39 @@
         /// <param name="encryptionKey">Der Schlüssel zum Verschlüsseln der Passwörter. Falls nicht angegeben wird der vorher festgelegte benutzt.</param> 
         public void Save(ObservableCollection<IPassword> passwords, string encryptionKey = null)
         {
-            throw new System.NotImplementedException();
+            SetEncryptionKey(encryptionKey);
+
+            foreach (var password in passwords)
+            {
+                if (encryptionKey != null)
+                {
+                    Save(password, encryptionKey);
+                }
+                else
+                {
+                    Save(password);
+                }
+            }
+        }
+
+        /// <summary>Speichert das reingereichten Passwörter. <strong>Hierbei werden die vorhandenen Passwörter überschrieben.</strong></summary>
+        /// <param name="password">Das Passwort welches gespeichert werden sollen.</param>
+        /// <param name="encryptionKey">Der Schlüssel zum Verschlüsseln der Datenbank. Falls nicht angegeben wird der vorher festgelegte benutzt.</param> 
+        public void Save(IPassword password, string encryptionKey = null)
+        {
+            SetEncryptionKey(encryptionKey);
+
+            if (PasswordExists(password))
+            {
+                UpdatePassword(password);
+                password.IsDirty = false;
+            }
+            else
+            {
+                AddPassword(password);
+                password.IsDirty = false;
+                password.IsNew = false;
+            }
         }
 
         #endregion
@@ -147,6 +187,7 @@
         /// <summary>Erzeugt die Datenbank, falls diese noch nicht vorhanden ist.</summary>
         private void CreateDatabase()
         {
+            // Note: AutoIncrement Spalte für schnellere Abfragen erstellen???
             ExecuteNonQuery(
                 "CREATE TABLE IF NOT EXISTS Password(RecordID UNIQUEIDENTIFIER PRIMARY KEY NOT NULL, Account NVARCHAR NOT NULL, Password NVARCHAR NOT NULL, Description NVARCHAR)");
         }
@@ -186,9 +227,30 @@
         {
             foreach (var password in ExecuteReader("SELECT RecordID, Account, Password FROM PASSWORD"))
             {
-                Passwords.Add(
-                    new Password { RecordID = Guid.Parse(password[0].ToString()), Account = password[1].ToString(), Key = password[2].ToString() });
+                var newPw = new Password
+                                {
+                                    RecordID = Guid.Parse(password[0].ToString()),
+                                    Account = password[1].ToString(),
+                                    Key = password[2].ToString()
+                                };
+
+                Passwords.Add(newPw);
+                ObserveIsDirty(newPw);
             }
+        }
+
+        /// <summary>Überwacht den Zustand des Passworts und steuert die Eigenschaft IsDirty.</summary>
+        /// <param name="password">Das zu überwachende Passwort.</param>
+        private static void ObserveIsDirty(IPassword password)
+        {
+            password.BeginEdit();
+            password.PropertyChanged += (sender, arguments) =>
+                {
+                    if (arguments.PropertyName != "IsDirty")
+                    {
+                        password.IsDirty = !password.IsCloneEqual();
+                    }
+                };
         }
 
         /// <summary>Öffnet die Sql Verbindung.</summary>
@@ -199,6 +261,39 @@
                 Connection.SetPassword(databasePassword);
                 Connection.Open();
             }
+        }
+
+        /// <summary>Holt einen Wert, der angibt, ob ein Passwort bereits existiert. Wird anhand der eindeutigen RecordID geprüft.</summary>
+        /// <param name="password">Das Passwort welches geprüft werden soll.</param>
+        /// <returns>True falls das Passwort bereits existiert, andernfalls False.</returns>
+        private bool PasswordExists(IPassword password)
+        {
+            var command = string.Format("SELECT RecordID FROM Password WHERE RecordID='{0}'", password.RecordID);
+            return ExecuteReader(command).ToList().Any();
+        }
+
+        /// <summary>Setzt das Datenbankpasswort.</summary>
+        /// <param name="encryptionKey">Das Passwort welches gesetzt werden soll.</param>
+        private void SetEncryptionKey(string encryptionKey)
+        {
+            if (encryptionKey != null)
+            {
+                databasePassword = encryptionKey;
+            }
+        }
+
+        /// <summary>Aktualisiert ein bestehendes Passwort.</summary>
+        /// <param name="password">Das aktualisierte Passwort welches in die Datenbank übernommen werden soll.</param>
+        private void UpdatePassword(IPassword password)
+        {
+            var command = string.Format(
+                "UPDATE Password SET Account='{0}', Password='{1}', Description='{2}' WHERE RecordID='{3}'",
+                password.Account,
+                password.Key,
+                password.Description,
+                password.RecordID);
+            ExecuteNonQuery(command);
+            OnPropertyChanged("Passwords");
         }
 
         #endregion

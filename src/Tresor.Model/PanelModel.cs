@@ -113,6 +113,13 @@
             Passwords.Add(password);
         }
 
+        /// <summary>Fügt ein Passwort hinzu.</summary>
+        /// <param name="password">Das hinzuzufügende Passwort.</param>
+        public void AddPassword(IPassword password, string encryptionKey = null)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>Prüft ob der Schlüssel zur Deserialisierung richtig ist.</summary>
         /// <param name="key">Der zu überprüfende Schlüssel.</param>
         /// <returns>True falls der Schlüssel korrekt ist, andernfalls False.</returns>
@@ -132,6 +139,14 @@
             }
 
             return result;
+        }
+
+        /// <summary>Speichert das reingereichten Passwörter. <strong>Hierbei werden die vorhandenen Passwörter überschrieben.</strong></summary>
+        /// <param name="password">Das Passwort welches gespeichert werden sollen.</param>
+        /// <param name="encryptionKey">Der Schlüssel zum Verschlüsseln der Datenbank. Falls nicht angegeben wird der vorher festgelegte benutzt.</param> 
+        public void Save(IPassword password, string encryptionKey = null)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>Speichert die reingereichten Passwörter. <strong>Hierbei werden die vorhandenen Passwörter überschrieben.</strong></summary>
