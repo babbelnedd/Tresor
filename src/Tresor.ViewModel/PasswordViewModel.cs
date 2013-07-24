@@ -1,5 +1,7 @@
 ﻿namespace Tresor.ViewModel
 {
+    using System.ComponentModel;
+
     using Cinch;
 
     using Tresor.Contracts.Model;
@@ -33,6 +35,7 @@
             set
             {
                 password = value;
+                password.PropertyChanged += PasswordChanged;
                 OnPropertyChanged();
             }
         }
@@ -49,6 +52,7 @@
         public PasswordViewModel(IPanelModel model)
         {
             this.model = model;
+            model.PropertyChanged += ModelChanged;
         }
 
         #endregion
@@ -62,10 +66,27 @@
             SavePasswordCommand = new SimpleCommand<SCommandArgs, object>(SavePassword);
         }
 
+        /// <summary>Tritt ein wenn sich eine Eigenschaft im Model geändert hat.</summary>
+        /// <param name="sender">Dieser Parameter wird nicht verwendet.</param>
+        /// <param name="arguments">Dieser Parameter wird nicht verwendet.</param>
+        private void ModelChanged(object sender, PropertyChangedEventArgs arguments)
+        {
+            OnPropertyChanged("Password");
+        }
+
+        /// <summary>Tritt ein wenn sich am Passwort etwas geändert hat.</summary>
+        /// <param name="sender">Dieser Parameter wird nicht verwendet.</param>
+        /// <param name="arguments">Dieser Parameter wird nicht verwendet.</param>
+        private void PasswordChanged(object sender, PropertyChangedEventArgs arguments)
+        {
+            OnPropertyChanged("Password");
+        }
+
         /// <summary>Speichert ein Passwort.</summary>
         /// <param name="arguments">Dieser Parameter wird nicht verwendet.</param>
         private void SavePassword(object arguments)
         {
+            model.Save(password);
         }
 
         #endregion
