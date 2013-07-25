@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Input;
 
@@ -41,6 +42,35 @@
         {
             RegisterAll();
             LoadSplashView();
+        }
+
+        /// <summary>Schließt einen Tab.</summary>
+        /// <param name="tabItem">Der Tab, welcher geschlossen werden soll</param>
+        private void CloseTab(TabItem tabItem)
+        {
+            var password = ((PasswordViewModel)((PasswordView)tabItem.Content).DataContext).Password;
+
+            if (password.IsDirty)
+            {
+                var result = MessageBox.Show(
+                    mainWindow,
+                    "Das Passwort hat ausstehende Änderungen. \n Möchten Sie diese speichern?",
+                    "Achtung",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question);
+                switch (result)
+                {
+                    case MessageBoxResult.Yes:
+                        container.Resolve<IPanelModel>().Save(password);
+                        break;
+                    case MessageBoxResult.No:
+                        password.CancelEdit();
+                        break;
+                }
+            }
+
+            openTabs.Remove(password);
+            mainWindow.TabControl.Items.Remove(tabItem);
         }
 
         /// <summary>Holt einen neuen Header für ein TabItem.</summary>
@@ -117,7 +147,7 @@
                     if (arguments.PropertyName == "KeyIsCorrect" && viewModel.KeyIsCorrect)
                     {
                         view.Close();
-                        StartApplication();
+                        LoadMainWindow();
                     }
                 };
             return view;
@@ -150,6 +180,7 @@
                 return;
             }
 
+            password.BeginEdit();
             openTabs.Add(password);
             var tabItem = GetNewPasswordTab(password);
             mainWindow.TabControl.Items.Add(tabItem);
@@ -171,12 +202,6 @@
             mainWindow.TabControl.Items.Add(tabItem);
         }
 
-        /// <summary>Startet die Anwendung.</summary>
-        private void StartApplication()
-        {
-            LoadMainWindow();
-        }
-
         /// <summary>Tritt ein wenn ein <strong>MouseUp Ereignis</strong> bei einem TabItem eintritt.</summary>
         /// <param name="sender">Erwartet das TabItem.</param>
         /// <param name="arguments">Prüft anhand der Eigenschaft ChangedButton welche Taste gedrückt wurde.</param>
@@ -189,10 +214,7 @@
                 return;
             }
 
-            var password = ((PasswordViewModel)((PasswordView)tabItem.Content).DataContext).Password;
-            openTabs.Remove(password);
-
-            mainWindow.TabControl.Items.Remove(tabItem);
+            CloseTab(tabItem);
         }
 
         #endregion
