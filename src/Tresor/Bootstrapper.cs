@@ -43,6 +43,25 @@
             LoadSplashView();
         }
 
+        /// <summary>Holt einen neuen Header für ein TabItem.</summary>
+        /// <param name="password">Das Passwort welches unter dem Tab dargestellt wird.</param>
+        /// <returns>Der neu erzeugte Header.</returns>
+        private StackPanel GetNewHeader(IPassword password)
+        {
+            var header = new StackPanel { Orientation = Orientation.Horizontal };
+            var txt1 = new TextBlock { Text = password.Account };
+            var txt2 = new TextBlock();
+
+            if (password.IsDirty)
+            {
+                txt2.Text = " *";
+            }
+
+            header.Children.Add(txt1);
+            header.Children.Add(txt2);
+            return header;
+        }
+
         /// <summary>Holt ein neues TabItem, welches ein Passwort darstellt.</summary>
         /// <param name="password">Das darzustellende Passwort.</param>
         /// <returns>Das neu erzeuget <see cref="TabItem"/>.</returns>
@@ -52,25 +71,11 @@
             var viewModel = container.Resolve<PasswordViewModel>();
             viewModel.Password = password;
             view.DataContext = viewModel;
-            var tabItem = GetNewTabItem(password.Account, "Passwort bearbeiten", view);
 
-            password.PropertyChanged += (sender, arguments) =>
-                {
-                    tabItem.Header = password.Account;
+            var header = GetNewHeader(password);
+            var tabItem = GetNewTabItem(header, "Passwort bearbeiten", view);
 
-                    if (password.IsDirty)
-                    {
-                        tabItem.Header = tabItem.Header + " *";
-                    }
-                    else
-                    {
-                        if (tabItem.Header.ToString().EndsWith(" *"))
-                        {
-                            tabItem.Header = tabItem.Header.ToString().Substring(0, tabItem.Header.ToString().Length - 2);
-                        }
-                    }
-
-                };
+            password.PropertyChanged += (sender, arguments) => tabItem.Header = GetNewHeader(password);
 
             viewModel.Password = password;
             view.DataContext = viewModel;
@@ -82,11 +87,10 @@
         /// <param name="toolTip">Das Tooltip des TabItems.</param>
         /// <param name="content">Der Inhalt des TabItems.</param>
         /// <returns>Das neu erzeugte <see cref="TabItem"/>.</returns>
-        private TabItem GetNewTabItem(string header, string toolTip, object content)
+        private TabItem GetNewTabItem(object header, string toolTip, object content)
         {
             var tabItem = new TabItem { Header = header, ToolTip = toolTip, Content = content, MinWidth = 75, MaxWidth = 300 };
             tabItem.MouseUp += TabItemClicked;
-
             return tabItem;
         }
 
