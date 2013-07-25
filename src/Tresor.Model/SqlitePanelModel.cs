@@ -105,6 +105,7 @@
             Passwords.Add(password);
             ObserveIsDirty(password);
             OnPropertyChanged("Passwords");
+            OnPropertyChanged("IsDirty");
         }
 
         /// <summary>Prüft ob der Schlüssel zur Deserialisierung richtig ist.</summary>
@@ -148,7 +149,7 @@
         public void Save(IPassword password, string encryptionKey = null)
         {
             password.EndEdit();
-            
+
             SetEncryptionKey(encryptionKey);
 
             if (PasswordExists(password))
@@ -170,7 +171,7 @@
 
         /// <summary>Überwacht den Zustand des Passworts und steuert die Eigenschaft IsDirty.</summary>
         /// <param name="password">Das zu überwachende Passwort.</param>
-        private static void ObserveIsDirty(IPassword password)
+        private void ObserveIsDirty(IPassword password)
         {
             password.BeginEdit();
             password.PropertyChanged += (sender, arguments) =>
@@ -178,6 +179,7 @@
                     if (arguments.PropertyName != "IsDirty")
                     {
                         password.IsDirty = !password.IsCloneEqual();
+                        OnPropertyChanged("IsDirty");
                     }
                 };
         }
