@@ -63,7 +63,6 @@
             viewModel.PropertyChanged += (sender, arguments) => changes.Add(arguments.PropertyName);
             model.AddPassword(new Password { RecordID = Guid.NewGuid() });
             Assert.IsNotEmpty(changes);
-            Assert.IsTrue(changes.Count == 2);
             Assert.IsTrue(changes.Contains("IsDirty"));
             Assert.IsTrue(changes.Contains("Passwords"));
         }
