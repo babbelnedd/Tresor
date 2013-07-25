@@ -147,6 +147,8 @@
         /// <param name="encryptionKey">Der Schlüssel zum Verschlüsseln der Datenbank. Falls nicht angegeben wird der vorher festgelegte benutzt.</param> 
         public void Save(IPassword password, string encryptionKey = null)
         {
+            password.EndEdit();
+            
             SetEncryptionKey(encryptionKey);
 
             if (PasswordExists(password))
