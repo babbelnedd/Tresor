@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using NUnit.Framework;
 
@@ -37,6 +38,29 @@
             Assert.Contains("Tabs", changes);
         }
 
+        /// <summary>Prüft, dass der CloseTabCommand nichts macht, wenn der zu schließende Tab nicht in der Auflistung aller Tabs vorhanden ist.</summary>
+        [Test(Description = "Prüft, dass der CloseTabCommand nichts macht, wenn der zu schließende Tab nicht in der Auflistung aller Tabs vorhanden ist.")]
+        [Repeat(Tests)]
+        public void CloseTabCommandDoNothingIfTabNotExists()
+        {
+            Assert.DoesNotThrow(() => viewModel.CloseTabCommand.Execute(new SCommandArgs(null, null, null)));
+        }
+
+        /// <summary>Prüft ob der CloseTabCommand keinen neuen Tab selektiert, wenn der geschlossene Tab nicht der selektierte war.</summary>
+        [Test(Description = "Prüft ob der CloseTabCommand keinen neuen Tab selektiert, wenn der geschlossene Tab nicht der selektierte war.")]
+        [Repeat(Tests)]
+        public void CloseTabCommandDontSelectNewIfClosedTabIsntSelectedTab()
+        {
+            var tab1 = new Tab(new Password { RecordID = Guid.NewGuid() });
+            var tab2 = new Tab(new Password { RecordID = Guid.NewGuid() });
+            viewModel.OpenTab(tab1);
+            viewModel.OpenTab(tab2);
+
+            viewModel.CloseTabCommand.Execute(new SCommandArgs(null, null, tab1));
+
+            Assert.That(viewModel.SelectedTab, Is.EqualTo(tab2));
+        }
+
         /// <summary>Prüft ob das CloseTabCommand den angegebenen Tab von der Auflistung von Tabs entfernt.</summary>
         [Test(Description = "Prüft ob das CloseTabCommand den angegebenen Tab von der Auflistung von Tabs entfernt.")]
         [Repeat(Tests)]
@@ -53,7 +77,9 @@
         }
 
         /// <summary>Prüft ob der CloseTabCommand den zuletzt selektierten Tab selektiert, falls der aktuell selektierte Tab geschlossen wird.</summary>
-        [Test(Description = "Prüft ob der CloseTabCommand den zuletzt selektierten Tab selektiert, falls der aktuell selektierte Tab geschlossen wird.")]
+        [Test(
+            Description = "Prüft ob der CloseTabCommand den zuletzt selektierten Tab selektiert, falls der aktuell selektierte Tab geschlossen wird.")
+        ]
         [Repeat(Tests)]
         public void CloseTabCommandSelectLastSelectedTab()
         {
@@ -65,21 +91,6 @@
             viewModel.CloseTabCommand.Execute(new SCommandArgs(null, null, tab2));
 
             Assert.That(viewModel.SelectedTab, Is.EqualTo(tab));
-        }
-
-        /// <summary>Prüft ob der CloseTabCommand keinen neuen Tab selektiert, wenn der geschlossene Tab nicht der selektierte war.</summary>
-        [Test(Description = "Prüft ob der CloseTabCommand keinen neuen Tab selektiert, wenn der geschlossene Tab nicht der selektierte war.")]
-        [Repeat(Tests)]
-        public void CloseTabCommandDontSelectNewIfClosedTabIsntSelectedTab()
-        {
-            var tab1 = new Tab(new Password { RecordID = Guid.NewGuid() });
-            var tab2 = new Tab(new Password { RecordID = Guid.NewGuid() });
-            viewModel.OpenTab(tab1);
-            viewModel.OpenTab(tab2);
-
-            viewModel.CloseTabCommand.Execute(new SCommandArgs(null, null, tab1));
-
-            Assert.That(viewModel.SelectedTab, Is.EqualTo(tab2));
         }
 
         /// <summary>Prüft, dass der Konstruktor keine Ausnahme wirft.</summary>
@@ -161,6 +172,24 @@
             Assert.That(viewModel.SelectedTab.Content, Is.EqualTo(specificPassword));
         }
 
+        /// <summary>Testet ob die Methode SelectLastTab den ersten Tab selektiert, falls LastSelectedTab nicht mehr geöffnet oder null ist.</summary>
+        [Test(Description = "Testet ob die Methode SelectLastTab den ersten Tab selektiert, falls LastSelectedTab nicht mehr geöffnet oder null ist.")
+        ]
+        [Repeat(Tests)]
+        public void SelectLastTabSelectFirstTabIfLastSelectedTabIsNotOpenAnymore()
+        {
+            var firstTab = viewModel.Tabs.First();
+            var tab1 = new Tab(new Password { RecordID = Guid.NewGuid() });
+            var tab2 = new Tab(new Password { RecordID = Guid.NewGuid() });
+            viewModel.OpenTab(tab1);
+            viewModel.OpenTab(tab2);
+
+            viewModel.CloseTabCommand.Execute(new SCommandArgs(null, null, tab1));
+            viewModel.CloseTabCommand.Execute(new SCommandArgs(null, null, tab2));
+
+            Assert.That(viewModel.SelectedTab, Is.EqualTo(firstTab));
+        }
+
         /// <summary>Testet, dass die Methode OpenTab keinen neuen Tab erzeugt, falls dieser schon existiert.</summary>
         [Test(Description = "Testet, dass die Methode OpenTab keinen neuen Tab erzeugt, falls dieser schon existiert.")]
         [Repeat(Tests)]
@@ -184,6 +213,24 @@
             var tab = new Tab(new Password { RecordID = Guid.NewGuid() });
             viewModel.OpenTab(tab);
             Assert.Greater(viewModel.Tabs.Count, countBefore);
+        }
+
+        /// <summary>Prüft, ob der SelectTabCommand wirklich einen Tab selektiert.</summary>
+        [Test(Description = "Prüft, ob der SelectTabCommand wirklich einen Tab selektiert.")]
+        [Repeat(Tests)]
+        public void SelectTabCommandSelectsTab()
+        {
+            var tab1 = new Tab(new Password { RecordID = Guid.NewGuid() });
+            var tab2 = new Tab(new Password { RecordID = Guid.NewGuid() });
+            viewModel.OpenTab(tab1);
+            viewModel.OpenTab(tab2);
+
+            Assert.That(viewModel.SelectedTab, Is.EqualTo(tab2));
+            viewModel.SelectTabCommand.Execute(new SCommandArgs(null, null, tab1));
+            Assert.That(viewModel.SelectedTab, Is.EqualTo(tab1));
+
+            viewModel.SelectTabCommand.Execute(new SCommandArgs(null, null, tab1));
+            Assert.That(viewModel.SelectedTab, Is.EqualTo(tab1));
         }
 
         /// <summary>Prüft, ob die Eigenschaft SelectedTab nicht null ist.</summary>
@@ -217,24 +264,6 @@
         public void TabsHasOneItemAtStart()
         {
             Assert.IsTrue(this.viewModel.Tabs.Count == 1);
-        }
-
-        /// <summary>Prüft, ob der SelectTabCommand wirklich einen Tab selektiert.</summary>
-        [Test(Description = "Prüft, ob der SelectTabCommand wirklich einen Tab selektiert.")]
-        [Repeat(Tests)]
-        public void SelectTabCommandSelectsTab()
-        {
-            var tab1 = new Tab(new Password { RecordID = Guid.NewGuid() });
-            var tab2 = new Tab(new Password { RecordID = Guid.NewGuid() });
-            viewModel.OpenTab(tab1);
-            viewModel.OpenTab(tab2);
-
-            Assert.That(viewModel.SelectedTab, Is.EqualTo(tab2));
-            viewModel.SelectTabCommand.Execute(new SCommandArgs(null, null, tab1));
-            Assert.That(viewModel.SelectedTab, Is.EqualTo(tab1));
-
-            viewModel.SelectTabCommand.Execute(new SCommandArgs(null, null, tab1));
-            Assert.That(viewModel.SelectedTab, Is.EqualTo(tab1));
         }
 
         #endregion
