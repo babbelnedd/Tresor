@@ -9,14 +9,14 @@
     /// <summary>Erweiterter <see cref="Test"/>.</summary>
     public abstract class ModelTest : Test
     {
-        #region Eigenschaften
+        #region Properties
 
         /// <summary>Holt oder setzt das <see cref="PanelModel"/>.</summary>
         internal IPanelModel Model { get; set; }
 
         #endregion
 
-        #region Öffentliche Methoden und Operatoren
+        #region Public Methods and Operators
 
         /// <summary>Erweitert das Basisverhalten um die Erzeugung des <see cref="PanelModel"/>.</summary>
         public override void Initalize()

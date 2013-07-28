@@ -19,20 +19,26 @@
 
     /// <summary>Tests für das SqlitePanelModel.</summary>
     [TestFixture(Description = "Tests für das SqlitePanelModel.")]
-    public class SqlitePanelModelTests
+    public class SqlitePanelModelTests : Test
     {
-        #region Konstanten und Felder
+        #region Static Fields
 
         /// <summary>Der Name der Datenbank.</summary>
         private static string databaseName;
+
+        #endregion
+
+        #region Fields
 
         /// <summary>Das zu testende Datenmodel.</summary>
         private IPanelModel model;
 
         #endregion
 
-        #region Öffentliche Methoden und Operatoren
+        #region Public Methods and Operators
 
+        /// <summary>Prüft ob das hinzufügen von Passwörtern nicht zu lange dauert. 10 Passwörter sollten durchschnittlich nicht länger als 1 Sekunde benötigen.</summary>
+        [Repeat(Tests)]
         [Test(Description = "Prüft ob das hinzufügen von Passwörtern nicht zu lange dauert. 10 Passwörter sollten durchschnittlich nicht länger als 1 Sekunde benötigen.")]
         public void AddPasswordsIsFastEnough()
         {
@@ -57,8 +63,26 @@
             Assert.Less(average, 1000);
         }
 
-        [Test(Description = "Prüft ob die Datenbank existiert, nach der erfolgreichen .")]
-        [Repeat(20)]
+        /// <summary>Prüft ob Änderungen am Model PropertyChanged für die Eigenschaft IsDirty auslöst.</summary>
+        [Test(Description = "Prüft ob Änderungen am Model PropertyChanged für die Eigenschaft IsDirty auslöst.")]
+        [Repeat(Tests)]
+        public void ChangesRaiseIsDirtyChanged()
+        {
+            var changes = new List<string>();
+            model.PropertyChanged += (sender, arguments) => changes.Add(arguments.PropertyName);
+
+            model.AddPassword(new Password { RecordID = Guid.NewGuid() });
+
+            Assert.Contains("IsDirty", changes);
+
+            model.Passwords.First().Account = Guid.NewGuid().ToString();
+
+            Assert.IsTrue(changes.Count(c => c == "IsDirty") == 3);
+        }
+
+        /// <summary>Prüft ob die Datenbank existiert, nach der erfolgreichen Überprüfung des Schlüssels.</summary>
+        [Test(Description = "Prüft ob die Datenbank existiert, nach der erfolgreichen Überprüfung des Schlüssels.")]
+        [Repeat(Tests)]
         public void DatabaseExistsAfterKeyCheck()
         {
             // Note: Da jedes mal eine neue Datenbank erzeugt wird, legen wir ein neues Passwort fest.
@@ -66,15 +90,18 @@
             Assert.IsTrue(File.Exists(databaseName));
         }
 
+        /// <summary>Prüft ob IsKeyCorrect false zurückgibt nachdem das Passwort bestimmt wurde und mit einem anderen Passwort getestet wird.</summary>
         [Test(Description = "Prüft ob IsKeyCorrect false zurückgibt nachdem das Passwort bestimmt wurde und mit einem anderen Passwort getestet wird.")]
-        [Repeat(20)]
+        [Repeat(Tests)]
         public void IsKeyCorrect()
         {
             Assert.IsTrue(model.IsKeyCorrect("1"));
             Assert.IsFalse(model.IsKeyCorrect("xxx"));
         }
 
+        /// <summary>Prüft ob die private Methode LoadPasswords alle Passwörter in die Eigenschaft Passwords geladen hat.</summary>
         [Test(Description = "Prüft ob die private Methode LoadPasswords alle Passwörter in die Eigenschaft Passwords geladen hat.")]
+        [Repeat(Tests)]
         public void LoadPasswords()
         {
             var passwords = new ObservableCollection<IPassword>();
@@ -89,7 +116,17 @@
             Assert.AreEqual(passwords, model.Passwords);
         }
 
+        /// <summary>Prüft ob das Model null ist, nach der Initalisierung des Models.</summary>
+        [Test(Description = "Prüft ob das Model null ist, nach der Initalisierung des Models.")]
+        [Repeat(Tests)]
+        public void ModelIsNotNullAfterInitialize()
+        {
+            Assert.IsNotNull(model);
+        }
+
+        /// <summary>Prüft ob Passwörter auf ihren Zustand hin überprüft werden und IsDirty richtig gesetzt wird.</summary>
         [Test(Description = "Prüft ob Passwörter auf ihren Zustand hin überprüft werden und IsDirty richtig gesetzt wird.")]
+        [Repeat(Tests)]
         public void PasswordsAreObserved()
         {
             var newPassword = new Password { RecordID = Guid.NewGuid() };
@@ -99,18 +136,20 @@
             Assert.IsTrue(model.Passwords.First(pw => pw.Equals(newPassword)).IsDirty);
         }
 
-        [Test(Description = "Prüft ob das Model null ist, nach der Initalisierung des Models.")]
-        [Repeat(20)]
-        public void ModelIsNotNullAfterInitialize()
-        {
-            Assert.IsNotNull(model);
-        }
-
+        /// <summary>Prüft ob die Eigenschaft Passwords null ist, nach der Initalisierung des Models.</summary>
         [Test(Description = "Prüft ob die Eigenschaft Passwords null ist, nach der Initalisierung des Models.")]
-        [Repeat(20)]
+        [Repeat(Tests)]
         public void PasswordsIsNotNullAfterInitialize()
         {
             Assert.IsNotNull(model.Passwords);
+        }
+
+        /// <summary>Prüft ob die Eigenschaft IsDirty False ist nach der Initialisierung.</summary>
+        [Test(Description = "Prüft ob die Eigenschaft IsDirty False ist nach der Initialisierung.")]
+        [Repeat(Tests)]
+        public void IsDirtyIsFalseOnStart()
+        {
+            Assert.That(model.IsDirty, Is.False);
         }
 
         /// <summary> Initialisiert vor jedem Test die Testumgebung </summary>
@@ -124,7 +163,7 @@
 
         #endregion
 
-        #region Methoden
+        #region Methods
 
         /// <summary>Erzeugt zufällige Passwörter.</summary>
         /// <param name="count">Die Anzahl der Passwörter die erstellt werden sollen.</param>
@@ -156,20 +195,5 @@
         }
 
         #endregion
-
-        [Test(Description = "Prüft ob Änderungen am Model PropertyChanged für die Eigenschaft IsDirty auslöst.")]
-        public void ChangesRaiseIsDirtyChanged()
-        {
-            var changes = new List<string>();
-            model.PropertyChanged += (sender, arguments) => changes.Add(arguments.PropertyName);
-
-            model.AddPassword(new Password { RecordID = Guid.NewGuid() });
-
-            Assert.Contains("IsDirty", changes);
-
-            model.Passwords.First().Account = Guid.NewGuid().ToString();
-
-            Assert.IsTrue(changes.Count(c => c == "IsDirty") == 2);
-        }
     }
 }

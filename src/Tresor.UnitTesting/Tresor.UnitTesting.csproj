@@ -44,22 +44,35 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\CinchV2\Cinch.WPF.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Practices.Unity">
+      <HintPath>..\..\lib\Unity3\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.6.2.12296, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\Converter\BooleanToVisibilityConverterTests.cs" />
+    <Compile Include="Resources\Converter\ContentToViewConverterTests.cs" />
+    <Compile Include="Resources\Converter\BoolToColorConverterTests.cs" />
+    <Compile Include="Resources\Converter\NegativeBooleanToVisibilityConverterTests.cs" />
     <Compile Include="Test.cs" />
-    <Compile Include="Tools\PasswordStorage.cs" />
     <Compile Include="Tresor.Model\ModelTest.cs" />
     <Compile Include="Tresor.Model\SqlitePanelModelTests.cs" />
+    <Compile Include="Tresor.ViewModel\Application\MainViewModelTests.cs" />
     <Compile Include="Tresor.ViewModel\PanelViewModelTests.cs" />
     <Compile Include="Tresor.ViewModel\SplashViewModelTests.cs" />
-    <Compile Include="Tresor.ViewModel\ViewModelTest.cs" />
+    <Compile Include="Utilities\Mediator\PasswordMediatorTests.cs" />
+    <Compile Include="Utilities\Mediator\SenderImpl.cs" />
+    <Compile Include="Utilities\PasswordTest.cs" />
+    <Compile Include="Utilities\TabTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -83,6 +96,10 @@
       <Project>{430D4B56-9181-4EDE-96C9-D7567D976A68}</Project>
       <Name>Tresor.Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Tresor.Resources\Tresor.Resources.csproj">
+      <Project>{687E8078-DB8B-4BA9-BB58-983298CC97D2}</Project>
+      <Name>Tresor.Resources</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Tresor.Utilities\Tresor.Utilities.csproj">
       <Project>{2895CEA1-F0B8-460F-ABEB-1D2A3E171491}</Project>
       <Name>Tresor.Utilities</Name>
@@ -90,6 +107,10 @@
     <ProjectReference Include="..\Tresor.ViewModel\Tresor.ViewModel.csproj">
       <Project>{1B557A79-70B4-4DF0-9CD8-4D1AB94FD479}</Project>
       <Name>Tresor.ViewModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tresor.View\Tresor.View.csproj">
+      <Project>{B862EB58-E001-4F36-A58A-B6485FB29835}</Project>
+      <Name>Tresor.View</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -7,20 +7,30 @@
     using NUnit.Framework;
 
     using global::Tresor.Contracts.Model;
+
     using global::Tresor.Contracts.Utilities;
+
     using global::Tresor.Model;
+
     using global::Tresor.Utilities;
+
     using global::Tresor.ViewModel.Application;
 
     /// <summary>Unit Tests für das SplashViewModel.</summary>
     [TestFixture(Description = "Unit Tests für das SplashViewModel.")]
-    public class SplashViewModelTests : ViewModelTest
+    public class SplashViewModelTests : Test
     {
-        /// <summary>Das ViewModel für die Unit Tests.</summary>
-        private SplashViewModel viewModel;
+        #region Fields
 
         /// <summary>Das Datenmodel.</summary>
         private IPanelModel model;
+
+        /// <summary>Das ViewModel für die Unit Tests.</summary>
+        private SplashViewModel viewModel;
+
+        #endregion
+
+        #region Public Methods and Operators
 
         /// <summary>Erweitert das Basisverhalten um die Erzeugung des ViewModels.</summary>
         public override void Initalize()
@@ -48,14 +58,6 @@
             Assert.IsTrue(changes[0] == "KeyIsCorrect");
         }
 
-        /// <summary>Prüft ob die Eigenschaft KeyIsCorrect nach Initalisierung des ViewModels true zurückgibt.</summary>
-        [Test(Description = "Prüft ob die Eigenschaft KeyIsCorrect nach Initalisierung des ViewModels true zurückgibt.")]
-        [Repeat(Tests)]
-        public void KeyIsCorrectReturnsTrueOnStartup()
-        {
-            Assert.IsTrue(viewModel.KeyIsCorrect);
-        }
-
         /// <summary>Prüft ob die Eigenschaft KeyIsCorrect false bei falschem Schlüssel zurückgibt.</summary>
         [Test(Description = "Prüft ob die Eigenschaft KeyIsCorrect false bei falschem Schlüssel zurückgibt.")]
         [Repeat(Tests)]
@@ -68,5 +70,15 @@
             viewModel.CheckInputCommand.Execute(null);
             Assert.IsFalse(viewModel.KeyIsCorrect);
         }
+
+        /// <summary>Prüft ob die Eigenschaft KeyIsCorrect nach Initalisierung des ViewModels true zurückgibt.</summary>
+        [Test(Description = "Prüft ob die Eigenschaft KeyIsCorrect nach Initalisierung des ViewModels true zurückgibt.")]
+        [Repeat(Tests)]
+        public void KeyIsCorrectReturnsTrueOnStartup()
+        {
+            Assert.IsTrue(viewModel.KeyIsCorrect);
+        }
+
+        #endregion
     }
 }

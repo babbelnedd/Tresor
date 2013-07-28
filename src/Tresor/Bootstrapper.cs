@@ -1,18 +1,14 @@
 ﻿namespace Tresor
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Windows;
+    using System.ComponentModel;
     using System.Windows.Controls;
-    using System.Windows.Input;
 
     using Microsoft.Practices.Unity;
 
     using Tresor.Contracts.Model;
-    using Tresor.Contracts.Utilities;
     using Tresor.Contracts.ViewModel;
     using Tresor.Model;
-    using Tresor.Utilities.EventArgs;
+    using Tresor.Utilities.Mediator;
     using Tresor.View;
     using Tresor.View.Application;
     using Tresor.View.UserControls;
@@ -27,9 +23,6 @@
         /// <summary>Der IoC Container.</summary>
         private readonly IUnityContainer container = new UnityContainer();
 
-        /// <summary>Holt alle geöffneten Tabs von Typ <see cref="IPassword"/>.</summary>
-        private readonly List<IPassword> openTabs = new List<IPassword>();
-
         /// <summary>Das Applikationsfenster.</summary>
         private MainWindow mainWindow;
 
@@ -42,97 +35,6 @@
         {
             RegisterAll();
             LoadSplashView();
-        }
-
-        /// <summary>Schließt einen Tab.</summary>
-        /// <param name="tabItem">Der Tab, welcher geschlossen werden soll</param>
-        private void CloseTab(TabItem tabItem)
-        {
-            var password = ((PasswordViewModel)((PasswordView)tabItem.Content).DataContext).Password;
-
-            if (password.IsDirty)
-            {
-                var result = MessageBox.Show(
-                    mainWindow,
-                    "Das Passwort hat ausstehende Änderungen. \n Möchten Sie diese speichern?",
-                    "Achtung",
-                    MessageBoxButton.YesNo,
-                    MessageBoxImage.Question);
-                switch (result)
-                {
-                    case MessageBoxResult.Yes:
-                        container.Resolve<IPanelModel>().Save(password);
-                        break;
-                    case MessageBoxResult.No:
-                        password.CancelEdit();
-                        break;
-                }
-            }
-
-            openTabs.Remove(password);
-            mainWindow.TabControl.Items.Remove(tabItem);
-        }
-
-        /// <summary>Holt einen neuen Header für ein TabItem.</summary>
-        /// <param name="password">Das Passwort welches unter dem Tab dargestellt wird.</param>
-        /// <returns>Der neu erzeugte Header.</returns>
-        private StackPanel GetNewHeader(IPassword password)
-        {
-            var header = new StackPanel { Orientation = Orientation.Horizontal };
-            var txt1 = new TextBlock { Text = password.Account };
-            var txt2 = new TextBlock();
-
-            if (password.IsDirty)
-            {
-                txt2.Text = " *";
-            }
-
-            header.Children.Add(txt1);
-            header.Children.Add(txt2);
-            return header;
-        }
-
-        /// <summary>Holt ein neues TabItem, welches ein Passwort darstellt.</summary>
-        /// <param name="password">Das darzustellende Passwort.</param>
-        /// <returns>Das neu erzeuget <see cref="TabItem"/>.</returns>
-        private TabItem GetNewPasswordTab(IPassword password)
-        {
-            var view = container.Resolve<PasswordView>();
-            var viewModel = container.Resolve<PasswordViewModel>();
-            viewModel.Password = password;
-            view.DataContext = viewModel;
-
-            var header = GetNewHeader(password);
-            var tabItem = GetNewTabItem(header, "Passwort bearbeiten", view);
-
-            password.PropertyChanged += (sender, arguments) => tabItem.Header = GetNewHeader(password);
-
-            viewModel.Password = password;
-            view.DataContext = viewModel;
-            return tabItem;
-        }
-
-        /// <summary>Holt ein neues TabItem.</summary>
-        /// <param name="header">Der Header des TabItems.</param>
-        /// <param name="toolTip">Das Tooltip des TabItems.</param>
-        /// <param name="content">Der Inhalt des TabItems.</param>
-        /// <returns>Das neu erzeugte <see cref="TabItem"/>.</returns>
-        private TabItem GetNewTabItem(object header, string toolTip, object content)
-        {
-            var tabItem = new TabItem { Header = header, ToolTip = toolTip, Content = content, MinWidth = 75, MaxWidth = 300 };
-            tabItem.MouseUp += TabItemClicked;
-            return tabItem;
-        }
-
-        /// <summary>Erstellt die <see cref="Tresor.View.PanelView"/> und gibt diese zurück.</summary>
-        /// <returns>Die <see cref="Tresor.View.PanelView"/>.</returns>
-        private PanelView GetPanelView()
-        {
-            var panelView = container.Resolve<PanelView>();
-            var panelViewModel = container.Resolve<PanelViewModel>();
-            panelViewModel.OpenTabRequested += OpenTabRequested;
-            panelView.DataContext = panelViewModel;
-            return panelView;
         }
 
         /// <summary>Initialisiert die SplashView.</summary>
@@ -157,7 +59,28 @@
         private void LoadMainWindow()
         {
             mainWindow = container.Resolve<MainWindow>();
-            SetupTabControl();
+            var model = container.Resolve<IPanelModel>();
+            container.RegisterInstance(new MainViewModel(model));
+            var mainViewModel = container.Resolve<MainViewModel>();
+
+
+            container.RegisterInstance(new PasswordMediator());
+            var mediator = container.Resolve<PasswordMediator>();
+            container.RegisterInstance<UserControl>("PasswordView", new PasswordView());
+            container.RegisterInstance<UserControl>("PasswordListView", new PasswordListView());
+            container.RegisterInstance<IPasswordViewModel>("PasswordViewModel", new PasswordViewModel(model, mediator));
+            container.RegisterInstance<IPasswordListViewModel>("PasswordListViewModel", new PasswordListViewModel(mediator));
+            
+            var passwordViewModel = container.Resolve<IPasswordViewModel>("PasswordViewModel");
+            var passwordListViewModel = container.Resolve<IPasswordListViewModel>("PasswordListViewModel");
+            
+            mediator.Add(passwordViewModel);
+            mediator.Add(passwordListViewModel);
+            mediator.Add(mainViewModel);
+
+
+            mainViewModel.Container = container;
+            mainWindow.DataContext = mainViewModel;
             mainWindow.ShowDialog();
         }
 
@@ -169,52 +92,10 @@
             view.ShowDialog();
         }
 
-        /// <summary>Tritt ein wenn ein neuer Tab geöffnet werden soll.</summary>
-        /// <param name="sender">Dieser Parameter wird nicht verwendet.</param>
-        /// <param name="arguments">Erwartet gültige <see cref="OpenTabRequestedEventArgs"/>.</param>
-        private void OpenTabRequested(object sender, OpenTabRequestedEventArgs arguments)
-        {
-            var password = arguments.Content;
-            if (password == null || openTabs.Any(tab => tab == password))
-            {
-                return;
-            }
-
-            password.BeginEdit();
-            openTabs.Add(password);
-            var tabItem = GetNewPasswordTab(password);
-            mainWindow.TabControl.Items.Add(tabItem);
-            tabItem.IsSelected = true;
-        }
-
         /// <summary>Registriert alle benötigten Typen beim IoC Container.</summary>
         private void RegisterAll()
         {
             container.RegisterInstance<IPanelModel>(new SqlitePanelModel("tresor.db"));
-            container.RegisterInstance<UserControl>(new PanelView());
-            container.RegisterType<IPanelViewModel, PanelViewModel>();
-        }
-
-        /// <summary>Setzt das TabControl auf.</summary>
-        private void SetupTabControl()
-        {
-            var tabItem = GetNewTabItem("Passwörter", "Alle verwalteten Passwörter", GetPanelView());
-            mainWindow.TabControl.Items.Add(tabItem);
-        }
-
-        /// <summary>Tritt ein wenn ein <strong>MouseUp Ereignis</strong> bei einem TabItem eintritt.</summary>
-        /// <param name="sender">Erwartet das TabItem.</param>
-        /// <param name="arguments">Prüft anhand der Eigenschaft ChangedButton welche Taste gedrückt wurde.</param>
-        private void TabItemClicked(object sender, MouseButtonEventArgs arguments)
-        {
-            var tabItem = sender as TabItem;
-
-            if (arguments.ChangedButton != MouseButton.Middle || tabItem == null || tabItem.Header.ToString() == "Passwörter")
-            {
-                return;
-            }
-
-            CloseTab(tabItem);
         }
 
         #endregion

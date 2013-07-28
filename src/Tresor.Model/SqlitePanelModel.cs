@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Collections.Specialized;
     using System.Data;
     using System.Data.SQLite;
     using System.Linq;
@@ -14,7 +15,7 @@
     /// <summary>Implementierung eines IPanelModel. Benutzt SQlite um Daten zu verwalten.</summary>
     public class SqlitePanelModel : NotifyPropertyChanged, IPanelModel
     {
-        #region Konstanten und Felder
+        #region Fields
 
         /// <summary>Der Datenbankname.</summary>
         private readonly string database;
@@ -25,25 +26,36 @@
         /// <summary>Das Passwort für die Datenbank.</summary>
         private string databasePassword;
 
-        /// <summary>Mitglied der Eigenschaft <see cref="IsDirty"/>.</summary>
-        private bool isDirty;
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>Initialisiert eine neue Instanz der <see cref="SqlitePanelModel"/> Klasse.</summary>
+        /// <param name="database">Der Name der Datenbank die geladen bzw erzeugt werden soll.</param>
+        public SqlitePanelModel(string database)
+        {
+            Passwords = new ObservableCollection<IPassword>();
+            Passwords.CollectionChanged += PasswordsChanged;
+            this.database = database;
+        }
+
+        /// <summary>Finalisiert eine Instanz der <see cref="SqlitePanelModel"/> Klasse.</summary>
+        /// <remarks>Gibt die Sql Verbindung frei.</remarks>
+        ~SqlitePanelModel()
+        {
+            Connection.Dispose();
+        }
 
         #endregion
 
-        #region Öffentliche Eigenschaften
+        #region Public Properties
 
         /// <summary>Holt einen Wert, der angibt, ob es ungespeicherte Änderungen gibt.</summary>
         public bool IsDirty
         {
             get
             {
-                return isDirty;
-            }
-
-            private set
-            {
-                isDirty = value;
-                OnPropertyChanged();
+                return Passwords.Any(password => password.IsDirty);
             }
         }
 
@@ -52,7 +64,7 @@
 
         #endregion
 
-        #region Eigenschaften
+        #region Properties
 
         /// <summary>Holt die Sql Verbindung.</summary>
         private SQLiteConnection Connection
@@ -72,26 +84,7 @@
 
         #endregion
 
-        #region Konstruktoren und Destruktoren
-
-        /// <summary>Initialisiert eine neue Instanz der <see cref="SqlitePanelModel"/> Klasse.</summary>
-        /// <param name="database">Der Name der Datenbank die geladen bzw erzeugt werden soll.</param>
-        public SqlitePanelModel(string database)
-        {
-            Passwords = new ObservableCollection<IPassword>();
-            this.database = database;
-        }
-
-        /// <summary>Finalisiert eine Instanz der <see cref="SqlitePanelModel"/> Klasse.</summary>
-        /// <remarks>Gibt die Sql Verbindung frei.</remarks>
-        ~SqlitePanelModel()
-        {
-            Connection.Dispose();
-        }
-
-        #endregion
-
-        #region Öffentliche Methoden und Operatoren
+        #region Public Methods and Operators
 
         /// <summary>Fügt ein Passwort hinzu.</summary>
         /// <param name="password">Das hinzuzufügende Passwort.</param>
@@ -100,7 +93,12 @@
         {
             SetEncryptionKey(encryptionKey);
 
-            var command = string.Format("INSERT INTO Password(RecordID, Account, Password, Description) VALUES('{0}','{1}','{2}','{3}')", password.RecordID, password.Account, password.Key, password.Description);
+            var command = string.Format(
+                "INSERT INTO Password(RecordID, Account, Password, Description) VALUES('{0}','{1}','{2}','{3}')",
+                password.RecordID,
+                password.Account,
+                password.Key,
+                password.Description);
             ExecuteNonQuery(command);
             Passwords.Add(password);
             ObserveIsDirty(password);
@@ -167,22 +165,7 @@
 
         #endregion
 
-        #region Methoden
-
-        /// <summary>Überwacht den Zustand des Passworts und steuert die Eigenschaft IsDirty.</summary>
-        /// <param name="password">Das zu überwachende Passwort.</param>
-        private void ObserveIsDirty(IPassword password)
-        {
-            password.BeginEdit();
-            password.PropertyChanged += (sender, arguments) =>
-                {
-                    if (arguments.PropertyName != "IsDirty")
-                    {
-                        password.IsDirty = !password.IsCloneEqual();
-                        OnPropertyChanged("IsDirty");
-                    }
-                };
-        }
+        #region Methods
 
         /// <summary>Schließt die Sql Verbindung.</summary>
         private void CloseConnection()
@@ -248,6 +231,21 @@
             }
         }
 
+        /// <summary>Überwacht den Zustand des Passworts und steuert die Eigenschaft IsDirty.</summary>
+        /// <param name="password">Das zu überwachende Passwort.</param>
+        private void ObserveIsDirty(IPassword password)
+        {
+            password.BeginEdit();
+            password.PropertyChanged += (sender, arguments) =>
+                {
+                    if (arguments.PropertyName != "IsDirty")
+                    {
+                        password.IsDirty = !password.IsCloneEqual();
+                        OnPropertyChanged("IsDirty");
+                    }
+                };
+        }
+
         /// <summary>Öffnet die Sql Verbindung.</summary>
         private void OpenConnection()
         {
@@ -265,6 +263,14 @@
         {
             var command = string.Format("SELECT RecordID FROM Password WHERE RecordID='{0}'", password.RecordID);
             return ExecuteReader(command).ToList().Any();
+        }
+
+        /// <summary>Tritt ein, wenn sich an der Auflistung <see cref="Passwords"/> etwas geändert hat.</summary>
+        /// <param name="sender">Dieser Parameter wird nicht verwendet.</param>
+        /// <param name="arguments">Dieser Parameter wird nicht verwendet.</param>
+        private void PasswordsChanged(object sender, NotifyCollectionChangedEventArgs arguments)
+        {
+            OnPropertyChanged("IsDirty");
         }
 
         /// <summary>Setzt das Datenbankpasswort.</summary>

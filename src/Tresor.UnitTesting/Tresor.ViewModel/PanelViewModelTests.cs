@@ -6,17 +6,20 @@
     using NUnit.Framework;
 
     using global::Tresor.Contracts.Model;
+
     using global::Tresor.Contracts.ViewModel;
 
     using global::Tresor.Model;
+
     using global::Tresor.Utilities;
+
     using global::Tresor.ViewModel;
 
     /// <summary>Unit Tests für das PanelViewModel.</summary>
     [TestFixture(Description = "Unit Tests für das PanelViewModel.")]
-    public class PanelViewModelTests : ViewModelTest
+    public class PanelViewModelTests : Test
     {
-        #region Konstanten und Felder
+        #region Fields
 
         /// <summary>Das PanelModel.</summary>
         private IPanelModel model;
@@ -26,7 +29,7 @@
 
         #endregion
 
-        #region Öffentliche Methoden und Operatoren
+        #region Public Methods and Operators
 
         /// <summary>Erweitert das Basisverhalten um die Initialisierung des ViewModels.</summary>
         public override void Initalize()

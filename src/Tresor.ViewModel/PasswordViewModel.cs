@@ -8,11 +8,15 @@
     using Tresor.Contracts.Utilities;
     using Tresor.Contracts.ViewModel;
     using Tresor.Framework.MVVM;
+    using Tresor.Utilities.Mediator;
 
     /// <summary>ViewModel für die <see cref="Tresor.View.PasswordView"/>.</summary>
     public class PasswordViewModel : ViewModel, IPasswordViewModel
     {
-        #region Konstanten und Felder
+        #region Fields
+
+        /// <summary>Instanz des <see cref="PasswordMediator"/>.</summary>
+        private readonly PasswordMediator mediator;
 
         /// <summary>Das Datenmodel.</summary>
         private IPanelModel model;
@@ -22,7 +26,21 @@
 
         #endregion
 
-        #region Öffentliche Eigenschaften
+        #region Constructors and Destructors
+
+        /// <summary>Initialisiert eine neue Instanz der <see cref="PasswordViewModel"/> Klasse.</summary>
+        /// <param name="model">Das Datenmodel.</param>
+        /// <param name="mediator">Erwartet eine Instanz eines PasswordMediator.</param>
+        public PasswordViewModel(IPanelModel model, PasswordMediator mediator)
+        {
+            this.model = model;
+            this.mediator = mediator;
+            model.PropertyChanged += ModelChanged;
+        }
+
+        #endregion
+
+        #region Public Properties
 
         /// <summary>Holt oder setzt das Passwort welches dargestellt werden soll.</summary>
         public IPassword Password
@@ -45,19 +63,25 @@
 
         #endregion
 
-        #region Konstruktoren und Destruktoren
+        #region Public Methods and Operators
 
-        /// <summary>Initialisiert eine neue Instanz der <see cref="PasswordViewModel"/> Klasse.</summary>
-        /// <param name="model">Das Datenmodel.</param>
-        public PasswordViewModel(IPanelModel model)
+        /// <summary>Empfängt ein <see cref="IPassword"/>.</summary>
+        /// <param name="password">Das <see cref="IPassword"/> welches empfangen wird.</param>
+        public void Recieve(IPassword password)
         {
-            this.model = model;
-            model.PropertyChanged += ModelChanged;
+            Password = password;
+        }
+
+        /// <summary>Sendet ein <see cref="IPassword"/>. </summary>
+        /// <param name="password">Das <see cref="IPassword"/> welches verschickt wird.</param>
+        public void Send(IPassword password)
+        {
+            mediator.Send(this, password);
         }
 
         #endregion
 
-        #region Methoden
+        #region Methods
 
         /// <summary>Erweitert das Basisverhalten um die Initlaisierung weiterer Kommandos.</summary>
         protected override void InitCommands()

@@ -1,28 +1,40 @@
 ﻿namespace Tresor.UnitTesting
 {
+    using System;
+    using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
+
+    using Microsoft.Practices.ObjectBuilder2;
 
     using NUnit.Framework;
-
-    using global::Tresor.Utilities;
 
     /// <summary>Basisklasse für Tests.</summary>
     public abstract class Test
     {
-        #region Konstanten und Felder
+        #region Constants
 
         /// <summary>Die Anzahl der Durchläufe pro Test.</summary>
-        public const int Tests = 20;
+        public const int Tests = 3;
 
         #endregion
 
-        #region Öffentliche Methoden und Operatoren
+        #region Constructors and Destructors
+
+        /// <summary>Finalisiert eine Instanz der <see cref="Test"/> Klasse.</summary>
+        ~Test()
+        {
+            DeleteOldFiles();
+        }
+
+        #endregion
+
+        #region Public Methods and Operators
 
         /// <summary>Initialisiert die Testumgebung.</summary>
         [SetUp]
         public virtual void Initalize()
         {
-            DeleteStorageFolder();
         }
 
         /// <summary>Macht alle Änderungen, die für die Testumgebung nötig sind, rückgängig.</summary>
@@ -33,22 +45,15 @@
 
         #endregion
 
-        #region Methoden
+        #region Methods
 
-        /// <summary>Löscht den für Testzwecke aufgesetzen Ordner in dem alle relevanten Appdaten liegen.</summary>
-        private static void DeleteStorageFolder()
+        /// <summary>Löscht alle Dateien vom Letzten Test.</summary>
+        private void DeleteOldFiles()
         {
-            var storageFolder = Path.GetDirectoryName(AppSettings.GetStorageFile());
-
-            if (!string.IsNullOrEmpty(storageFolder) && Directory.Exists(storageFolder))
-            {
-                foreach (var file in Directory.GetFiles(storageFolder))
-                {
-                    File.Delete(file);
-                }
-
-                Directory.Delete(storageFolder);
-            }
+            var path = AppDomain.CurrentDomain.BaseDirectory;
+            var files = (List<string>)Directory.GetFiles(path).Where(file => file.EndsWith(".db"));
+            files.AddRange(Directory.GetFiles(path).Where(file => file.EndsWith(".db-journal")));
+            files.ForEach(File.Delete);
         }
 
         #endregion

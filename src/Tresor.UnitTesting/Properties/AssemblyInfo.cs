@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
+
 [assembly: AssemblyTitle("Unit Tests für Tresor.")]
 [assembly: AssemblyDescription("Unit Tests für Tresor.")]
 [assembly: AssemblyConfiguration("")]

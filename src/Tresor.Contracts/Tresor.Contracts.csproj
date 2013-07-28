@@ -50,11 +50,15 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mediator\IPasswordReciever.cs" />
+    <Compile Include="Mediator\IPasswordSender.cs" />
     <Compile Include="Model\IPanelModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\IPassword.cs" />
+    <Compile Include="ViewModel\Application\IMainViewModel.cs" />
     <Compile Include="ViewModel\Application\ISplashViewModel.cs" />
     <Compile Include="ViewModel\IPanelViewModel.cs" />
+    <Compile Include="ViewModel\IPasswordListViewModel.cs" />
     <Compile Include="ViewModel\IPasswordViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

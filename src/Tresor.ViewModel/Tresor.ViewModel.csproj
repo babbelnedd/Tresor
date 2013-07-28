@@ -45,13 +45,19 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\CinchV2\Cinch.WPF.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Unity3\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\MainViewModel.cs" />
     <Compile Include="Application\SplashViewModel.cs" />
     <Compile Include="PanelViewModel.cs" />
+    <Compile Include="PasswordListViewModel.cs" />
     <Compile Include="PasswordViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel.cs" />
