@@ -46,6 +46,7 @@
         /// <summary>Prüft ob die Methode Convert ein IPassword zu einer View konvertiert.</summary>
         [Test(Description = "Prüft ob die Methode Convert ein IPassword zu einer View konvertiert.")]
         [Repeat(Tests)]
+        [STAThread]
         public void ConvertIPassword()
         {
             var container = new UnityContainer();
@@ -64,7 +65,8 @@
         /// <summary>Prüft ob die Methode Convert eine ObservableCollection vom Typ IPassword zu einer View konvertiert.</summary>
         [Test(Description = "Prüft ob die Methode Convert eine ObservableCollection<IPassword> zu einer View konvertiert.")]
         [Repeat(Tests)]
-        public void ConvertObservableCollectionOfIpassword()
+        [STAThread]
+        public void ConvertObservableCollectionOfIPassword()
         {
             var container = new UnityContainer();
             container.RegisterInstance<UserControl>("PasswordListView", new PasswordListView());
