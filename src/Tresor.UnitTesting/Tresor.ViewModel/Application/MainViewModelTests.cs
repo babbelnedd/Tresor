@@ -67,6 +67,21 @@
             Assert.That(viewModel.SelectedTab, Is.EqualTo(tab));
         }
 
+        /// <summary>Prüft ob der CloseTabCommand keinen neuen Tab selektiert, wenn der geschlossene Tab nicht der selektierte war.</summary>
+        [Test(Description = "Prüft ob der CloseTabCommand keinen neuen Tab selektiert, wenn der geschlossene Tab nicht der selektierte war.")]
+        [Repeat(Tests)]
+        public void CloseTabCommandDontSelectNewIfClosedTabIsntSelectedTab()
+        {
+            var tab1 = new Tab(new Password { RecordID = Guid.NewGuid() });
+            var tab2 = new Tab(new Password { RecordID = Guid.NewGuid() });
+            viewModel.OpenTab(tab1);
+            viewModel.OpenTab(tab2);
+
+            viewModel.CloseTabCommand.Execute(new SCommandArgs(null, null, tab1));
+
+            Assert.That(viewModel.SelectedTab, Is.EqualTo(tab2));
+        }
+
         /// <summary>Prüft, dass der Konstruktor keine Ausnahme wirft.</summary>
         [Test(Description = "Prüft, dass der Konstruktor keine Ausnahme wirft.")]
         [Repeat(Tests)]
@@ -202,6 +217,24 @@
         public void TabsHasOneItemAtStart()
         {
             Assert.IsTrue(this.viewModel.Tabs.Count == 1);
+        }
+
+        /// <summary>Prüft, ob der SelectTabCommand wirklich einen Tab selektiert.</summary>
+        [Test(Description = "Prüft, ob der SelectTabCommand wirklich einen Tab selektiert.")]
+        [Repeat(Tests)]
+        public void SelectTabCommandSelectsTab()
+        {
+            var tab1 = new Tab(new Password { RecordID = Guid.NewGuid() });
+            var tab2 = new Tab(new Password { RecordID = Guid.NewGuid() });
+            viewModel.OpenTab(tab1);
+            viewModel.OpenTab(tab2);
+
+            Assert.That(viewModel.SelectedTab, Is.EqualTo(tab2));
+            viewModel.SelectTabCommand.Execute(new SCommandArgs(null, null, tab1));
+            Assert.That(viewModel.SelectedTab, Is.EqualTo(tab1));
+
+            viewModel.SelectTabCommand.Execute(new SCommandArgs(null, null, tab1));
+            Assert.That(viewModel.SelectedTab, Is.EqualTo(tab1));
         }
 
         #endregion

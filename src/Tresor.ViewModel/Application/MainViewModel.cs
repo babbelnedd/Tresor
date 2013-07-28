@@ -75,6 +75,9 @@
             }
         }
 
+        /// <summary>Holt die Kommandostruktur zum Selektieren eines Tabs.</summary>
+        public SimpleCommand<object, SCommandArgs> SelectTabCommand { get; private set; }
+
         /// <summary>Holt den selektierten Tab.</summary>
         public Tab SelectedTab
         {
@@ -149,12 +152,13 @@
         protected override void InitCommands()
         {
             base.InitCommands();
-            CloseTabCommand = new SimpleCommand<object, SCommandArgs>(CloseTab);
+            CloseTabCommand = new SimpleCommand<object, SCommandArgs>(ExecuteCloseTabCommand);
+            SelectTabCommand = new SimpleCommand<object, SCommandArgs>(ExecuteSelectTabCommand);
         }
 
         /// <summary>Schließt einen Tab.</summary>
         /// <param name="arguments">Erwartet einen <see cref="Tab"/> im CommandParameter.</param>
-        private void CloseTab(SCommandArgs arguments)
+        private void ExecuteCloseTabCommand(SCommandArgs arguments)
         {
             var tab = (Tab)arguments.CommandParameter;
 
@@ -168,16 +172,26 @@
                 SelectLastTab();
             }
 
-            Tabs.Remove(tab); // Note: Vor SelectLastTab ausführen?!
+            Tabs.Remove(tab);
+        }
+
+        /// <summary>Ausführende Methode des <see cref="SelectTabCommand"/>.</summary>
+        /// <param name="arguments">Erwartet einen <see cref="Tab"/> in der Eigenschaft CommandParameter.</param>
+        private void ExecuteSelectTabCommand(SCommandArgs arguments)
+        {
+            var tab = (Tab)arguments.CommandParameter;
+            SelectTab(tab);
         }
 
         /// <summary>Selektiert den zuletzt selektierten Tab.</summary>
         private void SelectLastTab()
         {
-            if (LastSelectedTab != null)
+            if (!Tabs.Contains(LastSelectedTab))
             {
-                SelectTab(LastSelectedTab);
+                LastSelectedTab = Tabs.First();
             }
+
+            SelectTab(LastSelectedTab);
         }
 
         /// <summary>Selektiert einen Tab.</summary>
