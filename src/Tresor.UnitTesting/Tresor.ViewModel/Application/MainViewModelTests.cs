@@ -4,6 +4,8 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using Microsoft.Practices.Unity;
+
     using NUnit.Framework;
 
     using global::Tresor.Framework.MVVM;
@@ -77,9 +79,7 @@
         }
 
         /// <summary>Prüft ob der CloseTabCommand den zuletzt selektierten Tab selektiert, falls der aktuell selektierte Tab geschlossen wird.</summary>
-        [Test(
-            Description = "Prüft ob der CloseTabCommand den zuletzt selektierten Tab selektiert, falls der aktuell selektierte Tab geschlossen wird.")
-        ]
+        [Test(Description = "Prüft ob der CloseTabCommand den zuletzt selektierten Tab selektiert, falls der aktuell selektierte Tab geschlossen wird.")]
         [Repeat(Tests)]
         public void CloseTabCommandSelectLastSelectedTab()
         {
@@ -241,11 +241,25 @@
             Assert.IsNotNull(this.viewModel.SelectedTab);
         }
 
-        /// <summary>Testet die Methode Send.</summary>
-        [Test(Description = "Testet die Methode Send.")]
+        /// <summary>Testet, dass die Methode Send keine Ausnahme wirft wenn ihr null übergeben wird.</summary>
+        [Test(Description = "Testet, dass die Methode Send keine Ausnahme wirft wenn ihr null übergeben wird.")]
         [Repeat(Tests)]
-        public void Send()
+        public void SendDoesNotThrowOnNull()
         {
+            Assert.DoesNotThrow(() => viewModel.Send(null));
+        }
+
+        /// <summary>Prüft ob das setzen des Containers PropertyChanged auslöst.</summary>
+        [Test(Description = "Prüft ob das setzen des Containers PropertyChanged auslöst.")]
+        [Repeat(Tests)]
+        public void SetContainerRaisesPropertyChanged()
+        {
+            var container = new UnityContainer();
+            var changes = new List<string>();
+            viewModel.PropertyChanged += (sender, arguments) => changes.Add(arguments.PropertyName);
+            viewModel.Container = container;
+
+            Assert.That(viewModel.Container, Is.EqualTo(container));
         }
 
         /// <summary>Initialisiert vor jedem Test die Testumgebung.</summary>
@@ -275,8 +289,7 @@
         {
             for (var i = 0; i < 10; i++)
             {
-                viewModel.OpenPassword(
-                    new Password { RecordID = Guid.NewGuid(), Account = i.ToString(), Description = i.ToString(), Key = i.ToString() });
+                viewModel.OpenPassword(new Password { RecordID = Guid.NewGuid(), Account = i.ToString(), Description = i.ToString(), Key = i.ToString() });
             }
         }
 
