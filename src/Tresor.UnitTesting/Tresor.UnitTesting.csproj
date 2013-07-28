@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Converter\BooleanToVisibilityConverterTests.cs" />
+    <Compile Include="Resources\Converter\ContentIsDirtyToVisibilityTests.cs" />
     <Compile Include="Resources\Converter\ContentToViewConverterTests.cs" />
     <Compile Include="Resources\Converter\BoolToColorConverterTests.cs" />
     <Compile Include="Resources\Converter\NegativeBooleanToVisibilityConverterTests.cs" />

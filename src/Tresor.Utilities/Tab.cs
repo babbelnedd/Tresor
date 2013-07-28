@@ -1,6 +1,7 @@
 ﻿namespace Tresor.Utilities
 {
     using System.Collections.ObjectModel;
+    using System.ComponentModel;
 
     using Tresor.Contracts.Utilities;
 
@@ -8,6 +9,9 @@
     public class Tab : NotifyPropertyChanged
     {
         #region Fields
+
+        /// <summary>Mitglied der Eigenschaft <see cref="Content"/>.</summary>
+        private object content;
 
         /// <summary>Mitglied der Eigenschaft <see cref="IsSelected"/>.</summary>
         private bool isSelected;
@@ -35,7 +39,25 @@
         #region Public Properties
 
         /// <summary>Holt oder setzt den Inhalt des Tabs.</summary>
-        public object Content { get; set; }
+        public object Content
+        {
+            get
+            {
+                return content;
+            }
+
+            set
+            {
+                content = value;
+
+                if (content is IPassword)
+                {
+                    ((IPassword)content).PropertyChanged += (sender, arguments) => OnPropertyChanged();
+                }
+
+                OnPropertyChanged();
+            }
+        }
 
         /// <summary>Holt oder setzt einen Wert, der angibt, ob der Tab selektiert ist.</summary>
         public bool IsSelected

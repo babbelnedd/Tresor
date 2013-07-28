@@ -180,8 +180,7 @@
         private void CreateDatabase()
         {
             // Note: AutoIncrement Spalte für schnellere Abfragen erstellen???
-            ExecuteNonQuery(
-                "CREATE TABLE IF NOT EXISTS Password(RecordID UNIQUEIDENTIFIER PRIMARY KEY NOT NULL, Account NVARCHAR NOT NULL, Password NVARCHAR NOT NULL, Description NVARCHAR)");
+            ExecuteNonQuery("CREATE TABLE IF NOT EXISTS Password(RecordID UNIQUEIDENTIFIER PRIMARY KEY NOT NULL, Account NVARCHAR NOT NULL, Password NVARCHAR NOT NULL, Description NVARCHAR)");
         }
 
         /// <summary>Erzeugt ein SQliteCommand und führt dieses aus.</summary>
