@@ -69,6 +69,8 @@
     <Compile Include="Tresor.Model\SqlitePanelModelTests.cs" />
     <Compile Include="Tresor.ViewModel\Application\MainViewModelTests.cs" />
     <Compile Include="Tresor.ViewModel\PanelViewModelTests.cs" />
+    <Compile Include="Tresor.ViewModel\PasswordListViewModelTests.cs" />
+    <Compile Include="Tresor.ViewModel\PasswordViewModelTests.cs" />
     <Compile Include="Tresor.ViewModel\SplashViewModelTests.cs" />
     <Compile Include="Utilities\Mediator\PasswordMediatorTests.cs" />
     <Compile Include="Utilities\Mediator\SenderImpl.cs" />

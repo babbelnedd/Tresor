@@ -59,7 +59,7 @@
         }
 
         /// <summary>Holt die Kommandostruktur zum Speichern eines Passworts.</summary>
-        public SimpleCommand<SCommandArgs, object> SavePasswordCommand { get; private set; }
+        public SimpleCommand<object, SCommandArgs> SavePasswordCommand { get; private set; }
 
         #endregion
 
@@ -87,7 +87,7 @@
         protected override void InitCommands()
         {
             base.InitCommands();
-            SavePasswordCommand = new SimpleCommand<SCommandArgs, object>(SavePassword);
+            SavePasswordCommand = new SimpleCommand<object, SCommandArgs>(SavePassword);
         }
 
         /// <summary>Tritt ein wenn sich eine Eigenschaft im Model geändert hat.</summary>
@@ -108,9 +108,10 @@
 
         /// <summary>Speichert ein Passwort.</summary>
         /// <param name="arguments">Dieser Parameter wird nicht verwendet.</param>
-        private void SavePassword(object arguments)
+        private void SavePassword(SCommandArgs arguments)
         {
-            model.Save(password);
+            var pw = (IPassword)arguments.CommandParameter;
+            model.Save(pw);
         }
 
         #endregion

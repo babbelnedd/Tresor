@@ -63,6 +63,21 @@
             Assert.Less(average, 1000);
         }
 
+        [Test(Description = "Prüft ob die Eigenschaft IsDirty True ist, wenn ein oder mehrere Passwörter IsDirty sind.")]
+        [Repeat(Tests)]
+        public void IsDirtyIfAnyPasswordIsDirty()
+        {
+            Assert.That(model.IsDirty, Is.False);
+            var pw1 = new Password { RecordID = Guid.NewGuid() };
+            var pw2 = new Password { RecordID = Guid.NewGuid() };
+            var pw3 = new Password { RecordID = Guid.NewGuid() };
+            model.AddPassword(pw1);
+            model.AddPassword(pw2);
+            model.AddPassword(pw3);
+            model.Passwords.First().Key = Guid.NewGuid().ToString();
+            Assert.That(model.IsDirty);
+        }
+
         /// <summary>Prüft ob Änderungen am Model PropertyChanged für die Eigenschaft IsDirty auslöst.</summary>
         [Test(Description = "Prüft ob Änderungen am Model PropertyChanged für die Eigenschaft IsDirty auslöst.")]
         [Repeat(Tests)]

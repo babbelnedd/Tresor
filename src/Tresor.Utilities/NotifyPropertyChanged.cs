@@ -1,9 +1,6 @@
 ﻿namespace Tresor.Utilities
 {
-    using System;
-    using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Linq.Expressions;
     using System.Runtime.CompilerServices;
 
     /// <summary>Implementierung der INotifyPropertyChanged Schnittstelle.</summary>

@@ -1,8 +1,11 @@
 ﻿namespace Tresor.ViewModel
 {
     using System.Collections.ObjectModel;
+    using System.Collections.Specialized;
 
     using Cinch;
+
+    using Microsoft.Practices.ObjectBuilder2;
 
     using Tresor.Contracts.Utilities;
     using Tresor.Contracts.ViewModel;
@@ -16,6 +19,9 @@
 
         /// <summary>Instanz des <see cref="PasswordMediator"/>.</summary>
         private readonly PasswordMediator mediator;
+
+        /// <summary>Mitglied der Eigenschaft <see cref="Passwords"/>.</summary>
+        private ObservableCollection<IPassword> passwords;
 
         #endregion
 
@@ -36,21 +42,23 @@
         public SimpleCommand<object, SCommandArgs> OpenTabCommand { get; private set; }
 
         /// <summary>Holt oder setzt alle verwalteten Passwörter.</summary>
-        public ObservableCollection<IPassword> Passwords { get; set; }
+        public ObservableCollection<IPassword> Passwords
+        {
+            get
+            {
+                return passwords;
+            }
+
+            set
+            {
+                passwords = value;
+                PasswordsChanged(null, null);
+                Passwords.CollectionChanged += PasswordsChanged;
+                OnPropertyChanged();
+            }
+        }
 
         #endregion
-
-        /// <summary>Initialisiert alle Kommandos.</summary>
-        protected override void InitCommands()
-        {
-            base.InitCommands();
-            OpenTabCommand = new SimpleCommand<object, SCommandArgs>(OpenNewTab);
-        }
-
-        private void OpenNewTab(SCommandArgs arguments)
-        {
-            Send((IPassword)arguments.CommandParameter);
-        }
 
         #region Public Methods and Operators
 
@@ -65,6 +73,35 @@
         public void Send(IPassword password)
         {
             mediator.Send(this, password);
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>Initialisiert alle Kommandos.</summary>
+        protected override void InitCommands()
+        {
+            base.InitCommands();
+            OpenTabCommand = new SimpleCommand<object, SCommandArgs>(OpenNewTab);
+        }
+
+        /// <summary>Öffnet einen neuen Tab.</summary>
+        /// <param name="arguments">Erwartet ein <see cref="IPassword"/> in der Eigenschaft CommandParameter.</param>
+        private void OpenNewTab(SCommandArgs arguments)
+        {
+            Send((IPassword)arguments.CommandParameter);
+        }
+
+        /// <summary>Tritt ein wenn sich die Auflistung Passwords geändert hat.</summary>
+        /// <param name="sender">Dieser Parameter wird nicht verwendet.</param>
+        /// <param name="arguments">Dieser Parameter wird nicht verwendet.</param>
+        private void PasswordsChanged(object sender, NotifyCollectionChangedEventArgs arguments)
+        {
+            if (Passwords != null)
+            {
+                Passwords.ForEach(pw => pw.PropertyChanged += (s, args) => OnPropertyChanged("Passwords"));
+            }
         }
 
         #endregion

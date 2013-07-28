@@ -5,8 +5,6 @@
     using System.IO;
     using System.Linq;
 
-    using Microsoft.Practices.ObjectBuilder2;
-
     using NUnit.Framework;
 
     /// <summary>Basisklasse für Tests.</summary>
@@ -16,6 +14,7 @@
 
         /// <summary>Die Anzahl der Durchläufe pro Test.</summary>
         public const int Tests = 3;
+
 
         #endregion
 
