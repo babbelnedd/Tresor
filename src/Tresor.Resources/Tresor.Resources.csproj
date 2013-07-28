@@ -56,6 +56,7 @@
     <Compile Include="Converter\ContentToViewConverter.cs" />
     <Compile Include="Converter\NegativeBooleanToVisibilityConverter.cs" />
     <Compile Include="Converter\BoolToColorConverter.cs" />
+    <Compile Include="Converter\TabContentToVisibilityConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

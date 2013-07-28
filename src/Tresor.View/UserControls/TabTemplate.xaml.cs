@@ -1,28 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-
-namespace Tresor.View.UserControls
+﻿namespace Tresor.View.UserControls
 {
-    /// <summary>
-    /// Interaktionslogik für TabTemplate.xaml
-    /// </summary>
-    public partial class TabTemplate : UserControl
+    /// <summary>Interaktionslogik für TabTemplate.xaml.</summary>
+    public partial class TabTemplate
     {
+        #region Constructors and Destructors
+
+        /// <summary>Initialisiert eine neue Instanz der <see cref="TabTemplate"/> Klasse.</summary>
         public TabTemplate()
         {
             InitializeComponent();
         }
+
+        #endregion
     }
 }

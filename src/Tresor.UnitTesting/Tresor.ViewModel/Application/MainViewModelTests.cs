@@ -5,6 +5,8 @@
 
     using NUnit.Framework;
 
+    using global::Tresor.Framework.MVVM;
+
     using global::Tresor.Model;
 
     using global::Tresor.Utilities;
@@ -33,6 +35,36 @@
             this.viewModel.PropertyChanged += (sender, arguments) => changes.Add(arguments.PropertyName);
             this.viewModel.Tabs.Add(null);
             Assert.Contains("Tabs", changes);
+        }
+
+        /// <summary>Prüft ob das CloseTabCommand den angegebenen Tab von der Auflistung von Tabs entfernt.</summary>
+        [Test(Description = "Prüft ob das CloseTabCommand den angegebenen Tab von der Auflistung von Tabs entfernt.")]
+        [Repeat(Tests)]
+        public void CloseTabCommandRemoveTabFromTabs()
+        {
+            var tab = new Tab(new Password { RecordID = Guid.NewGuid() });
+            viewModel.OpenTab(tab);
+            var tab2 = new Tab(new Password { RecordID = Guid.NewGuid() });
+            viewModel.OpenTab(tab2);
+
+            viewModel.CloseTabCommand.Execute(new SCommandArgs(null, null, tab));
+
+            Assert.That(viewModel.Tabs.Contains(tab), Is.False);
+        }
+
+        /// <summary>Prüft ob der CloseTabCommand den zuletzt selektierten Tab selektiert, falls der aktuell selektierte Tab geschlossen wird.</summary>
+        [Test(Description = "Prüft ob der CloseTabCommand den zuletzt selektierten Tab selektiert, falls der aktuell selektierte Tab geschlossen wird.")]
+        [Repeat(Tests)]
+        public void CloseTabCommandSelectLastSelectedTab()
+        {
+            var tab = new Tab(new Password { RecordID = Guid.NewGuid() });
+            viewModel.OpenTab(tab);
+            var tab2 = new Tab(new Password { RecordID = Guid.NewGuid() });
+            viewModel.OpenTab(tab2);
+
+            viewModel.CloseTabCommand.Execute(new SCommandArgs(null, null, tab2));
+
+            Assert.That(viewModel.SelectedTab, Is.EqualTo(tab));
         }
 
         /// <summary>Prüft, dass der Konstruktor keine Ausnahme wirft.</summary>
@@ -181,7 +213,8 @@
         {
             for (var i = 0; i < 10; i++)
             {
-                viewModel.OpenPassword(new Password { RecordID = Guid.NewGuid(), Account = i.ToString(), Description = i.ToString(), Key = i.ToString() });
+                viewModel.OpenPassword(
+                    new Password { RecordID = Guid.NewGuid(), Account = i.ToString(), Description = i.ToString(), Key = i.ToString() });
             }
         }
 

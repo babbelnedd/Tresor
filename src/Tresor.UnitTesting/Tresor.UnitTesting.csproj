@@ -63,6 +63,7 @@
     <Compile Include="Resources\Converter\ContentToViewConverterTests.cs" />
     <Compile Include="Resources\Converter\BoolToColorConverterTests.cs" />
     <Compile Include="Resources\Converter\NegativeBooleanToVisibilityConverterTests.cs" />
+    <Compile Include="Resources\Converter\TabContentToVisibilityConverterTests.cs" />
     <Compile Include="Test.cs" />
     <Compile Include="Tresor.Model\ModelTest.cs" />
     <Compile Include="Tresor.Model\SqlitePanelModelTests.cs" />
