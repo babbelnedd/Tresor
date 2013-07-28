@@ -38,8 +38,9 @@
         #region Public Methods and Operators
 
         /// <summary>Prüft ob das hinzufügen von Passwörtern nicht zu lange dauert. 10 Passwörter sollten durchschnittlich nicht länger als 1 Sekunde benötigen.</summary>
-        [Repeat(Tests)]
         [Test(Description = "Prüft ob das hinzufügen von Passwörtern nicht zu lange dauert. 10 Passwörter sollten durchschnittlich nicht länger als 1 Sekunde benötigen.")]
+        [Repeat(Tests)]
+        [Category("CanFail")]
         public void AddPasswordsIsFastEnough()
         {
             if (File.Exists("swtest.db"))
@@ -61,21 +62,6 @@
 
             var average = times.Average();
             Assert.Less(average, 1000);
-        }
-
-        [Test(Description = "Prüft ob die Eigenschaft IsDirty True ist, wenn ein oder mehrere Passwörter IsDirty sind.")]
-        [Repeat(Tests)]
-        public void IsDirtyIfAnyPasswordIsDirty()
-        {
-            Assert.That(model.IsDirty, Is.False);
-            var pw1 = new Password { RecordID = Guid.NewGuid() };
-            var pw2 = new Password { RecordID = Guid.NewGuid() };
-            var pw3 = new Password { RecordID = Guid.NewGuid() };
-            model.AddPassword(pw1);
-            model.AddPassword(pw2);
-            model.AddPassword(pw3);
-            model.Passwords.First().Key = Guid.NewGuid().ToString();
-            Assert.That(model.IsDirty);
         }
 
         /// <summary>Prüft ob Änderungen am Model PropertyChanged für die Eigenschaft IsDirty auslöst.</summary>
@@ -100,9 +86,33 @@
         [Repeat(Tests)]
         public void DatabaseExistsAfterKeyCheck()
         {
-            // Note: Da jedes mal eine neue Datenbank erzeugt wird, legen wir ein neues Passwort fest.
+            // Note: Da jedes mal eine neue Datenbank erzeugt wird, wird ein neues Passwort festgelegt.
             model.IsKeyCorrect("1234");
             Assert.IsTrue(File.Exists(databaseName));
+        }
+
+        /// <summary>Prüft ob die Eigenschaft IsDirty True ist, wenn ein oder mehrere Passwörter IsDirty sind.</summary>
+        [Test(Description = "Prüft ob die Eigenschaft IsDirty True ist, wenn ein oder mehrere Passwörter IsDirty sind.")]
+        [Repeat(Tests)]
+        public void IsDirtyIfAnyPasswordIsDirty()
+        {
+            Assert.That(model.IsDirty, Is.False);
+            var pw1 = new Password { RecordID = Guid.NewGuid() };
+            var pw2 = new Password { RecordID = Guid.NewGuid() };
+            var pw3 = new Password { RecordID = Guid.NewGuid() };
+            model.AddPassword(pw1);
+            model.AddPassword(pw2);
+            model.AddPassword(pw3);
+            model.Passwords.First().Key = Guid.NewGuid().ToString();
+            Assert.That(model.IsDirty);
+        }
+
+        /// <summary>Prüft ob die Eigenschaft IsDirty False ist nach der Initialisierung.</summary>
+        [Test(Description = "Prüft ob die Eigenschaft IsDirty False ist nach der Initialisierung.")]
+        [Repeat(Tests)]
+        public void IsDirtyIsFalseOnStart()
+        {
+            Assert.That(model.IsDirty, Is.False);
         }
 
         /// <summary>Prüft ob IsKeyCorrect false zurückgibt nachdem das Passwort bestimmt wurde und mit einem anderen Passwort getestet wird.</summary>
@@ -157,14 +167,6 @@
         public void PasswordsIsNotNullAfterInitialize()
         {
             Assert.IsNotNull(model.Passwords);
-        }
-
-        /// <summary>Prüft ob die Eigenschaft IsDirty False ist nach der Initialisierung.</summary>
-        [Test(Description = "Prüft ob die Eigenschaft IsDirty False ist nach der Initialisierung.")]
-        [Repeat(Tests)]
-        public void IsDirtyIsFalseOnStart()
-        {
-            Assert.That(model.IsDirty, Is.False);
         }
 
         /// <summary> Initialisiert vor jedem Test die Testumgebung </summary>
