@@ -16,6 +16,9 @@
         /// <summary>Mitglied der Eigenschaft <see cref="IsSelected"/>.</summary>
         private bool isSelected;
 
+        /// <summary>Mitglied der Eigenschaft <see cref="IsCloseable"/>.</summary>
+        private bool isCloseable = true;
+
         #endregion
 
         #region Constructors and Destructors
@@ -70,6 +73,21 @@
             set
             {
                 isSelected = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>Holt oder setzt einen Wert, der angibt, ob ein Tab schließbar ist.</summary>
+        public bool IsCloseable
+        {
+            get
+            {
+                return isCloseable;
+            }
+
+            set
+            {
+                isCloseable = value;
                 OnPropertyChanged();
             }
         }
