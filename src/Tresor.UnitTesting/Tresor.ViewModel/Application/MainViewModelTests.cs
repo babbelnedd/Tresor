@@ -8,6 +8,8 @@
 
     using NUnit.Framework;
 
+    using global::Tresor.Contracts.Utilities;
+
     using global::Tresor.Framework.MVVM;
 
     using global::Tresor.Model;
@@ -103,6 +105,14 @@
             Assert.DoesNotThrow(() => new MainViewModel(model));
         }
 
+        /// <summary>Prüft ob der erste hinzugefügte Tab der Übersichtsseite entspricht.</summary>
+        [Test(Description = "Prüft ob der erste hinzugefügte Tab der Übersichtsseite entspricht.")]
+        [Repeat(Tests)]
+        public void FirstTabIsOverview()
+        {
+            Assert.That(viewModel.Tabs.First().Content is IEnumerable<IPassword>);
+        }
+
         /// <summary>Prüft ob die Methode OpenTab einen Eintrag zu der Auflistung Tabs hinzufügt.</summary>
         [Test(Description = "Prüft ob die Methode OpenTab einen Eintrag zu der Auflistung Tabs hinzufügt.")]
         [Repeat(Tests)]
@@ -150,6 +160,14 @@
             Assert.AreEqual(viewModel.SelectedTab.Content, newPw);
         }
 
+        /// <summary>Prüft ob der Übersichtstab nicht schließbar ist.</summary>
+        [Test(Description = "Prüft ob der Übersichtstab nicht schließbar ist.")]
+        [Repeat(Tests)]
+        public void OverviewTabIsNotCloseable()
+        {
+            Assert.That(viewModel.Tabs.First().IsCloseable, Is.False);
+        }
+
         /// <summary>Prüft, ob die Auflistung Passwords nicht null ist.</summary>
         [Test(Description = "Prüft, ob die Auflistung Passwords nicht null ist.")]
         [Repeat(Tests)]
@@ -173,8 +191,7 @@
         }
 
         /// <summary>Testet ob die Methode SelectLastTab den ersten Tab selektiert, falls LastSelectedTab nicht mehr geöffnet oder null ist.</summary>
-        [Test(Description = "Testet ob die Methode SelectLastTab den ersten Tab selektiert, falls LastSelectedTab nicht mehr geöffnet oder null ist.")
-        ]
+        [Test(Description = "Testet ob die Methode SelectLastTab den ersten Tab selektiert, falls LastSelectedTab nicht mehr geöffnet oder null ist.")]
         [Repeat(Tests)]
         public void SelectLastTabSelectFirstTabIfLastSelectedTabIsNotOpenAnymore()
         {

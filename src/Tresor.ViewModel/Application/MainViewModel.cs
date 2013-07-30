@@ -38,7 +38,7 @@
         {
             this.model = model;
             Tabs = new ObservableCollection<Tab>();
-            var tab = new Tab(Passwords);
+            var tab = new Tab(Passwords) { IsCloseable = false };
             Tabs.Add(tab);
             SelectTab(tab);
             Tabs.CollectionChanged += (sender, arguments) => OnPropertyChanged("Tabs");

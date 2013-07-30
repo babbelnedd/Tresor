@@ -5,8 +5,8 @@
              xmlns:mvvm="clr-namespace:Tresor.Framework.MVVM;assembly=Tresor.Framework">
     <UserControl.Resources>
         <converter:BoolToColorConverter x:Key="TabToColorConverter" />
-        <converter:TabContentToVisibilityConverter x:Key="TabContentToVisibilityConverter" />
         <converter:ContentIsDirtyToVisibility x:Key="ContentIsDirtyToVisibility" />
+        <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
     <Border Width="125" Height="25" Background="{Binding IsSelected, Converter={StaticResource TabToColorConverter}}" BorderBrush="Black" BorderThickness="1.2" CornerRadius="2" ToolTip="{Binding Content}">
         <Grid>
@@ -20,7 +20,7 @@
                     <TextBlock Margin="2,4,0,0" VerticalAlignment="Center" FontSize="20" Text="*" Visibility="{Binding Content, Converter={StaticResource ContentIsDirtyToVisibility}}" />
                 </StackPanel>
             </Grid>
-            <TextBlock Grid.Column="1" Margin="0,0,0,5" VerticalAlignment="Center" FontSize="16" Text="x" Visibility="{Binding Content, Converter={StaticResource TabContentToVisibilityConverter}}" mvvm:SingleEventCommand.CommandParameter="{Binding }" mvvm:SingleEventCommand.RoutedEventName="MouseLeftButtonUp" mvvm:SingleEventCommand.TheCommandToRun="{Binding DataContext.CloseTabCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" />
+            <TextBlock Grid.Column="1" Margin="0,0,0,5" VerticalAlignment="Center" FontSize="16" Text="x" Visibility="{Binding IsCloseable, Converter={StaticResource BooleanToVisibilityConverter}}" mvvm:SingleEventCommand.CommandParameter="{Binding }" mvvm:SingleEventCommand.RoutedEventName="MouseLeftButtonUp" mvvm:SingleEventCommand.TheCommandToRun="{Binding DataContext.CloseTabCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" />
         </Grid>
     </Border>
 </UserControl>
