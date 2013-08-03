@@ -55,6 +55,10 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\MainModel.cs" />
+    <Compile Include="Application\SplashModel.cs" />
+    <Compile Include="PasswordListModel.cs" />
+    <Compile Include="PasswordModel.cs" />
     <Compile Include="SqliteDatabase.cs" />
     <Compile Include="SqliteUserSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

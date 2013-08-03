@@ -64,9 +64,6 @@
     <Compile Include="Application\SplashView.xaml.cs">
       <DependentUpon>SplashView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PanelView.xaml.cs">
-      <DependentUpon>PanelView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="PasswordListView.xaml.cs">
       <DependentUpon>PasswordListView.xaml</DependentUpon>
     </Compile>
@@ -126,12 +123,6 @@
     <Page Include="UserControls\TabTemplate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="PanelView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
