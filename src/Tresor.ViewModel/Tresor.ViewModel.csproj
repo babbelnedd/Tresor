@@ -57,7 +57,6 @@
   <ItemGroup>
     <Compile Include="Application\MainViewModel.cs" />
     <Compile Include="Application\SplashViewModel.cs" />
-    <Compile Include="PanelViewModel.cs" />
     <Compile Include="PasswordListViewModel.cs" />
     <Compile Include="PasswordViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

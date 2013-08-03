@@ -57,6 +57,14 @@
             Assert.Throws<NullReferenceException>(() => viewModel.OpenTabCommand.Execute(null));
         }
 
+        /// <summary>Prüft ob die Methode Recieve keine Ausnahme wirft bei ungültigem Parameter.</summary>
+        [Test(Description = "Prüft ob die Methode Recieve keine Ausnahme wirft bei ungültigem Parameter.")]
+        [Repeat(Tests)]
+        public void RecieveDoesNotThrowOnInvalidParameter()
+        {
+            Assert.DoesNotThrow(() => viewModel.Recieve(null));
+        }
+
         /// <summary>Prüft ob das setzen von Passwörtern die Überwachung der Auflistung startet.</summary>
         [Test(Description = "Prüft ob das setzen von Passwörtern die Überwachung der Auflistung startet.")]
         [Repeat(Tests)]
@@ -85,14 +93,6 @@
             viewModel.PropertyChanged += (sender, arguments) => changes.Add(arguments.PropertyName);
             viewModel.Passwords = new ObservableCollection<IPassword>();
             Assert.That(changes.Contains("Passwords"));
-        }
-
-        /// <summary>Prüft ob die Methode Recieve keine Ausnahme wirft bei ungültigem Parameter.</summary>
-        [Test(Description = "Prüft ob die Methode Recieve keine Ausnahme wirft bei ungültigem Parameter.")]
-        [Repeat(Tests)]
-        public void RecieveDoesNotThrowOnInvalidParameter()
-        {
-            Assert.DoesNotThrow(() => viewModel.Recieve(null));
         }
 
         #endregion

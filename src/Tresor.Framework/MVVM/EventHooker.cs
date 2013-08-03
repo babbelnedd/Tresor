@@ -8,14 +8,14 @@
     /// <summary>Contains the event that is hooked into the source RoutedEvent that was specified to run the ICommand.</summary>
     internal sealed class EventHooker
     {
-        #region Öffentliche Eigenschaften
+        #region Public Properties
 
         /// <summary>The DependencyObject, that holds a binding to the actual ICommand to execute.</summary>
         public DependencyObject ObjectWithAttachedCommand { get; set; }
 
         #endregion
 
-        #region Öffentliche Methoden und Operatoren
+        #region Public Methods and Operators
 
         /// <summary>Creates a Dynamic EventHandler that will be run the ICommand when the user specified RoutedEvent fires.</summary>
         /// <param name="eventInfo">The specified RoutedEvent EventInfo.</param>
@@ -36,8 +36,7 @@
 
             if (del == null)
             {
-                del = Delegate.CreateDelegate(
-                    eventInfo.EventHandlerType, this, GetType().GetMethod("OnEventRaised", BindingFlags.NonPublic | BindingFlags.Instance));
+                del = Delegate.CreateDelegate(eventInfo.EventHandlerType, this, GetType().GetMethod("OnEventRaised", BindingFlags.NonPublic | BindingFlags.Instance));
             }
 
             return del;
@@ -45,7 +44,7 @@
 
         #endregion
 
-        #region Methoden
+        #region Methods
 
         /// <summary>Runs the ICommand when the requested RoutedEvent fires.</summary>
         private void OnEventRaised(object sender, EventArgs e)

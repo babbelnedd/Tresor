@@ -93,12 +93,7 @@
         {
             SetEncryptionKey(encryptionKey);
 
-            var command = string.Format(
-                "INSERT INTO Password(RecordID, Account, Password, Description) VALUES('{0}','{1}','{2}','{3}')",
-                password.RecordID,
-                password.Account,
-                password.Key,
-                password.Description);
+            var command = string.Format("INSERT INTO Password(RecordID, Account, Password, Description) VALUES('{0}','{1}','{2}','{3}')", password.RecordID, password.Account, password.Key, password.Description);
             ExecuteNonQuery(command);
             Passwords.Add(password);
             ObserveIsDirty(password);
@@ -188,7 +183,7 @@
         private void ExecuteNonQuery(string commandText)
         {
             OpenConnection();
-            var command = new SQLiteCommand { Connection = Connection, CommandText = commandText };
+            var command = new SQLiteCommand { Connection = this.Connection, CommandText = commandText };
             command.ExecuteNonQuery();
             command.Dispose();
             CloseConnection();
@@ -218,12 +213,7 @@
         {
             foreach (var password in ExecuteReader("SELECT RecordID, Account, Password FROM PASSWORD"))
             {
-                var newPw = new Password
-                                {
-                                    RecordID = Guid.Parse(password[0].ToString()),
-                                    Account = password[1].ToString(),
-                                    Key = password[2].ToString()
-                                };
+                var newPw = new Password { RecordID = Guid.Parse(password[0].ToString()), Account = password[1].ToString(), Key = password[2].ToString() };
 
                 Passwords.Add(newPw);
                 ObserveIsDirty(newPw);
@@ -286,12 +276,7 @@
         /// <param name="password">Das aktualisierte Passwort welches in die Datenbank übernommen werden soll.</param>
         private void UpdatePassword(IPassword password)
         {
-            var command = string.Format(
-                "UPDATE Password SET Account='{0}', Password='{1}', Description='{2}' WHERE RecordID='{3}'",
-                password.Account,
-                password.Key,
-                password.Description,
-                password.RecordID);
+            var command = string.Format("UPDATE Password SET Account='{0}', Password='{1}', Description='{2}' WHERE RecordID='{3}'", password.Account, password.Key, password.Description, password.RecordID);
             ExecuteNonQuery(command);
             OnPropertyChanged("Passwords");
         }

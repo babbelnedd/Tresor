@@ -2,11 +2,10 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.IO.Packaging;
-
-    using global::Tresor.Framework.MVVM;
 
     using NUnit.Framework;
+
+    using global::Tresor.Framework.MVVM;
 
     using global::Tresor.Model;
 
@@ -42,43 +41,6 @@
 
         #region Public Methods and Operators
 
-        /// <summary>Prüft ob das Setzen eines Passworts PropertyChanged auslöst.</summary>
-        [Test(Description = "Prüft ob das Setzen eines Passworts PropertyChanged auslöst.")]
-        [Repeat(Tests)]
-        public void SetPasswordRaisesPropertyChanged()
-        {
-            var changes = new List<string>();
-            viewModel.PropertyChanged += (sender, arguments) => changes.Add(arguments.PropertyName);
-            viewModel.Password = new Password();
-            Assert.That(changes.Contains("Password"));
-        }
-
-        /// <summary>Testet ob die Methode Recieve die Eigenschaft Password füllt.</summary>
-        [Test(Description = "Testet ob die Methode Recieve die Eigenschaft Password füllt.")]
-        [Repeat(Tests)]
-        public void RecieveSetPassword()
-        {
-            var pw = new Password { RecordID = Guid.NewGuid() };
-            viewModel.Recieve(pw);
-            Assert.That(viewModel.Password, Is.EqualTo(pw));
-        }
-
-        /// <summary>Testet ob die Methode Recieve eine Ausnahme wirft, falls der übergebene Parameter ungültig ist.</summary>
-        [Test(Description = "Testet ob die Methode Recieve eine Ausnahme wirft, falls der übergebene Parameter ungültig ist.")]
-        [Repeat(Tests)]
-        public void RecieveDoesThrowOnInvalidArgument()
-        {
-            Assert.Throws<NullReferenceException>(() => viewModel.Recieve(null));
-        }
-
-        /// <summary>Prüft ob die Methode Send keine Ausnahme wirft, wenn der übergebene Parameter null ist.</summary>
-        [Test(Description = "Prüft ob die Methode Send keine Ausnahme wirft, wenn der übergebene Parameter null ist.")]
-        [Repeat(Tests)]
-        public void SendDoesNotThrowExceptionIfParameterIsNull()
-        {
-            Assert.DoesNotThrow(() => viewModel.Send(null));
-        }
-
         /// <summary>Prüft ob eine Änderung am Model PropertyChanged für die Auflistung Passwords auslöst.</summary>
         [Test(Description = "Prüft ob eine Änderung am Model PropertyChanged für die Auflistung Passwords auslöst.")]
         [Repeat(Tests)]
@@ -98,23 +60,29 @@
         [Repeat(Tests)]
         public void PasswordChangedRaisesProeprtyChanged()
         {
-            viewModel.Password = new Password
-                                     {
-                                         RecordID = Guid.NewGuid(),
-                                         Account = "00"
-                                     };
+            viewModel.Password = new Password { RecordID = Guid.NewGuid(), Account = "00" };
             var changes = new List<string>();
             viewModel.PropertyChanged += (sender, arguments) => changes.Add(arguments.PropertyName);
             viewModel.Password.Key = "1234";
             Assert.That(changes.Contains("Password"));
         }
 
-        [Test(Description = "")]
+        /// <summary>Testet ob die Methode Recieve eine Ausnahme wirft, falls der übergebene Parameter ungültig ist.</summary>
+        [Test(Description = "Testet ob die Methode Recieve eine Ausnahme wirft, falls der übergebene Parameter ungültig ist.")]
         [Repeat(Tests)]
-        public void SaveDoesNotThrow()
+        public void RecieveDoesThrowOnInvalidArgument()
         {
-            var newPw = new Password { RecordID = Guid.NewGuid(), Account = "TestAccount" };
-            Assert.DoesNotThrow(() =>viewModel.SavePasswordCommand.Execute(new SCommandArgs(null, null, newPw)));
+            Assert.Throws<NullReferenceException>(() => viewModel.Recieve(null));
+        }
+
+        /// <summary>Testet ob die Methode Recieve die Eigenschaft Password füllt.</summary>
+        [Test(Description = "Testet ob die Methode Recieve die Eigenschaft Password füllt.")]
+        [Repeat(Tests)]
+        public void RecieveSetPassword()
+        {
+            var pw = new Password { RecordID = Guid.NewGuid() };
+            viewModel.Recieve(pw);
+            Assert.That(viewModel.Password, Is.EqualTo(pw));
         }
 
         [Test(Description = "")]
@@ -124,10 +92,37 @@
             var newPw = new Password { RecordID = Guid.NewGuid(), Account = "TestAccount" };
             viewModel.SavePasswordCommand.Execute(new SCommandArgs(null, null, newPw));
 
-             var newModel = new SqlitePanelModel("x.db");
+            var newModel = new SqlitePanelModel("x.db");
             newModel.IsKeyCorrect("1234");
 
             newModel.Passwords.Contains(newPw);
+        }
+
+        [Test(Description = "")]
+        [Repeat(Tests)]
+        public void SaveDoesNotThrow()
+        {
+            var newPw = new Password { RecordID = Guid.NewGuid(), Account = "TestAccount" };
+            Assert.DoesNotThrow(() => viewModel.SavePasswordCommand.Execute(new SCommandArgs(null, null, newPw)));
+        }
+
+        /// <summary>Prüft ob die Methode Send keine Ausnahme wirft, wenn der übergebene Parameter null ist.</summary>
+        [Test(Description = "Prüft ob die Methode Send keine Ausnahme wirft, wenn der übergebene Parameter null ist.")]
+        [Repeat(Tests)]
+        public void SendDoesNotThrowExceptionIfParameterIsNull()
+        {
+            Assert.DoesNotThrow(() => viewModel.Send(null));
+        }
+
+        /// <summary>Prüft ob das Setzen eines Passworts PropertyChanged auslöst.</summary>
+        [Test(Description = "Prüft ob das Setzen eines Passworts PropertyChanged auslöst.")]
+        [Repeat(Tests)]
+        public void SetPasswordRaisesPropertyChanged()
+        {
+            var changes = new List<string>();
+            viewModel.PropertyChanged += (sender, arguments) => changes.Add(arguments.PropertyName);
+            viewModel.Password = new Password();
+            Assert.That(changes.Contains("Password"));
         }
 
         #endregion

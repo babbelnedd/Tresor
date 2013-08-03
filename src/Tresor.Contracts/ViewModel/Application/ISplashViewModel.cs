@@ -3,7 +3,7 @@
     /// <summary>Schnittstelle für das SplashViewModel.</summary>
     public interface ISplashViewModel
     {
-        #region Öffentliche Eigenschaften
+        #region Public Properties
 
         /// <summary>Holt oder setzt die Eingabe der SplashView.</summary>
         string Input { get; set; }

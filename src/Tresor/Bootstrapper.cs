@@ -1,6 +1,5 @@
 ﻿namespace Tresor
 {
-    using System.ComponentModel;
     using System.Windows.Controls;
 
     using Microsoft.Practices.Unity;
@@ -18,7 +17,7 @@
     /// <summary>Statischer Bootstrapper der die Anwendung verkabelt.</summary>
     internal class Bootstrapper
     {
-        #region Konstanten und Felder
+        #region Fields
 
         /// <summary>Der IoC Container.</summary>
         private readonly IUnityContainer container = new UnityContainer();
@@ -28,7 +27,7 @@
 
         #endregion
 
-        #region Methoden
+        #region Methods
 
         /// <summary>Lädt die Anwendung.</summary>
         internal void LoadApplication()
@@ -63,21 +62,19 @@
             container.RegisterInstance(new MainViewModel(model));
             var mainViewModel = container.Resolve<MainViewModel>();
 
-
             container.RegisterInstance(new PasswordMediator());
             var mediator = container.Resolve<PasswordMediator>();
             container.RegisterInstance<UserControl>("PasswordView", new PasswordView());
             container.RegisterInstance<UserControl>("PasswordListView", new PasswordListView());
             container.RegisterInstance<IPasswordViewModel>("PasswordViewModel", new PasswordViewModel(model, mediator));
             container.RegisterInstance<IPasswordListViewModel>("PasswordListViewModel", new PasswordListViewModel(mediator));
-            
+
             var passwordViewModel = container.Resolve<IPasswordViewModel>("PasswordViewModel");
             var passwordListViewModel = container.Resolve<IPasswordListViewModel>("PasswordListViewModel");
-            
+
             mediator.Add(passwordViewModel);
             mediator.Add(passwordListViewModel);
             mediator.Add(mainViewModel);
-
 
             mainViewModel.Container = container;
             mainWindow.DataContext = mainViewModel;

@@ -59,7 +59,6 @@
     <Compile Include="Utilities\IPassword.cs" />
     <Compile Include="ViewModel\Application\IMainViewModel.cs" />
     <Compile Include="ViewModel\Application\ISplashViewModel.cs" />
-    <Compile Include="ViewModel\IPanelViewModel.cs" />
     <Compile Include="ViewModel\IPasswordListViewModel.cs" />
     <Compile Include="ViewModel\IPasswordViewModel.cs" />
   </ItemGroup>

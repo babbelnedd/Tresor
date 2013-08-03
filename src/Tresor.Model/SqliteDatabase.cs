@@ -12,6 +12,9 @@
     {
         #region Fields
 
+        /// <summary>Die SQL Verbindung zur Datenbank.</summary>
+        private SQLiteConnection connection;
+
         /// <summary>Beinhaltet das für die Datenbank gesetzt Passwort.</summary>
         private string password;
 
@@ -88,9 +91,6 @@
 
             return result;
         }
-
-        /// <summary>Die SQL Verbindung zur Datenbank.</summary>
-        private SQLiteConnection connection;
 
         /// <summary>Öffnet die Verbindung zur Datenbank.</summary>
         public void OpenConnection()

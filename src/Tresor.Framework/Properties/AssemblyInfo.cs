@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // Allgemeine Informationen über eine Assembly werden über die folgenden 
@@ -23,12 +22,10 @@ using System.Runtime.InteropServices;
 [assembly: Guid("3a76806c-ad04-434a-a7b7-d48f16212d82")]
 
 // Versionsinformationen für eine Assembly bestehen aus den folgenden vier Werten:
-//
 //      Hauptversion
 //      Nebenversion 
 //      Buildnummer
 //      Revision
-//
 // Sie können alle Werte angeben oder die standardmäßigen Build- und Revisionsnummern 
 // übernehmen, indem Sie "*" eingeben:
 // [assembly: AssemblyVersion("1.0.*")]

@@ -11,6 +11,8 @@
     /// <summary>Konvertiert ein IPassword oder ein IEnumerable vom Typ IPassword in eine Visibility.</summary>
     public class ContentIsDirtyToVisibility : IValueConverter
     {
+        #region Public Methods and Operators
+
         /// <summary>Konvertiert einen Wert.</summary>
         /// <returns>Ein konvertierter Wert. Wenn die Methode null zurückgibt, wird der gültige NULL-Wert verwendet.</returns>
         /// <param name="value">Der von der Bindungsquelle erzeugte Wert.</param><param name="targetType">Der Typ der Bindungsziel-Eigenschaft.</param><param name="parameter">Der zu verwendende Konverterparameter.</param><param name="culture">Die im Konverter zu verwendende Kultur.</param>
@@ -36,5 +38,7 @@
         {
             return null;
         }
+
+        #endregion
     }
 }

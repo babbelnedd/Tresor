@@ -16,16 +16,38 @@
     /// </example>
     public static class SingleEventCommand
     {
-        #region TheCommandToRun
+        #region Static Fields
+
+        public static readonly DependencyProperty CommandParameterProperty = DependencyProperty.RegisterAttached("CommandParameter", typeof(object), typeof(SingleEventCommand), new UIPropertyMetadata(null));
+
+        /// <summary>
+        /// RoutedEventName : The event that should actually execute the
+        /// ICommand
+        /// </summary>
+        public static readonly DependencyProperty RoutedEventNameProperty = DependencyProperty.RegisterAttached("RoutedEventName", typeof(String), typeof(SingleEventCommand), new FrameworkPropertyMetadata((String)string.Empty, new PropertyChangedCallback(OnRoutedEventNameChanged)));
 
         /// <summary>
         /// TheCommandToRun : The actual ICommand to run
         /// </summary>
-        public static readonly DependencyProperty TheCommandToRunProperty =
-            DependencyProperty.RegisterAttached("TheCommandToRun",
-                typeof(ICommand),
-                typeof(SingleEventCommand),
-                new FrameworkPropertyMetadata((ICommand)null));
+        public static readonly DependencyProperty TheCommandToRunProperty = DependencyProperty.RegisterAttached("TheCommandToRun", typeof(ICommand), typeof(SingleEventCommand), new FrameworkPropertyMetadata((ICommand)null));
+
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>Gets the CommandParameter property.</summary>
+        public static object GetCommandParameter(DependencyObject obj)
+        {
+            return (object)obj.GetValue(CommandParameterProperty);
+        }
+
+        /// <summary>
+        /// Gets the RoutedEventName property. 
+        /// </summary>
+        public static string GetRoutedEventName(DependencyObject d)
+        {
+            return (String)d.GetValue(RoutedEventNameProperty);
+        }
 
         /// <summary>
         /// Gets the TheCommandToRun property. 
@@ -35,6 +57,20 @@
             return (ICommand)d.GetValue(TheCommandToRunProperty);
         }
 
+        /// <summary>Sets the CommandParameter property.</summary>
+        public static void SetCommandParameter(DependencyObject obj, object value)
+        {
+            obj.SetValue(CommandParameterProperty, value);
+        }
+
+        /// <summary>
+        /// Sets the RoutedEventName property. 
+        /// </summary>
+        public static void SetRoutedEventName(DependencyObject d, string value)
+        {
+            d.SetValue(RoutedEventNameProperty, value);
+        }
+
         /// <summary>
         /// Sets the TheCommandToRun property. 
         /// </summary>
@@ -42,90 +78,42 @@
         {
             d.SetValue(TheCommandToRunProperty, value);
         }
+
         #endregion
 
-        #region RoutedEventName
-
-        /// <summary>
-        /// RoutedEventName : The event that should actually execute the
-        /// ICommand
-        /// </summary>
-        public static readonly DependencyProperty RoutedEventNameProperty =
-            DependencyProperty.RegisterAttached("RoutedEventName", typeof(String),
-            typeof(SingleEventCommand),
-                new FrameworkPropertyMetadata((String)String.Empty,
-                    new PropertyChangedCallback(OnRoutedEventNameChanged)));
-
-        /// <summary>
-        /// Gets the RoutedEventName property. 
-        /// </summary>
-        public static String GetRoutedEventName(DependencyObject d)
-        {
-            return (String)d.GetValue(RoutedEventNameProperty);
-        }
-
-        /// <summary>
-        /// Sets the RoutedEventName property. 
-        /// </summary>
-        public static void SetRoutedEventName(DependencyObject d, String value)
-        {
-            d.SetValue(RoutedEventNameProperty, value);
-        }
+        #region Methods
 
         /// <summary>
         /// Hooks up a Dynamically created EventHandler (by using the 
         /// <see cref="EventHooker">EventHooker</see> class) that when
         /// run will run the associated ICommand
         /// </summary>
-        private static void OnRoutedEventNameChanged(DependencyObject d,
-            DependencyPropertyChangedEventArgs e)
+        private static void OnRoutedEventNameChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            String routedEvent = (String)e.NewValue;
+            string routedEvent = (String)e.NewValue;
 
-            if (d == null || String.IsNullOrEmpty(routedEvent))
+            if (d == null || string.IsNullOrEmpty(routedEvent))
+            {
                 return;
+            }
 
-
-            //If the RoutedEvent string is not null, create a new
-            //dynamically created EventHandler that when run will execute
-            //the actual bound ICommand instance (usually in the ViewModel)
+            // If the RoutedEvent string is not null, create a new
+            // dynamically created EventHandler that when run will execute
+            // the actual bound ICommand instance (usually in the ViewModel)
             EventHooker eventHooker = new EventHooker();
             eventHooker.ObjectWithAttachedCommand = d;
 
-            EventInfo eventInfo = d.GetType().GetEvent(routedEvent,
-                BindingFlags.Public | BindingFlags.Instance);
+            EventInfo eventInfo = d.GetType().GetEvent(routedEvent, BindingFlags.Public | BindingFlags.Instance);
 
-            //Hook up Dynamically created event handler
+            // Hook up Dynamically created event handler
             if (eventInfo != null)
             {
-                eventInfo.RemoveEventHandler(d,
-                    eventHooker.GetNewEventHandlerToRunCommand(eventInfo));
+                eventInfo.RemoveEventHandler(d, eventHooker.GetNewEventHandlerToRunCommand(eventInfo));
 
-                eventInfo.AddEventHandler(d,
-                    eventHooker.GetNewEventHandlerToRunCommand(eventInfo));
+                eventInfo.AddEventHandler(d, eventHooker.GetNewEventHandlerToRunCommand(eventInfo));
             }
-
         }
+
         #endregion
-
-        #region CommandParameter
-        public static readonly DependencyProperty CommandParameterProperty =
-            DependencyProperty.RegisterAttached("CommandParameter", typeof(object),
-            typeof(SingleEventCommand), new UIPropertyMetadata(null));
-
-        /// <summary>Gets the CommandParameter property.</summary>
-        public static object GetCommandParameter(DependencyObject obj)
-        {
-            return (object)obj.GetValue(CommandParameterProperty);
-        }
-
-
-        /// <summary>Sets the CommandParameter property.</summary>
-        public static void SetCommandParameter(DependencyObject obj, object value)
-        {
-            obj.SetValue(CommandParameterProperty, value);
-        }
-        #endregion
-
     }
 }

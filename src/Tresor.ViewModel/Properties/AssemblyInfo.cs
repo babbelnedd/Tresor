@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
+
 [assembly: AssemblyTitle("Geschäftslogik für Tresor.")]
 [assembly: AssemblyDescription("Geschäftslogik für Tresor.")]
 [assembly: AssemblyConfiguration("")]

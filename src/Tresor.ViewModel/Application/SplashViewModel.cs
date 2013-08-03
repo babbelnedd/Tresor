@@ -9,7 +9,7 @@
     /// <summary>ViewModel für die SplashView.</summary>
     public class SplashViewModel : ViewModel, ISplashViewModel
     {
-        #region Konstanten und Felder
+        #region Fields
 
         /// <summary>Mitglied der Eigenschaft <see cref="Input"/>.</summary>
         private string input;
@@ -23,7 +23,18 @@
 
         #endregion
 
-        #region Öffentliche Eigenschaften
+        #region Constructors and Destructors
+
+        /// <summary>Initialisiert eine neue Instanz der <see cref="SplashViewModel"/> Klasse.</summary>
+        /// <param name="model">Das Datenmodel.</param>
+        public SplashViewModel(IPanelModel model)
+        {
+            this.model = model;
+        }
+
+        #endregion
+
+        #region Public Properties
 
         /// <summary>Holt die Kommandostruktur zum Überprüfen der Eingabe.</summary>
         public SimpleCommand<SCommandArgs, object> CheckInputCommand { get; private set; }
@@ -60,18 +71,7 @@
 
         #endregion
 
-        #region Konstruktoren und Destruktoren
-
-        /// <summary>Initialisiert eine neue Instanz der <see cref="SplashViewModel"/> Klasse.</summary>
-        /// <param name="model">Das Datenmodel.</param>
-        public SplashViewModel(IPanelModel model)
-        {
-            this.model = model;
-        }
-
-        #endregion
-
-        #region Methoden
+        #region Methods
 
         /// <summary>Erweitert das Basisverhalten um die Initalisierung weiterer Kommandos.</summary>
         protected override void InitCommands()

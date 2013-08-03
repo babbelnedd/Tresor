@@ -14,7 +14,10 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="10" />
             </Grid.ColumnDefinitions>
-            <Grid HorizontalAlignment="Stretch" mvvm:SingleEventCommand.CommandParameter="{Binding }" mvvm:SingleEventCommand.RoutedEventName="MouseLeftButtonUp" mvvm:SingleEventCommand.TheCommandToRun="{Binding DataContext.SelectTabCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}">
+            <Grid HorizontalAlignment="Stretch" 
+                  mvvm:SingleEventCommand.CommandParameter="{Binding }" 
+                  mvvm:SingleEventCommand.RoutedEventName="MouseLeftButtonUp" 
+                  mvvm:SingleEventCommand.TheCommandToRun="{Binding DataContext.SelectTabCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Width="90" Margin="4,0,0,0" VerticalAlignment="Center" Text="{Binding Content.Account, FallbackValue=Passwörter}" TextTrimming="CharacterEllipsis" />
                     <TextBlock Margin="2,4,0,0" VerticalAlignment="Center" FontSize="20" Text="*" Visibility="{Binding Content, Converter={StaticResource ContentIsDirtyToVisibility}}" />

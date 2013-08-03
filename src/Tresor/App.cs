@@ -8,7 +8,7 @@
     /// <summary>Grundgerüst der Anwendung.</summary>
     internal class App : Application
     {
-        #region Öffentliche Methoden und Operatoren
+        #region Public Methods and Operators
 
         /// <summary>Haupteinstiegspunkt der Anwendung.</summary>
         [STAThread]
@@ -19,7 +19,7 @@
 
         #endregion
 
-        #region Methoden
+        #region Methods
 
         /// <summary>Führt die Anwendung aus.</summary>
         private static void RunApplication()

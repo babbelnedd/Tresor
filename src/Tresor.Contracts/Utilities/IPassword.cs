@@ -6,7 +6,7 @@
     /// <summary>Schnittstelle für ein <see cref="Tresor.Utilities.Password"/>.</summary>
     public interface IPassword : INotifyPropertyChanged
     {
-        #region Öffentliche Eigenschaften
+        #region Public Properties
 
         /// <summary>Holt oder setzt den <strong>Accountnamen</strong>.</summary>
         string Account { get; set; }
@@ -27,7 +27,7 @@
 
         #endregion
 
-        #region Öffentliche Methoden und Operatoren
+        #region Public Methods and Operators
 
         /// <summary>Beginnt die Bearbeitung eines Passworts.</summary>
         void BeginEdit();

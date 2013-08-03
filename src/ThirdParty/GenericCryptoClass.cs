@@ -16,17 +16,17 @@ namespace ThirdParty
     ///     dataGridView2.DataMember = "table";</code></example>
     public class GenericCryptoClass
     {
-        #region Konstanten und Felder
-
-        /// <summary>Ein Default Initialisierungsvektor,dieser wird immer benutzt falls keiner angegeben wird.</summary>
-        private const string DefaultVector = @"jOU\9_JpWt4"; // Note: Mit 100stelligem Key ersetzen für Standard!
+        #region Constants
 
         /// <summary>Ein Default Key, dieser wird immer benutzt falls keiner angegeben wird.</summary>
         private const string DefaultKey = "o[cc_IQETy"; // Note: Mit 100stelligem Key ersetzen für Standard!
 
+        /// <summary>Ein Default Initialisierungsvektor,dieser wird immer benutzt falls keiner angegeben wird.</summary>
+        private const string DefaultVector = @"jOU\9_JpWt4"; // Note: Mit 100stelligem Key ersetzen für Standard!
+
         #endregion
 
-        #region Öffentliche Methoden und Operatoren
+        #region Public Methods and Operators
 
         /// <summary>Deserialisiert ein verschlüsseltes, serialisiertes Abbild einer Klasse von einem Datenträger.</summary>
         /// <typeparam name="T">Der Typ, Serialisiert werden soll.</typeparam>
@@ -136,7 +136,7 @@ namespace ThirdParty
 
         #endregion
 
-        #region Methoden
+        #region Methods
 
         /// <summary>Erzeugt einen einfachen Rijndael CryptoTransformer.</summary>
         /// <param name="key">Der Schlüssel, mit dem das Abbild verschlüsselt werden soll.</param>

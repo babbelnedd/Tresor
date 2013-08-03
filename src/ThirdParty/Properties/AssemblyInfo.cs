@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
+
 [assembly: AssemblyTitle("ThirdParty Code.")]
 [assembly: AssemblyDescription("Implementiert ThirdParty Code für Tresor.")]
 [assembly: AssemblyConfiguration("")]

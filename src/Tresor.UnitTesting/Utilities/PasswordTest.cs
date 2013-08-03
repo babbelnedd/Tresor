@@ -148,13 +148,7 @@
         /// <returns>Ein neues <see cref="Password"/>.</returns>
         private static Password GetRandomPassword()
         {
-            var pw = new Password
-                         {
-                             RecordID = Guid.NewGuid(),
-                             Account = Guid.NewGuid().ToString(),
-                             Key = Guid.NewGuid().ToString(),
-                             Description = Guid.NewGuid().ToString()
-                         };
+            var pw = new Password { RecordID = Guid.NewGuid(), Account = Guid.NewGuid().ToString(), Key = Guid.NewGuid().ToString(), Description = Guid.NewGuid().ToString() };
             return pw;
         }
 

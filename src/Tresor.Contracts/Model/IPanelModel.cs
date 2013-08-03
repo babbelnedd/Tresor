@@ -9,8 +9,7 @@
     /// <summary>Schnittstelle für das PanelModel.</summary>
     public interface IPanelModel : INotifyPropertyChanged
     {
-
-        #region Öffentliche Eigenschaften
+        #region Public Properties
 
         /// <summary>Holt einen Wert, der angibt, ob es ungespeicherte Änderungen gibt.</summary>
         bool IsDirty { get; }
@@ -20,7 +19,7 @@
 
         #endregion
 
-        #region Öffentliche Methoden und Operatoren
+        #region Public Methods and Operators
 
         /// <summary>Fügt ein Passwort hinzu.</summary>
         /// <param name="password">Das hinzuzufügende Passwort.</param>

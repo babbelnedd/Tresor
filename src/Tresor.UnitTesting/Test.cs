@@ -1,7 +1,5 @@
 ﻿namespace Tresor.UnitTesting
 {
-    using System;
-    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
 
@@ -14,7 +12,6 @@
 
         /// <summary>Die Anzahl der Durchläufe pro Test.</summary>
         public const int Tests = 3;
-
 
         #endregion
 
@@ -64,7 +61,6 @@
                 }
                 catch
                 {
-
                 }
             }
         }

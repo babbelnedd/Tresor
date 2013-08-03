@@ -9,14 +9,7 @@
     /// <summary>NLog Logger.</summary>
     public static class Log
     {
-        #region Öffentliche Eigenschaften
-
-        /// <summary>Holt die Instanz des Loggers.</summary>
-        public static Logger Instance { get; private set; }
-
-        #endregion
-
-        #region Konstruktoren und Destruktoren
+        #region Constructors and Destructors
 
         /// <summary>Initialisiert statische Member der <see cref="Log"/> Klasse.</summary>
         static Log()
@@ -29,7 +22,14 @@
 
         #endregion
 
-        #region Öffentliche Methoden und Operatoren
+        #region Public Properties
+
+        /// <summary>Holt die Instanz des Loggers.</summary>
+        public static Logger Instance { get; private set; }
+
+        #endregion
+
+        #region Public Methods and Operators
 
         /// <summary>Führt eine Methode aus, loggt Fehler.</summary>
         /// <param name="action">Die Methode die ausgeführt werden soll.</param>
@@ -55,7 +55,7 @@
 
         #endregion
 
-        #region Methoden
+        #region Methods
 
         /// <summary>Initialisiert die Ablaufverfolgung für Log4View.</summary>
         /// <remarks>Wird nur ausgeführt falls die Anwendung im Debug Modus läuft.</remarks>

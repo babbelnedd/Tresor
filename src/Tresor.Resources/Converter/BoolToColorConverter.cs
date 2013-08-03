@@ -6,6 +6,8 @@
 
     public class BoolToColorConverter : IValueConverter
     {
+        #region Public Methods and Operators
+
         /// <summary>
         /// Konvertiert einen Wert.
         /// </summary>
@@ -34,5 +36,7 @@
         {
             return null;
         }
+
+        #endregion
     }
 }

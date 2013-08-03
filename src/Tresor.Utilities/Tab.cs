@@ -1,7 +1,6 @@
 ﻿namespace Tresor.Utilities
 {
     using System.Collections.ObjectModel;
-    using System.ComponentModel;
 
     using Tresor.Contracts.Utilities;
 
@@ -13,11 +12,11 @@
         /// <summary>Mitglied der Eigenschaft <see cref="Content"/>.</summary>
         private object content;
 
-        /// <summary>Mitglied der Eigenschaft <see cref="IsSelected"/>.</summary>
-        private bool isSelected;
-
         /// <summary>Mitglied der Eigenschaft <see cref="IsCloseable"/>.</summary>
         private bool isCloseable = true;
+
+        /// <summary>Mitglied der Eigenschaft <see cref="IsSelected"/>.</summary>
+        private bool isSelected;
 
         #endregion
 
@@ -62,21 +61,6 @@
             }
         }
 
-        /// <summary>Holt oder setzt einen Wert, der angibt, ob der Tab selektiert ist.</summary>
-        public bool IsSelected
-        {
-            get
-            {
-                return isSelected;
-            }
-
-            set
-            {
-                isSelected = value;
-                OnPropertyChanged();
-            }
-        }
-
         /// <summary>Holt oder setzt einen Wert, der angibt, ob ein Tab schließbar ist.</summary>
         public bool IsCloseable
         {
@@ -88,6 +72,21 @@
             set
             {
                 isCloseable = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>Holt oder setzt einen Wert, der angibt, ob der Tab selektiert ist.</summary>
+        public bool IsSelected
+        {
+            get
+            {
+                return isSelected;
+            }
+
+            set
+            {
+                isSelected = value;
                 OnPropertyChanged();
             }
         }

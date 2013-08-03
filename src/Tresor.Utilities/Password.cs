@@ -8,7 +8,7 @@
     [Serializable]
     public class Password : NotifyPropertyChanged, IPassword
     {
-        #region Konstanten und Felder
+        #region Fields
 
         /// <summary>Mitglied der Eigenschaft <see cref="Account"/>.</summary>
         private string account = string.Empty;
@@ -33,7 +33,7 @@
 
         #endregion
 
-        #region Öffentliche Eigenschaften
+        #region Public Properties
 
         /// <summary>Holt oder setzt den <strong>Accountnamen</strong>.</summary>
         public string Account
@@ -127,7 +127,7 @@
 
         #endregion
 
-        #region Öffentliche Methoden und Operatoren
+        #region Public Methods and Operators
 
         /// <summary>Beginnt die Bearbeitung eines Passworts.</summary>
         public void BeginEdit()

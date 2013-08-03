@@ -8,7 +8,7 @@
     /// <summary>Interaktionslogik für SplashView.xaml.</summary>
     public partial class SplashView
     {
-        #region Konstruktoren und Destruktoren
+        #region Constructors and Destructors
 
         /// <summary>Initialisiert eine neue Instanz der <see cref="SplashView"/> Klasse.</summary>
         public SplashView()
@@ -18,7 +18,7 @@
 
         #endregion
 
-        #region Methoden
+        #region Methods
 
         /// <summary>Tritt ein wenn sich die Eingabe einer PasswordBox geändert hat.</summary>
         /// <param name="sender">Erwartet eine <see cref="PasswordBox"/>.</param>
