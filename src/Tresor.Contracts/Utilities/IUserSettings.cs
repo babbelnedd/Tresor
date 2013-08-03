@@ -20,9 +20,9 @@
         void Add(string category, string key, string value);
 
         /// <summary>Holt alle Key-Value Paare.</summary>
-        /// <param name="catgeory">Die Kategorie welche ausgelesen werden soll.</param>
+        /// <param name="category">Die Kategorie welche ausgelesen werden soll.</param>
         /// <returns>Alle Key-Value Paare aus einer bestimmten Kategorie.</returns>
-        Dictionary<string, string> Read(string catgeory);
+        Dictionary<string, string> Read(string category);
 
         /// <summary>Holt den Wert zu einem bestimmten Schlüssel.</summary>
         /// <param name="category">Die Kategorie, in der sich der Schlüssel befindet.</param>

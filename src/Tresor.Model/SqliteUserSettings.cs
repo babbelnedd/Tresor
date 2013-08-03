@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using Tresor.Contracts.Utilities;
 
@@ -42,6 +43,8 @@
         /// <exception cref="Exception">Die Kategorie existiert bereits.</exception>
         public void Add(string category)
         {
+            var commandText = string.Format("CREATE TABLE {0}(Key NVARCHAR PRIMARY KEY NOT NULL, Value NVARCHAR)", category);
+            database.Execute(commandText);
         }
 
         /// <summary>Fügt einer Kategorie einen Schlüssel hinzu.</summary>
@@ -50,14 +53,21 @@
         /// <param name="value">Der einzutragende Wert.</param>
         public void Add(string category, string key, string value)
         {
+            var commandText = string.Format("INSERT INTO {0}(Key, Value) VALUES('{1}','{2}')", category, key, value);
+            database.Execute(commandText);
         }
 
         /// <summary>Holt alle Key-Value Paare.</summary>
-        /// <param name="catgeory">Die Kategorie welche ausgelesen werden soll.</param>
+        /// <param name="category">Die Kategorie welche ausgelesen werden soll.</param>
         /// <returns>Alle Key-Value Paare aus einer bestimmten Kategorie.</returns>
-        public Dictionary<string, string> Read(string catgeory)
+        public Dictionary<string, string> Read(string category)
         {
-            return null;
+            var result = new Dictionary<string, string>();
+            var commandText = string.Format("SELECT * FROM {0}", category);
+            var entries = database.Get(commandText);
+            entries.ForEach(entry => result.Add(entry[0], entry[1]));
+
+            return result;
         }
 
         /// <summary>Holt den Wert zu einem bestimmten Schlüssel.</summary>
@@ -66,7 +76,9 @@
         /// <returns>Der Wert zu dem Schlüssel.</returns>
         public string Read(string category, string key)
         {
-            return null;
+            var commandText = string.Format("SELECT * FROM {0} WHERE Key = '{1}'", category, key);
+            var result = database.Get(commandText).First();
+            return result[1];
         }
 
         /// <summary>Überschreibt einen Wert.</summary>
@@ -76,6 +88,8 @@
         /// <remarks>Es wird kein neuer Schlüssel angelegt.</remarks>
         public void Write(string category, string key, string value)
         {
+            var commandText = string.Format("UPDATE {0} SET Value = '{1}' WHERE Key = '{2}'", category, value, key);
+            database.Execute(commandText);
         }
 
         /// <summary>Überschreibt einen Wert.</summary>
@@ -86,6 +100,10 @@
         /// <exception cref="Exception">Der Wert existiert bereits.</exception>
         public void Write(string category, Dictionary<string, string> pair)
         {
+            foreach (var entry in pair)
+            {
+                Write(category, entry.Key, entry.Value);
+            }
         }
 
         #endregion
