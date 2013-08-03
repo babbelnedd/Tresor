@@ -53,7 +53,13 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite, Version=1.0.87.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\System.Data.SQLite.1.0.87.0\lib\net45\System.Data.SQLite.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xaml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
@@ -67,19 +73,20 @@
     <Compile Include="Resources\Converter\TabContentToVisibilityConverterTests.cs" />
     <Compile Include="Test.cs" />
     <Compile Include="Tresor.Model\ModelTest.cs" />
+    <Compile Include="Tresor.Model\SqliteDatabaseTests.cs" />
     <Compile Include="Tresor.Model\SqlitePanelModelTests.cs" />
     <Compile Include="Tresor.ViewModel\Application\MainViewModelTests.cs" />
     <Compile Include="Tresor.ViewModel\PanelViewModelTests.cs" />
     <Compile Include="Tresor.ViewModel\PasswordListViewModelTests.cs" />
     <Compile Include="Tresor.ViewModel\PasswordViewModelTests.cs" />
     <Compile Include="Tresor.ViewModel\SplashViewModelTests.cs" />
+    <Compile Include="Utilities\SqliteAppSettingsTests.cs" />
     <Compile Include="Utilities\Mediator\PasswordMediatorTests.cs" />
     <Compile Include="Utilities\Mediator\SenderImpl.cs" />
     <Compile Include="Utilities\PasswordTest.cs" />
     <Compile Include="Utilities\TabTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

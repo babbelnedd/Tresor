@@ -20,6 +20,12 @@
 
         #region Constructors and Destructors
 
+        /// <summary>Initialisiert eine neue Instanz der <see cref="Test"/> Klasse.</summary>
+        public Test()
+        {
+            DeleteOldFiles();
+        }
+
         /// <summary>Finalisiert eine Instanz der <see cref="Test"/> Klasse.</summary>
         ~Test()
         {
@@ -49,10 +55,18 @@
         /// <summary>Löscht alle Dateien vom Letzten Test.</summary>
         private void DeleteOldFiles()
         {
-            var path = AppDomain.CurrentDomain.BaseDirectory;
-            var files = (List<string>)Directory.GetFiles(path).Where(file => file.EndsWith(".db"));
-            files.AddRange(Directory.GetFiles(path).Where(file => file.EndsWith(".db-journal")));
-            files.ForEach(File.Delete);
+            var currentDirectory = Directory.GetCurrentDirectory();
+            foreach (var file in Directory.GetFiles(currentDirectory).Where(file => file != null && file.EndsWith(".db")))
+            {
+                try
+                {
+                    File.Delete(file);
+                }
+                catch
+                {
+
+                }
+            }
         }
 
         #endregion
