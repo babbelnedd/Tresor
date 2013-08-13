@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Data.SQLite;
+    using System.IO;
     using System.Linq;
 
     using NUnit.Framework;
@@ -138,6 +139,8 @@
             var rnd = Guid.NewGuid() + ".db";
             database = new UserSettingsDatabase();
             database.SetName(rnd);
+            database.OpenConnection();
+
             settings = new SqliteUserSettings(database);
         }
 

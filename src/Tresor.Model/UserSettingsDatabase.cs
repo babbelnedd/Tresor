@@ -5,8 +5,6 @@
     using System.Data;
     using System.Data.SQLite;
     using System.IO;
-    using System.Runtime.Remoting.Channels;
-    using System.Windows.Forms.VisualStyles;
 
     using Tresor.Contracts.Utilities;
 
@@ -20,6 +18,23 @@
 
         /// <summary>Beinhaltet das für die Datenbank gesetzt Passwort.</summary>
         private string password;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>Initialisiert eine neue Instanz der <see cref="UserSettingsDatabase"/> Klasse.</summary>
+        public UserSettingsDatabase()
+        {
+            //InitializeDatabase();
+        }
+
+        /// <summary>Finalisiert eine Instanz der <see cref="UserSettingsDatabase"/> Klasse. </summary>
+        ~UserSettingsDatabase()
+        {
+            CloseConnection();
+            DisposeConnection();
+        }
 
         #endregion
 
@@ -105,6 +120,11 @@
 
             if (connection == null)
             {
+                if (string.IsNullOrEmpty(Path))
+                {
+                    SetPath(Directory.GetCurrentDirectory());
+                }
+
                 var x = System.IO.Path.Combine(Path, Name);
                 var connectionString = string.Format("Data Source={0}", x);
                 connection = new SQLiteConnection(connectionString);
@@ -140,33 +160,25 @@
 
         #endregion
 
-        /// <summary>Initialisiert eine neue Instanz der <see cref="UserSettingsDatabase"/> Klasse.</summary>
-        public UserSettingsDatabase()
+        #region Methods
+
+        /// <summary>Initialisiert die Datenbank.</summary>
+        private void CreateDatabase()
         {
-            InitializeDatabase();
+            this.Execute("CREATE TABLE IF NOT EXISTS Databases(Key NVARCHAR PRIMARY KEY NOT NULL, Value NVARCHAR)");
         }
 
         /// <summary>Initialisiert die Datenbank.</summary>
         private void InitializeDatabase()
         {
             var path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Tresor");
-            this.Name = "UserSettings.db";
-            this.Path = path;
+            Name = "UserSettings.db";
+            Path = path;
             Directory.CreateDirectory(path);
-            this.OpenConnection();
-            this.CreateDatabase();
+            OpenConnection();
+            CreateDatabase();
         }
 
-        private void CreateDatabase()
-        {
-            this.Execute("CREATE TABLE IF NOT EXISTS Databases(Key NVARCHAR PRIMARY KEY NOT NULL, Value NVARCHAR)");
-        }
-
-        /// <summary>Finalisiert eine Instanz der <see cref="UserSettingsDatabase"/> Klasse. </summary>
-        ~UserSettingsDatabase()
-        {
-            CloseConnection();
-            DisposeConnection();
-        }
+        #endregion
     }
 }
