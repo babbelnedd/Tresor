@@ -24,14 +24,6 @@
         public SqliteUserSettings(IDatabase database)
         {
             this.database = database;
-            database.OpenConnection();
-        }
-
-        /// <summary>Finalisiert eine Instanz der <see cref="SqliteUserSettings"/> Klasse.</summary>
-        ~SqliteUserSettings()
-        {
-            database.CloseConnection();
-            database.DisposeConnection();
         }
 
         #endregion

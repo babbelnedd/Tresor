@@ -136,7 +136,7 @@
         public void Setup()
         {
             var rnd = Guid.NewGuid() + ".db";
-            database = new SqliteDatabase();
+            database = new UserSettingsDatabase();
             database.SetName(rnd);
             settings = new SqliteUserSettings(database);
         }

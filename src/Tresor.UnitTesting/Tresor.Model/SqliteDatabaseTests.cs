@@ -14,8 +14,8 @@
     {
         #region Fields
 
-        /// <summary>Eine Instanz der <see cref="SqliteDatabase"/>.</summary>
-        private SqliteDatabase database;
+        /// <summary>Eine Instanz der <see cref="UserSettingsDatabase"/>.</summary>
+        private UserSettingsDatabase database;
 
         #endregion
 
@@ -204,7 +204,7 @@
         [SetUp]
         public void Setup()
         {
-            database = new SqliteDatabase();
+            database = new UserSettingsDatabase();
         }
 
         #endregion

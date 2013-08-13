@@ -4,11 +4,14 @@
     using System.Collections.Generic;
     using System.Data;
     using System.Data.SQLite;
+    using System.IO;
+    using System.Runtime.Remoting.Channels;
+    using System.Windows.Forms.VisualStyles;
 
     using Tresor.Contracts.Utilities;
 
     /// <summary>Implementierung von <see cref="IDatabase" /> basierend auf Sqlite.</summary>
-    public class SqliteDatabase : IDatabase
+    public class UserSettingsDatabase : IDatabase
     {
         #region Fields
 
@@ -102,7 +105,8 @@
 
             if (connection == null)
             {
-                var connectionString = string.Format("Data Source={0}", Name);
+                var x = System.IO.Path.Combine(Path, Name);
+                var connectionString = string.Format("Data Source={0}", x);
                 connection = new SQLiteConnection(connectionString);
                 connection.SetPassword(password);
             }
@@ -135,5 +139,34 @@
         }
 
         #endregion
+
+        /// <summary>Initialisiert eine neue Instanz der <see cref="UserSettingsDatabase"/> Klasse.</summary>
+        public UserSettingsDatabase()
+        {
+            InitializeDatabase();
+        }
+
+        /// <summary>Initialisiert die Datenbank.</summary>
+        private void InitializeDatabase()
+        {
+            var path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Tresor");
+            this.Name = "UserSettings.db";
+            this.Path = path;
+            Directory.CreateDirectory(path);
+            this.OpenConnection();
+            this.CreateDatabase();
+        }
+
+        private void CreateDatabase()
+        {
+            this.Execute("CREATE TABLE IF NOT EXISTS Databases(Key NVARCHAR PRIMARY KEY NOT NULL, Value NVARCHAR)");
+        }
+
+        /// <summary>Finalisiert eine Instanz der <see cref="UserSettingsDatabase"/> Klasse. </summary>
+        ~UserSettingsDatabase()
+        {
+            CloseConnection();
+            DisposeConnection();
+        }
     }
 }

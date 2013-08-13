@@ -41,6 +41,7 @@
         [Test(Description = "Prüft ob das hinzufügen von Passwörtern nicht zu lange dauert. 10 Passwörter sollten durchschnittlich nicht länger als 1 Sekunde benötigen.")]
         [Repeat(Tests)]
         [Category("CanFail")]
+        [Ignore]
         public void AddPasswordsIsFastEnough()
         {
             if (File.Exists("swtest.db"))
