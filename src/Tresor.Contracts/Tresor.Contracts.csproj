@@ -50,27 +50,20 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Mediator\IPasswordReciever.cs" />
-    <Compile Include="Mediator\IPasswordSender.cs" />
-    <Compile Include="Model\Application\IMainModel.cs" />
-    <Compile Include="Model\Application\ISplashModel.cs" />
-    <Compile Include="Model\IPasswordModel.cs" />
-    <Compile Include="Model\IPanelModel.cs" />
-    <Compile Include="Model\IPasswordListModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\IDatabase.cs" />
     <Compile Include="Utilities\IUserSettings.cs" />
     <Compile Include="Utilities\IPassword.cs" />
-    <Compile Include="ViewModel\Application\IMainViewModel.cs" />
-    <Compile Include="ViewModel\Application\ISplashViewModel.cs" />
-    <Compile Include="ViewModel\IPasswordListViewModel.cs" />
-    <Compile Include="ViewModel\IPasswordViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Tresor.Framework\Tresor.Framework.csproj">
       <Project>{71788082-6D35-485E-90CF-C668265A9573}</Project>
       <Name>Tresor.Framework</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Model\" />
+    <Folder Include="ViewModel\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

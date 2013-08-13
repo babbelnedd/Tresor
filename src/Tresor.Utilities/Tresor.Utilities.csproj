@@ -46,7 +46,6 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Mediator\PasswordMediator.cs" />
     <Compile Include="NotifyPropertyChanged.cs" />
     <Compile Include="Password.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

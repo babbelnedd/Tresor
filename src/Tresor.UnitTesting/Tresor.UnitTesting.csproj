@@ -66,35 +66,22 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Converter\BooleanToVisibilityConverterTests.cs" />
-    <Compile Include="Resources\Converter\ContentIsDirtyToVisibilityTests.cs" />
-    <Compile Include="Resources\Converter\ContentToViewConverterTests.cs" />
     <Compile Include="Resources\Converter\BoolToColorConverterTests.cs" />
     <Compile Include="Resources\Converter\NegativeBooleanToVisibilityConverterTests.cs" />
-    <Compile Include="Resources\Converter\TabContentToVisibilityConverterTests.cs" />
     <Compile Include="Test.cs" />
-    <Compile Include="Tresor.Model\ModelTest.cs" />
     <Compile Include="Tresor.Model\SqliteDatabaseTests.cs" />
-    <Compile Include="Tresor.Model\SqlitePanelModelTests.cs" />
     <Compile Include="Tresor.Model\SqliteUserSettingsTests.cs" />
-    <Compile Include="Tresor.ViewModel\Application\MainViewModelTests.cs" />
-    <Compile Include="Tresor.ViewModel\PasswordListViewModelTests.cs" />
-    <Compile Include="Tresor.ViewModel\PasswordViewModelTests.cs" />
-    <Compile Include="Tresor.ViewModel\SplashViewModelTests.cs" />
     <Compile Include="Utilities\SqliteAppSettingsTests.cs" />
-    <Compile Include="Utilities\Mediator\PasswordMediatorTests.cs" />
-    <Compile Include="Utilities\Mediator\SenderImpl.cs" />
     <Compile Include="Utilities\PasswordTest.cs" />
     <Compile Include="Utilities\TabTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\ThirdParty\ThirdParty.csproj">
-      <Project>{142236D2-E662-468B-897A-0B37AF468659}</Project>
-      <Name>ThirdParty</Name>
-    </ProjectReference>
+    <Folder Include="Tresor.ViewModel\" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Tresor.Contracts\Tresor.Contracts.csproj">
       <Project>{6371E6A3-66F5-4356-831F-CC2D614681A9}</Project>
       <Name>Tresor.Contracts</Name>

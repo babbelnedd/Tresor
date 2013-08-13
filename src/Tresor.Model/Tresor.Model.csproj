@@ -55,20 +55,11 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application\MainModel.cs" />
-    <Compile Include="Application\SplashModel.cs" />
-    <Compile Include="PasswordListModel.cs" />
-    <Compile Include="PasswordModel.cs" />
     <Compile Include="UserSettingsDatabase.cs" />
     <Compile Include="SqliteUserSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SqlitePanelModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ThirdParty\ThirdParty.csproj">
-      <Project>{142236D2-E662-468B-897A-0B37AF468659}</Project>
-      <Name>ThirdParty</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Tresor.Contracts\Tresor.Contracts.csproj">
       <Project>{6371E6A3-66F5-4356-831F-CC2D614681A9}</Project>
       <Name>Tresor.Contracts</Name>
@@ -88,6 +79,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Application\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
