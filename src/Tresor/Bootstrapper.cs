@@ -22,7 +22,6 @@
             // Eine Datenbank die mehrere Kategorien hat. Und dann können nur einzeln Datenbanken geladen werden.
             // Nachträglich eine Datenbank laden geht über das Dateimenü. 
             // Beim intialen sowie dem nachträglichen Laden erscheint ein Dialog in der Mitte der Anwendung der das Passwort für die gewählte Datenbank einliest.
-
             container.LoadConfiguration();
 
             // 1. ViewModels instanzieren (Models + Datenbanken + UserSettings + Aggregator?? werden durch CI instanziert)

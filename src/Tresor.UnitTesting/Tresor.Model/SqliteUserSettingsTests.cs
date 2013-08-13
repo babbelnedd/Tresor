@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Data.SQLite;
-    using System.IO;
     using System.Linq;
 
     using NUnit.Framework;
@@ -14,6 +13,7 @@
 
     /// <summary>Tests für die IUserSettings Implementierung SqliteUserSettings.</summary>
     [TestFixture(Description = "Tests für die IUserSettings Implementierung SqliteUserSettings.")]
+    [Category("ModelTest")]
     public class SqliteUserSettingsTests : Test
     {
         #region Fields

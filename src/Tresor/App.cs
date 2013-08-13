@@ -24,9 +24,11 @@
         /// <summary>Führt die Anwendung aus.</summary>
         private static void RunApplication()
         {
-            Log.Trace("Anwendung gestartet.");
-            Log.Run(new Bootstrapper().LoadApplication);
-            Log.Trace("Anwendung beendet.");
+            Log.Trace("Bootstrapper wird initialisiert.");
+            var bootstrapper = new Bootstrapper();
+            Log.Trace("Anwendung wird gestartet.");
+            Log.Run(bootstrapper.LoadApplication);
+            Log.Trace("Anwendung wurde beendet.");
         }
 
         #endregion

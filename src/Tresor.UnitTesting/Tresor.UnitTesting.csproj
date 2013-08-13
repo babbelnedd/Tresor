@@ -71,7 +71,6 @@
     <Compile Include="Test.cs" />
     <Compile Include="Tresor.Model\SqliteDatabaseTests.cs" />
     <Compile Include="Tresor.Model\SqliteUserSettingsTests.cs" />
-    <Compile Include="Utilities\SqliteAppSettingsTests.cs" />
     <Compile Include="Utilities\PasswordTest.cs" />
     <Compile Include="Utilities\TabTests.cs" />
   </ItemGroup>

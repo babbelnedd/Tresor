@@ -11,6 +11,7 @@
 
     /// <summary>Testet die Klasse Password.</summary>
     [TestFixture(Description = "Testet die Klasse Password.")]
+    [Category("UtilitiesTest")]
     public class PasswordTest : Test
     {
         #region Public Methods and Operators

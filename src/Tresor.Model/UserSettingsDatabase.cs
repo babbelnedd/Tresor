@@ -23,12 +23,6 @@
 
         #region Constructors and Destructors
 
-        /// <summary>Initialisiert eine neue Instanz der <see cref="UserSettingsDatabase"/> Klasse.</summary>
-        public UserSettingsDatabase()
-        {
-            //InitializeDatabase();
-        }
-
         /// <summary>Finalisiert eine Instanz der <see cref="UserSettingsDatabase"/> Klasse. </summary>
         ~UserSettingsDatabase()
         {
@@ -156,27 +150,6 @@
         public void SetPath(string path)
         {
             Path = path;
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>Initialisiert die Datenbank.</summary>
-        private void CreateDatabase()
-        {
-            this.Execute("CREATE TABLE IF NOT EXISTS Databases(Key NVARCHAR PRIMARY KEY NOT NULL, Value NVARCHAR)");
-        }
-
-        /// <summary>Initialisiert die Datenbank.</summary>
-        private void InitializeDatabase()
-        {
-            var path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Tresor");
-            Name = "UserSettings.db";
-            Path = path;
-            Directory.CreateDirectory(path);
-            OpenConnection();
-            CreateDatabase();
         }
 
         #endregion

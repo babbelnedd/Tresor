@@ -8,6 +8,7 @@
 
     /// <summary>Testet den BooleanToVisibilityConverter.</summary>
     [TestFixture(Description = "Testet den BooleanToVisibilityConverter.")]
+    [Category("ConverterTest")]
     public class BooleanToVisibilityConverterTests : Test
     {
         #region Fields

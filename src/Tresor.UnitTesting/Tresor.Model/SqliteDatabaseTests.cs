@@ -10,6 +10,7 @@
 
     /// <summary>"Tests für die IDatabase Implementierung SqliteDatabase."</summary>
     [TestFixture(Description = "Tests für die IDatabase Implementierung SqliteDatabase.")]
+    [Category("ModelTest")]
     public class SqliteDatabaseTests : Test
     {
         #region Fields

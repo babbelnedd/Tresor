@@ -8,6 +8,7 @@
 
     /// <summary>Testet den TabToColorConverter.</summary>
     [TestFixture(Description = "Testet den TabToColorConverter.")]
+    [Category("ConverterTest")]
     public class BoolToColorConverterTests
     {
         #region Fields

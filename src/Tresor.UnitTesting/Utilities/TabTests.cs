@@ -12,6 +12,7 @@
 
     /// <summary>Testet die Klasse Tab.</summary>
     [TestFixture(Description = "Testet die Klasse Tab.")]
+    [Category("UtilitiesTest")]
     public class TabTests : Test
     {
         #region Public Methods and Operators
