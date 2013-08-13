@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tresor", "Tresor\Tresor.csproj", "{B9E8961C-03AD-40BF-A55E-7493348C1612}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThirdParty", "ThirdParty\ThirdParty.csproj", "{142236D2-E662-468B-897A-0B37AF468659}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tresor.ViewModel", "Tresor.ViewModel\Tresor.ViewModel.csproj", "{1B557A79-70B4-4DF0-9CD8-4D1AB94FD479}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tresor.View", "Tresor.View\Tresor.View.csproj", "{B862EB58-E001-4F36-A58A-B6485FB29835}"
@@ -38,12 +36,6 @@ Global
 		{B9E8961C-03AD-40BF-A55E-7493348C1612}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B9E8961C-03AD-40BF-A55E-7493348C1612}.UnitTesting|Any CPU.ActiveCfg = UnitTesting|Any CPU
 		{B9E8961C-03AD-40BF-A55E-7493348C1612}.UnitTesting|Any CPU.Build.0 = UnitTesting|Any CPU
-		{142236D2-E662-468B-897A-0B37AF468659}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{142236D2-E662-468B-897A-0B37AF468659}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{142236D2-E662-468B-897A-0B37AF468659}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{142236D2-E662-468B-897A-0B37AF468659}.Release|Any CPU.Build.0 = Release|Any CPU
-		{142236D2-E662-468B-897A-0B37AF468659}.UnitTesting|Any CPU.ActiveCfg = UnitTesting|Any CPU
-		{142236D2-E662-468B-897A-0B37AF468659}.UnitTesting|Any CPU.Build.0 = UnitTesting|Any CPU
 		{1B557A79-70B4-4DF0-9CD8-4D1AB94FD479}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1B557A79-70B4-4DF0-9CD8-4D1AB94FD479}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B557A79-70B4-4DF0-9CD8-4D1AB94FD479}.Release|Any CPU.ActiveCfg = Release|Any CPU
