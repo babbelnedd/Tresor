@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="RunBuild" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+
+  <PropertyGroup>
+    <BuildSteps>
+      ZeigeInfos;
+      UpdateAssemblyInfo;
+      ClearOutput;
+      BuildBase;
+      <!--CopyFiles;-->
+      LoescheVerzeichnisse;
+      ErzeugeDateienWebBereitstelltung;
+      Publish
+      <!--ÖffneAusgabeVerzeichnis-->
+    </BuildSteps>
+    <OutputPath>$(MSBuildProjectDirectory)\..\bin\Release</OutputPath>
+    <ToolsPath>$(MSBuildProjectDirectory)\lib</ToolsPath>
+  </PropertyGroup>
+  
+  <Import Project="$(ToolsPath)\MSBuild.ExtensionPack.tasks"/>
+
+  <Target Name="ZeigeInfos">
+    <Message Text=" MSBuildProjectDirectory         = $(MSBuildProjectDirectory)" />
+    <Message Text=" MSBuildProjectFile              = $(MSBuildProjectFile)" />
+    <Message Text=" MSBuildProjectExtension         = $(MSBuildProjectExtension)" />
+    <Message Text=" MSBuildProjectFullPath          = $(MSBuildProjectFullPath)" />
+    <Message Text=" MSBuildProjectName              = $(MSBuildProjectName)" />
+    <Message Text=" MSBuildBinPath                  = $(MSBuildBinPath)" />
+    <Message Text=" MSBuildProjectDefaultTargets    = $(MSBuildProjectDefaultTargets)" />
+    <Message Text=" MSBuildExtensionsPath           = $(ToolsPath)" />
+    <Message Text=" MSBuildStartupDirectory         = $(MSBuildStartupDirectory)" />
+  </Target>
+
+  <Target Name="UpdateAssemblyInfo">
+    <MSBuild.ExtensionPack.Framework.AssemblyInfo
+        AssemblyBuildNumberFormat="dM"
+        AssemblyBuildNumberType="DateString"
+        AssemblyFileBuildNumberFormat="dM"
+        AssemblyFileBuildNumberType="DateString"
+        AssemblyInfoFiles="@(AssemblyInfoFiles)"
+        AssemblyCompany="Lucas Schad"
+        AssemblyCopyright="Copyright Lucas Schad. MIT License."
+        AssemblyMajorVersion="0"
+        AssemblyMinorVersion="13"
+        AssemblyFileMajorVersion="0"
+        AssemblyFileMinorVersion="13"
+        AssemblyProduct="Tresor"
+        AssemblyRevision="0"
+        AssemblyFileRevision="0"
+        AssemblyRevisionType="AutoIncrement"
+        AssemblyFileRevisionType="AutoIncrement" />
+  </Target>
+
+  <ItemGroup>
+    <AssemblyInfoFiles Include="$(MSBuildProjectDirectory)\..\src\**\**\AssemblyInfo.cs"/>
+  </ItemGroup>
+
+
+  <Target Name="ClearOutput">
+    <ItemGroup>
+      <FilesToDelete Include="$(OutputPath)\*.*" />
+    </ItemGroup>
+    <Delete Files="@(FilesToDelete)" />
+  </Target>
+
+  <Target Name="BuildBase">
+    <MSBuild Projects="$(MSBuildProjectDirectory)\..\src\Tresor.sln" ContinueOnError="false" Targets="Rebuild" Properties="Configuration=Release;" />
+  </Target>
+
+  <Target Name="LoescheVerzeichnisse">
+    <RemoveDir Directories="$(OutputPath)\es;" />
+    <RemoveDir Directories="$(OutputPath)\fr;" />
+    <RemoveDir Directories="$(OutputPath)\it;" />
+    <RemoveDir Directories="$(OutputPath)\nl;" />
+    <RemoveDir Directories="$(OutputPath)\tr;" />
+    <ItemGroup>
+      <DeleteItems Include="$(OutputPath)\*.xml" />
+      <DeleteItems Include="$(OutputPath)\*.pdb" />
+      <DeleteItems Include="$(OutputPath)\*.application" />
+    </ItemGroup>
+    <Delete Files="@(DeleteItems)" />
+  </Target>
+
+  <Target Name="ErzeugeDateienWebBereitstelltung">
+    <GetAssemblyIdentity AssemblyFiles="$(OutputPath)\Tresor.exe">
+      <Output TaskParameter="Assemblies" ItemName="assemblyInfo"/>
+    </GetAssemblyIdentity>
+    <PropertyGroup>
+      <OriginalVersionNummer>%(assemblyInfo.Version)</OriginalVersionNummer>
+      <ReleasePath>$(MSBuildProjectDirectory)\ReleaseFiles\ApplicationFiles\Tresor_$(OriginalVersionNummer.Replace(".","_"))</ReleasePath>
+    </PropertyGroup>
+
+    <MakeDir Directories="$(ReleasePath)" />
+
+    <ItemGroup>
+      <FilesToCopy Include="$(OutputPath)\*"/>
+    </ItemGroup>
+
+    <Copy SourceFiles="@(FilesToCopy)" DestinationFolder="$(ReleasePath)" />
+
+    <ItemGroup>
+      <FilesToDelete Include="$(ReleasePath)\*.xml" />
+      <FilesToDelete Include="$(ReleasePath)\*.pdb" />
+    </ItemGroup>
+    <Delete Files="@(FilesToDelete)" />
+
+  </Target>
+
+  <Target Name="ÖffneAusgabeVerzeichnis">
+    <Exec Command="explorer.exe $(MSBuildProjectDirectory)\Web" IgnoreExitCode="True" />
+  </Target>
+
+  <Target Name="Publish">
+    <PropertyGroup>
+      <IconFile>$(MSBuildProjectDirectory)\..\res\lock.ico</IconFile>
+      <OriginalVersionNummer>%(assemblyInfo.Version)</OriginalVersionNummer>
+      <ReleasePath>$(MSBuildProjectDirectory)\ReleaseFiles\ApplicationFiles\Tresor_$(OriginalVersionNummer.Replace(".","_"))</ReleasePath>
+    </PropertyGroup>
+
+    <Message Text="Generating Application Manifest" />
+
+    <Exec Command='mage.exe -New Application -Processor msil -ToFile "$(ReleasePath)\Tresor.exe.manifest" -name Tresor -Version $(OriginalVersionNummer) -FromDirectory $(ReleasePath) -cf "Tresor.pfx" -IconFile "lock.ico" -tr "FullTrust"' />
+
+    <Message Text="Generating Deployment Manifest" />
+
+    <ItemGroup>
+      <EntryPoint />
+    </ItemGroup>
+
+    <CreateItem Include='$(ReleasePath)\Tresor.exe.manifest' AdditionalMetadata='TargetPath=$(ReleasePath)\Tresor.exe.manifest'>
+      <Output TaskParameter="Include" ItemName="EntryPoint"/>
+    </CreateItem>
+
+    <Message Text="EntryPoint specified at '@(EntryPoint)'" />
+    <GenerateDeploymentManifest AssemblyName="Tresor.exe"
+                                AssemblyVersion="$(OriginalVersionNummer)"
+                                DeploymentUrl="http://tresor.lucasschad.de/Tresor.application"
+                                Description="Sichere Verwaltung von Passwörtern."
+                                EntryPoint="@(EntryPoint)"
+                                Install="true"
+                                OutputManifest="$(ReleasePath)\..\..\Tresor.application"
+                                Product="Tresor"
+                                Publisher="Lucas Schad"
+                                MapFileExtensions="false"
+                                UpdateEnabled="true"
+                                UpdateMode="Foreground"
+                                Platform="AnyCPU"
+                                MinimumRequiredVersion="$(OriginalVersionNummer)"
+                                TargetFrameworkMoniker=".NETFramework,Version=v4.5">
+      <Output ItemName="DeployManifest" TaskParameter="OutputManifest"/>
+    </GenerateDeploymentManifest>
+    <Message Text="Deployment Manifest stored to '@(DeploymentManifest)'" />
+
+    <Exec Command='mage.exe -Update $(ReleasePath)\..\..\Tresor.application -Publisher "Lucas Schad" -cf Tresor.pfx -appm $(ReleasePath)\Tresor.exe.manifest'/>
+  </Target>
+
+  <Target Name="RunBuild" DependsOnTargets="$(BuildSteps)" />
+
+</Project>

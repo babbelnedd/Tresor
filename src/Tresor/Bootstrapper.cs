@@ -3,6 +3,8 @@
     using Microsoft.Practices.Unity;
     using Microsoft.Practices.Unity.Configuration;
 
+    using Tresor.View;
+
     /// <summary>Statischer Bootstrapper der die Anwendung verkabelt.</summary>
     internal class Bootstrapper
     {
@@ -23,7 +25,8 @@
             // Nachträglich eine Datenbank laden geht über das Dateimenü. 
             // Beim intialen sowie dem nachträglichen Laden erscheint ein Dialog in der Mitte der Anwendung der das Passwort für die gewählte Datenbank einliest.
             container.LoadConfiguration();
-
+            var window = new AppWindow();
+            window.ShowDialog();
             // 1. ViewModels instanzieren (Models + Datenbanken + UserSettings + Aggregator?? werden durch CI instanziert)
             // 2. Fertig?
         }
