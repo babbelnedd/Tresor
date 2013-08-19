@@ -1,5 +1,5 @@
 option batch abort
 option confirm off
-open ftp://<<[[FTPLOGIN]]>>:"<<[[FTPPASSWORD]]>>"@<<[[FTPHOST]]>>
+open ftp://<<[FTPLOGIN]>>:"<<[FTPPASSWORD]>>"@<<[FTPHOST]>>
 put %1% %2%
 exit
