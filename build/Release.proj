@@ -116,7 +116,7 @@
 
     <Message Text="Generating Application Manifest" />
 
-    <Exec Command='$(MSBuildProjectDirectory)\lib\Mage\mage.exe -New Application -Processor msil -ToFile "$(ReleasePath)\Tresor.exe.manifest" -name Tresor -Version $(OriginalVersionNummer) -FromDirectory $(ReleasePath) -cf cert\Tresor.pfx -pwd <<[MANIFESTKEY]>> -IconFile "lock.ico" -tr "FullTrust"' />
+    <Exec Command='$(MSBuildProjectDirectory)\lib\Mage\mage.exe -New Application -Processor msil -ToFile "$(ReleasePath)\Tresor.exe.manifest" -name Tresor -Version $(OriginalVersionNummer) -FromDirectory "$(ReleasePath)" -cf cert\Tresor.pfx -pwd <<[MANIFESTKEY]>> -IconFile "lock.ico" -tr "FullTrust"' />
 
     <Message Text="Generating Deployment Manifest" />
 
