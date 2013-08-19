@@ -1,0 +1,5 @@
+Die groﬂe Frage: Klassische WPF Anwendung oder "Flat Style"?
+
+Flat Style sieht besser aus!          wirklich?
+Ist wahrscheinlich wesentlich mehr Arbeit (Einarbeiten).
+Ist die Bedienbarkeit besser? Habe noch nie ein TabControl im Flat Design gesehen. (ala Windows 8 Start 'TabControl' z‰hlt nicht)

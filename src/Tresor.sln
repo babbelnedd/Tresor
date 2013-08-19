@@ -23,6 +23,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tresor.UnitTesting", "Tresor.UnitTesting\Tresor.UnitTesting.csproj", "{0EB35D1A-4E33-4F78-A3BB-9A8DCC74D596}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notes", "Notes", "{9CC56969-99D7-44C8-824F-EE22D09CF2C9}"
+	ProjectSection(SolutionItems) = preProject
+		..\notes\Framework.txt = ..\notes\Framework.txt
+		..\notes\GUI.txt = ..\notes\GUI.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
