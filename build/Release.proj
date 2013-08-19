@@ -1,25 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="RunBuild" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
 
+  <!--BuildSteps-->
   <PropertyGroup>
     <BuildSteps>
-      ZeigeInfos;
+      ShowInformation;
       UpdateAssemblyInfo;
       ClearOutput;
-      BuildBase;
-      <!--CopyFiles;-->
-      LoescheVerzeichnisse;
-      ErzeugeDateienWebBereitstelltung;
-      Publish
-      <!--ÖffneAusgabeVerzeichnis-->
+      BuildSolutions;
+      DeleteDebugInformation;
+      CreateReleaseFiles;
+      Publish;
+      Upload;
     </BuildSteps>
     <OutputPath>$(MSBuildProjectDirectory)\..\bin\Release</OutputPath>
-    <ToolsPath>$(MSBuildProjectDirectory)\lib</ToolsPath>
+    <ToolsPath>$(MSBuildProjectDirectory)\lib\MSBuildExtension</ToolsPath>
+    <ToolsPath>$(MSBuildProjectDirectory)\lib\MSBuildExtension</ToolsPath>
   </PropertyGroup>
-  
+
+  <!--AssemblyInfo Files-->
+  <ItemGroup>
+    <AssemblyInfoFiles Include="$(MSBuildProjectDirectory)\..\src\**\**\AssemblyInfo.cs"/>
+  </ItemGroup>
+
+  <!--Import MSBuild ExtensionPack-->
   <Import Project="$(ToolsPath)\MSBuild.ExtensionPack.tasks"/>
 
-  <Target Name="ZeigeInfos">
+  <Target Name="ShowInformation">
     <Message Text=" MSBuildProjectDirectory         = $(MSBuildProjectDirectory)" />
     <Message Text=" MSBuildProjectFile              = $(MSBuildProjectFile)" />
     <Message Text=" MSBuildProjectExtension         = $(MSBuildProjectExtension)" />
@@ -51,11 +58,6 @@
         AssemblyFileRevisionType="AutoIncrement" />
   </Target>
 
-  <ItemGroup>
-    <AssemblyInfoFiles Include="$(MSBuildProjectDirectory)\..\src\**\**\AssemblyInfo.cs"/>
-  </ItemGroup>
-
-
   <Target Name="ClearOutput">
     <ItemGroup>
       <FilesToDelete Include="$(OutputPath)\*.*" />
@@ -63,11 +65,11 @@
     <Delete Files="@(FilesToDelete)" />
   </Target>
 
-  <Target Name="BuildBase">
+  <Target Name="BuildSolutions">
     <MSBuild Projects="$(MSBuildProjectDirectory)\..\src\Tresor.sln" ContinueOnError="false" Targets="Rebuild" Properties="Configuration=Release;" />
   </Target>
 
-  <Target Name="LoescheVerzeichnisse">
+  <Target Name="DeleteDebugInformation">
     <RemoveDir Directories="$(OutputPath)\es;" />
     <RemoveDir Directories="$(OutputPath)\fr;" />
     <RemoveDir Directories="$(OutputPath)\it;" />
@@ -81,7 +83,7 @@
     <Delete Files="@(DeleteItems)" />
   </Target>
 
-  <Target Name="ErzeugeDateienWebBereitstelltung">
+  <Target Name="CreateReleaseFiles">
     <GetAssemblyIdentity AssemblyFiles="$(OutputPath)\Tresor.exe">
       <Output TaskParameter="Assemblies" ItemName="assemblyInfo"/>
     </GetAssemblyIdentity>
@@ -106,26 +108,17 @@
 
   </Target>
 
-  <Target Name="ÖffneAusgabeVerzeichnis">
-    <Exec Command="explorer.exe $(MSBuildProjectDirectory)\Web" IgnoreExitCode="True" />
-  </Target>
-
   <Target Name="Publish">
     <PropertyGroup>
-      <IconFile>$(MSBuildProjectDirectory)\..\res\lock.ico</IconFile>
       <OriginalVersionNummer>%(assemblyInfo.Version)</OriginalVersionNummer>
       <ReleasePath>$(MSBuildProjectDirectory)\ReleaseFiles\ApplicationFiles\Tresor_$(OriginalVersionNummer.Replace(".","_"))</ReleasePath>
     </PropertyGroup>
 
     <Message Text="Generating Application Manifest" />
 
-    <Exec Command='mage.exe -New Application -Processor msil -ToFile "$(ReleasePath)\Tresor.exe.manifest" -name Tresor -Version $(OriginalVersionNummer) -FromDirectory $(ReleasePath) -cf "Tresor.pfx" -IconFile "lock.ico" -tr "FullTrust"' />
+    <Exec Command='$(MSBuildProjectDirectory)\lib\Mage\mage.exe -New Application -Processor msil -ToFile "$(ReleasePath)\Tresor.exe.manifest" -name Tresor -Version $(OriginalVersionNummer) -FromDirectory $(ReleasePath) -cf cert\Tresor.pfx -pwd <<[[MANIFESTKEY]]>> -IconFile "lock.ico" -tr "FullTrust"' />
 
     <Message Text="Generating Deployment Manifest" />
-
-    <ItemGroup>
-      <EntryPoint />
-    </ItemGroup>
 
     <CreateItem Include='$(ReleasePath)\Tresor.exe.manifest' AdditionalMetadata='TargetPath=$(ReleasePath)\Tresor.exe.manifest'>
       <Output TaskParameter="Include" ItemName="EntryPoint"/>
@@ -151,7 +144,28 @@
     </GenerateDeploymentManifest>
     <Message Text="Deployment Manifest stored to '@(DeploymentManifest)'" />
 
-    <Exec Command='mage.exe -Update $(ReleasePath)\..\..\Tresor.application -Publisher "Lucas Schad" -cf Tresor.pfx -appm $(ReleasePath)\Tresor.exe.manifest'/>
+    <Exec Command='$(MSBuildProjectDirectory)\lib\Mage\mage.exe -Update $(ReleasePath)\..\..\Tresor.application -Publisher "Lucas Schad" -cf cert\Tresor.pfx -appm $(ReleasePath)\Tresor.exe.manifest -pwd <<[[MANIFESTKEY]]>>'/>
+  </Target>
+
+  <Target Name="Upload">
+    <PropertyGroup>
+      <OriginalVersionNummer>%(assemblyInfo.Version)</OriginalVersionNummer>
+      <ReleasePath>$(MSBuildProjectDirectory)\ReleaseFiles\ApplicationFiles\Tresor_$(OriginalVersionNummer.Replace(".","_"))</ReleasePath>
+      <ApplicationFile>$(MSBuildProjectDirectory)\ReleaseFiles\Tresor.Application</ApplicationFile>
+      <upload>$(MSBuildProjectDirectory)\lib\WinSCP\WinSCP.exe /console /script="$(MSBuildProjectDirectory)\scripts\upload"</upload>
+      <chmod>$(MSBuildProjectDirectory)\lib\WinSCP\WinSCP.exe /console /script="$(MSBuildProjectDirectory)\scripts\chmod"</chmod>
+    </PropertyGroup>
+
+    <Message Text="Version $(OriginalVersionNummer) wird hochgeladen" />
+    <Exec Command='$(upload) /parameter "$(ReleasePath)" "/tresor/ApplicationFiles/"'/>
+    <Message Text="Berechtigungen werden gesetzt." />
+    <Exec Command='$(chmod) /parameter "775" "/tresor/ApplicationFiles"'/>
+    <Exec Command='$(chmod) /parameter "775" "/tresor/ApplicationFiles/Tresor_$(OriginalVersionNummer.Replace(".","_"))"'/>
+    <Exec Command='$(chmod) /parameter "775" "/tresor/ApplicationFiles/Tresor_$(OriginalVersionNummer.Replace(".","_"))/*.*"'/>
+    <Message Text=".application wird aktualisiert" />
+    <Exec Command='$(upload) /parameter "$(ApplicationFile)" "/tresor/"'/>
+    <Message Text="Berechtigungen werden gesetzt." />
+    <Exec Command='$(chmod) /parameter "775" "/tresor/Tresor.application"'/>
   </Target>
 
   <Target Name="RunBuild" DependsOnTargets="$(BuildSteps)" />

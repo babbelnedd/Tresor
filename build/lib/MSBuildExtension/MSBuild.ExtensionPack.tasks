@@ -2,7 +2,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <BuildPath Condition="'$(BuildPath)' == ''">$(MSBuildProjectDirectory)</BuildPath>
-        <ExtensionTasksPath Condition="Exists('$(BuildPath)\lib\MSBuild.ExtensionPack.dll')">$(BuildPath)\lib\</ExtensionTasksPath>
+        <ExtensionTasksPath Condition="Exists('$(BuildPath)\lib\MSBuildExtension\MSBuild.ExtensionPack.dll')">$(BuildPath)\lib\MSBuildExtension\</ExtensionTasksPath>
         <ExtensionTasksPath Condition="'$(ExtensionTasksPath)' == ''">$(MSBuildExtensionsPath)\ExtensionPack\4.0\</ExtensionTasksPath>
     </PropertyGroup>
 
