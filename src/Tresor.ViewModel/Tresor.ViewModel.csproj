@@ -62,10 +62,6 @@
       <Project>{6371E6A3-66F5-4356-831F-CC2D614681A9}</Project>
       <Name>Tresor.Contracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Tresor.Framework\Tresor.Framework.csproj">
-      <Project>{71788082-6D35-485E-90CF-C668265A9573}</Project>
-      <Name>Tresor.Framework</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Tresor.Utilities\Tresor.Utilities.csproj">
       <Project>{2895CEA1-F0B8-460F-ABEB-1D2A3E171491}</Project>
       <Name>Tresor.Utilities</Name>

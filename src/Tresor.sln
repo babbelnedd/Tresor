@@ -17,8 +17,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tresor.Contracts", "Tresor.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tresor.Logging", "Tresor.Logging\Tresor.Logging.csproj", "{8FCD880D-456F-4FCE-96C7-47BACD51AB4B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tresor.Framework", "Tresor.Framework\Tresor.Framework.csproj", "{71788082-6D35-485E-90CF-C668265A9573}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{77F93C9C-4342-40A9-8B37-F51E0A0AE99D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tresor.UnitTesting", "Tresor.UnitTesting\Tresor.UnitTesting.csproj", "{0EB35D1A-4E33-4F78-A3BB-9A8DCC74D596}"
@@ -84,12 +82,6 @@ Global
 		{8FCD880D-456F-4FCE-96C7-47BACD51AB4B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8FCD880D-456F-4FCE-96C7-47BACD51AB4B}.UnitTesting|Any CPU.ActiveCfg = UnitTesting|Any CPU
 		{8FCD880D-456F-4FCE-96C7-47BACD51AB4B}.UnitTesting|Any CPU.Build.0 = UnitTesting|Any CPU
-		{71788082-6D35-485E-90CF-C668265A9573}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{71788082-6D35-485E-90CF-C668265A9573}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{71788082-6D35-485E-90CF-C668265A9573}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{71788082-6D35-485E-90CF-C668265A9573}.Release|Any CPU.Build.0 = Release|Any CPU
-		{71788082-6D35-485E-90CF-C668265A9573}.UnitTesting|Any CPU.ActiveCfg = UnitTesting|Any CPU
-		{71788082-6D35-485E-90CF-C668265A9573}.UnitTesting|Any CPU.Build.0 = UnitTesting|Any CPU
 		{0EB35D1A-4E33-4F78-A3BB-9A8DCC74D596}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0EB35D1A-4E33-4F78-A3BB-9A8DCC74D596}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0EB35D1A-4E33-4F78-A3BB-9A8DCC74D596}.UnitTesting|Any CPU.ActiveCfg = UnitTesting|Any CPU

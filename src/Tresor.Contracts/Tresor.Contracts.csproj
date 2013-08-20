@@ -56,12 +56,6 @@
     <Compile Include="Utilities\IPassword.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Tresor.Framework\Tresor.Framework.csproj">
-      <Project>{71788082-6D35-485E-90CF-C668265A9573}</Project>
-      <Name>Tresor.Framework</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Model\" />
     <Folder Include="ViewModel\" />
   </ItemGroup>

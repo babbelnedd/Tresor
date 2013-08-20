@@ -85,10 +85,6 @@
       <Project>{6371E6A3-66F5-4356-831F-CC2D614681A9}</Project>
       <Name>Tresor.Contracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Tresor.Framework\Tresor.Framework.csproj">
-      <Project>{71788082-6d35-485e-90cf-c668265a9573}</Project>
-      <Name>Tresor.Framework</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Tresor.Model\Tresor.Model.csproj">
       <Project>{430D4B56-9181-4EDE-96C9-D7567D976A68}</Project>
       <Name>Tresor.Model</Name>
