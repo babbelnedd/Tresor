@@ -1,18 +1,18 @@
 DATENBANKEN:
 ===================================
 Die Anwendung sollte mehrere Datenbanken verwalten können. Man könnte es als "Profile" deklarieren. 
-Zum Beispiel ein Profil für "Beruf" ein Profl für "Privat" etc.
+Zum Beispiel ein Profil für "Beruf" ein Profil für "Privat" etc.
 Allerdings könnte man diese auch in verschiedene Kategorien einteilen. 
 Jedoch ist das abhängig davon ob der Benutzer verschiedene Passwörter für verschiedene Profile ("Kategorien") verwenden möchte.
 
-Datenbanken müssen über die Anwendung (Menü / Drag&Drop evtl) zu öffnen sein.
-Eine Idee wäre der Datenbank spezifische Dateiendungen zu geben (*.tdb bspw) um diese dann mit der Anwendung zu verknüpfen.
+Datenbanken müssen über die Anwendung (Menü / Drag&Drop evtl.) zu öffnen sein.
+Eine Idee wäre der Datenbank spezifische Dateiendungen zu geben (*.tdb bspw.) um diese dann mit der Anwendung zu verknüpfen.
 
 
 Eine Datenbank besteht aus Kategorien.
 Eine Kategorie besteht aus Einträgen (Credentials).
 
-Links in der Anwendung befindet sich eine Auflistung der Kategorien. Der rechte bzw mittlere Teil beinhaltet die Einträge der Kategorie innerhalb eines TabControls o.ä.
+Links in der Anwendung befindet sich eine Auflistung der Kategorien. Der rechte bzw. mittlere Teil beinhaltet die Einträge der Kategorie innerhalb eines TabControls o.ä.
 Einzelne Einträge werden dann über weitere Tabs im TabControl geöffnet. 
 
 SESSIONS:
@@ -22,12 +22,12 @@ Eine solche Session wird gespeichert. Das heißt: Wenn ich die Anwendung mit geöf
 Um dies zu realisieren wird es sinnvoll sein die USERSETTINGS in der gleichen SQLite Datenbank wie der Datenbank für die Passwörter zu speichern.
 Um nicht in Namenskonflikte zu kommen (Bsp. eine Tabelle der UserSettings heißt "Tabs" und jemand würde zufälligerweise ein gleichnamige Kategorie anlegen wollen) 
 werden alle vom Benutzer angelegten Tabellen (z.Z. nur Kategorien) programmatisch mit einem Präfix versehen. Bspw. CAT_[Name])
-Alternative: Gibt es in SQLite Namensräume wie in MSSQL bspw?
+Alternative: Gibt es in SQLite Namensräume wie in MSSQL bspw.?
 
 
 USERSETTINGS:
 ===================================
-Die UserSettings werden in einer Datenbank gepseichert. 
+Die UserSettings werden in einer Datenbank gespeichert. 
 Die Settings werden aus verschiedenen Gründen in der gleichen Datenbank wie die Passwörter gespeichert:
 	- Sicherheit: Wenn ich programmatisch die UserSettings erstellen würde wäre das Passwort durch dekompilieren der Anwendung leicht herauszufinden.
 	- Um Settings leichter mit einer Datenbank (welche Passwörter speichert) zu verknüpfen.
