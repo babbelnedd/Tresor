@@ -122,7 +122,7 @@
                                 Product="Tresor"
                                 Publisher="Lucas Schad"
                                 MapFileExtensions="false"
-                                UpdateEnabled="true"
+                                UpdateEnabled="false"
                                 UpdateMode="Foreground"
                                 Platform="AnyCPU"
                                 TargetFrameworkMoniker=".NETFramework,Version=v4.5">
