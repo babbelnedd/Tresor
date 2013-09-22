@@ -1,7 +1,6 @@
 ﻿namespace Tresor
 {
     using Microsoft.Practices.Unity;
-    using System.Deployment.Application;
     using Microsoft.Practices.Unity.Configuration;
 
     using View;
@@ -21,14 +20,6 @@
         /// <summary>Lädt die Anwendung.</summary>
         internal void LoadApplication()
         {
-            var ad = ApplicationDeployment.CurrentDeployment;
-            var newUpdateAvailable = ad.CheckForUpdate();
-
-            if (newUpdateAvailable)
-            {
-                
-            }
-
             // Wann soll das / die Passwort(er) abgefragt werden? 
             // Eine Datenbank die mehrere Kategorien hat. Und dann können nur einzeln Datenbanken geladen werden.
             // Nachträglich eine Datenbank laden geht über das Dateimenü. 
