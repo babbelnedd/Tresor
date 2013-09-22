@@ -123,7 +123,7 @@
                                 Publisher="Lucas Schad"
                                 MapFileExtensions="false"
                                 UpdateEnabled="false"
-                                UpdateMode="Foreground"
+                                UpdateMode="Background"
                                 Platform="AnyCPU"
                                 TargetFrameworkMoniker=".NETFramework,Version=v4.5">
       <!--MinimumRequiredVersion="$(OriginalVersionNummer)"-->

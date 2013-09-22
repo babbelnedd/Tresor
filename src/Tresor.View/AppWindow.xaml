@@ -1,6 +1,9 @@
-﻿<Window x:Class="Tresor.View.AppWindow"
+﻿<Window x:Class="Tresor.View.AppWindow" x:Name="Window"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Tresor 3" Height="300" Width="300">
-    <Grid><TextBlock>BlubbeDieBlubb</TextBlock></Grid>
+        Title="Tresor" Height="300" Width="300">
+    <Grid>
+        <TextBlock Text="{Binding ElementName=Window, Path=Version, FallbackValue=Blubb}"/>
+            
+        </Grid>
 </Window>

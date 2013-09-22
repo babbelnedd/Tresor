@@ -16,19 +16,19 @@ namespace Tresor
         [STAThread]
         public static void Main()
         {
-            var ad = ApplicationDeployment.CurrentDeployment;
-            var newUpdateAvailable = ad.CheckForUpdate();
-
-            if (newUpdateAvailable)
-            {
-                MessageBox.Show("Hallo Update!");
-            }
-            else
-            {
-                MessageBox.Show("Kein Update!");
-            }
+            //var ad = ApplicationDeployment.CurrentDeployment;
+            //ad.CheckForUpdateCompleted += CheckForUpdateCompleted;
+            //ad.CheckForUpdateAsync();
 
             RunApplication();
+        }
+
+        private static void CheckForUpdateCompleted(object sender, CheckForUpdateCompletedEventArgs arguments)
+        {
+            if (arguments.UpdateAvailable)
+            {
+                ApplicationDeployment.CurrentDeployment.UpdateAsync();
+            }
         }
 
         #endregion
