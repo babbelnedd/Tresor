@@ -1,0 +1,10 @@
+Anwendung wird per ClickOnce verteilt.
+ClickOnce wird nur ein mal beim Installieren "sichtbar" sein.
+ClickOnce prüft nicht auf Updates beim App Start.
+Die Prüfung von Updates geschieht asnychron und programmatisch.
+Die Prüfung wird in einem bestimmten Intervall ausgeführt, der über einen Wert in den Settings gesteuert wird.
+	 0 = Nie automatisch prüfen
+	>0 = x Minuten
+Es gibt die Möglichkeit manuell nach Updates zu suchen.
+?? Es gibt die Möglichkeit den Suchintervall als Anwender zu ändern ??
+Ein installiertes Update informiert den Anwender über das Update und dass die Anwendung neu gestartet werden muss um das Update einzuspielen.

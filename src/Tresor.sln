@@ -25,6 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notes", "Notes", "{9CC56969
 	ProjectSection(SolutionItems) = preProject
 		..\notes\Framework.txt = ..\notes\Framework.txt
 		..\notes\GUI.txt = ..\notes\GUI.txt
+		Updates.txt = Updates.txt
 	EndProjectSection
 EndProject
 Global
