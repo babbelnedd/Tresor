@@ -31,7 +31,12 @@ namespace Tresor
         {
             if (arguments.UpdateAvailable)
             {
+                MessageBox.Show("Update wird ausgeführt.");
                 ApplicationDeployment.CurrentDeployment.UpdateAsync();
+            }
+            else
+            {
+                MessageBox.Show("Kein Update vorhanden.");
             }
         }
 
