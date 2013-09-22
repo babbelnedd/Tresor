@@ -16,11 +16,15 @@ namespace Tresor
         [STAThread]
         public static void Main()
         {
-            //var ad = ApplicationDeployment.CurrentDeployment;
-            //ad.CheckForUpdateCompleted += CheckForUpdateCompleted;
-            //ad.CheckForUpdateAsync();
-
+            CheckForUpdates();
             RunApplication();
+        }
+
+        private static void CheckForUpdates()
+        {
+            var ad = ApplicationDeployment.CurrentDeployment;
+            ad.CheckForUpdateCompleted += CheckForUpdateCompleted;
+            ad.CheckForUpdateAsync();
         }
 
         private static void CheckForUpdateCompleted(object sender, CheckForUpdateCompletedEventArgs arguments)
