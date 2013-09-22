@@ -4,12 +4,11 @@
   <!--BuildSteps-->
   <PropertyGroup>
     <BuildSteps>
-      ShowInformation;
       UpdateAssemblyInfo;
       ClearOutput;
       BuildSolutions;
       DeleteDebugInformation;
-      CreateReleaseFiles;
+      CopyFiles;
       Publish;
       Upload;
     </BuildSteps>
@@ -25,18 +24,6 @@
 
   <!--Import MSBuild ExtensionPack-->
   <Import Project="$(ToolsPath)\MSBuild.ExtensionPack.tasks"/>
-
-  <Target Name="ShowInformation">
-    <Message Text=" MSBuildProjectDirectory         = $(MSBuildProjectDirectory)" />
-    <Message Text=" MSBuildProjectFile              = $(MSBuildProjectFile)" />
-    <Message Text=" MSBuildProjectExtension         = $(MSBuildProjectExtension)" />
-    <Message Text=" MSBuildProjectFullPath          = $(MSBuildProjectFullPath)" />
-    <Message Text=" MSBuildProjectName              = $(MSBuildProjectName)" />
-    <Message Text=" MSBuildBinPath                  = $(MSBuildBinPath)" />
-    <Message Text=" MSBuildProjectDefaultTargets    = $(MSBuildProjectDefaultTargets)" />
-    <Message Text=" MSBuildExtensionsPath           = $(ToolsPath)" />
-    <Message Text=" MSBuildStartupDirectory         = $(MSBuildStartupDirectory)" />
-  </Target>
 
   <Target Name="UpdateAssemblyInfo">
     <MSBuild.ExtensionPack.Framework.AssemblyInfo
@@ -83,7 +70,7 @@
     <Delete Files="@(DeleteItems)" />
   </Target>
 
-  <Target Name="CreateReleaseFiles">
+  <Target Name="CopyFiles">
     <GetAssemblyIdentity AssemblyFiles="$(OutputPath)\Tresor.exe">
       <Output TaskParameter="Assemblies" ItemName="assemblyInfo"/>
     </GetAssemblyIdentity>
@@ -138,8 +125,8 @@
                                 UpdateEnabled="true"
                                 UpdateMode="Foreground"
                                 Platform="AnyCPU"
-                                MinimumRequiredVersion="$(OriginalVersionNummer)"
                                 TargetFrameworkMoniker=".NETFramework,Version=v4.5">
+      <!--MinimumRequiredVersion="$(OriginalVersionNummer)"-->
       <Output ItemName="DeployManifest" TaskParameter="OutputManifest"/>
     </GenerateDeploymentManifest>
     <Message Text="Deployment Manifest stored to '@(DeploymentManifest)'" />
