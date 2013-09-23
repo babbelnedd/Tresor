@@ -22,8 +22,10 @@
 
         private static void RunUpdateManager()
         {
+#if RELEASE
             var updateManager = new ClickOnceUpdateManager();
             updateManager.Start();
+#endif
         }
 
         #endregion
