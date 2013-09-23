@@ -1,6 +1,7 @@
 ﻿namespace Tresor
 {
     using System;
+    using System.Diagnostics;
     using System.Windows;
 
     using Logging;
@@ -30,13 +31,7 @@
         {
 #if RELEASE
             var updateManager = new ClickOnceUpdateManager();
-
-            if (updateManager.TryManualUpdate())
-            {
-                System.Diagnostics.Process.Start(ResourceAssembly.Location);
-                Current.Shutdown();
-            }
-
+            updateManager.TryManualUpdate();
             updateManager.Start();
 #endif
         }
