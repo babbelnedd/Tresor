@@ -31,7 +31,12 @@
         {
 #if RELEASE
             var updateManager = new ClickOnceUpdateManager();
-            updateManager.TryManualUpdate();
+            if (updateManager.TryManualUpdate())
+            {
+                System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
+                Application.Current.Shutdown();
+            }
+
             updateManager.Start();
 #endif
         }
