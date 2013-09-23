@@ -33,8 +33,9 @@
             var updateManager = new ClickOnceUpdateManager();
             if (updateManager.TryManualUpdate())
             {
-                System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
-                Application.Current.Shutdown();
+                System.Windows.Forms.Application.Restart();
+                //System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
+                //Application.Current.Shutdown();
             }
 
             updateManager.Start();
