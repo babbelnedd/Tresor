@@ -34,6 +34,7 @@
             if (updateManager.TryManualUpdate())
             {
                 System.Windows.Forms.Application.Restart();
+                Current.Shutdown();
                 //System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
                 //Application.Current.Shutdown();
             }
