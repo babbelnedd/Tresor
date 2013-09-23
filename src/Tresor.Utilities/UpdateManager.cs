@@ -5,8 +5,8 @@
 
     public class ClickOnceUpdateManager
     {
-        private ApplicationDeployment currentDeployment;
-        private Timer timer = new Timer(60000);
+        private readonly ApplicationDeployment currentDeployment = ApplicationDeployment.CurrentDeployment;
+        private readonly Timer timer = new Timer(60000);
 
         public bool IsUpdating { get; private set; }
 

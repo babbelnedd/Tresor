@@ -16,9 +16,14 @@
         [STAThread]
         public static void Main()
         {
+            RunUpdateManager();
+            RunApplication();
+        }
+
+        private static void RunUpdateManager()
+        {
             var updateManager = new ClickOnceUpdateManager();
             updateManager.Start();
-            RunApplication();
         }
 
         #endregion
