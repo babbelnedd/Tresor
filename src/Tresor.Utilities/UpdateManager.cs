@@ -2,20 +2,18 @@
 {
     using System.Deployment.Application;
     using System.Timers;
-
+    
     public class ClickOnceUpdateManager
     {
         private readonly ApplicationDeployment currentDeployment = ApplicationDeployment.CurrentDeployment;
         private readonly Timer timer = new Timer(60000);
 
         public bool IsUpdating { get; private set; }
-
         public double UpdateInterval
         {
             get { return timer.Interval; }
             set { timer.Interval = value; }
         }
-
 
 
         public ClickOnceUpdateManager()
@@ -24,7 +22,6 @@
             currentDeployment.UpdateCompleted += (obj, sender) => UpdateCompleted();
             currentDeployment.CheckForUpdateCompleted += UpdateCheckCompleted;
         }
-
 
 
         public void Start()
@@ -36,8 +33,6 @@
         {
             timer.Stop();
         }
-
-
 
         private void CheckForUpdate()
         {
@@ -64,6 +59,19 @@
             IsUpdating = true;
             currentDeployment.UpdateAsync();
             // TODO: Über Update Vorgang nach Außen informieren
+        }
+
+        public bool TryManualUpdate()
+        {
+            var updated = false;
+
+            if (currentDeployment.CheckForUpdate())
+            {
+                currentDeployment.Update();
+                updated = true;
+            }
+
+            return updated;
         }
     }
 }

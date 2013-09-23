@@ -7,12 +7,8 @@
 
     using Utilities;
 
-    /// <summary>Grundgerüst der Anwendung.</summary>
     internal class App : Application
     {
-        #region Public Methods and Operators
-
-        /// <summary>Haupteinstiegspunkt der Anwendung.</summary>
         [STAThread]
         public static void Main()
         {
@@ -20,19 +16,6 @@
             RunApplication();
         }
 
-        private static void RunUpdateManager()
-        {
-#if RELEASE
-            var updateManager = new ClickOnceUpdateManager();
-            updateManager.Start();
-#endif
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>Führt die Anwendung aus.</summary>
         private static void RunApplication()
         {
             Log.Trace("Bootstrapper wird initialisiert.");
@@ -42,6 +25,20 @@
             Log.Trace("Anwendung wurde beendet.");
         }
 
-        #endregion
+
+        private static void RunUpdateManager()
+        {
+#if RELEASE
+            var updateManager = new ClickOnceUpdateManager();
+
+            if (updateManager.TryManualUpdate())
+            {
+                System.Diagnostics.Process.Start(ResourceAssembly.Location);
+                Current.Shutdown();
+            }
+
+            updateManager.Start();
+#endif
+        }
     }
 }
