@@ -74,7 +74,7 @@
         /// <summary>Setzt einen SQL Befehl auf die Datenbank ab und liefert eine Ergebnismenge zurück.</summary>
         /// <param name="commandText">Der auszuführende Befehl.</param>
         /// <returns>Eine Auflistung aller Ergebnisse.</returns>
-        /// <remarks>Die äußere Liste enthält alle Ergebnisse. Die innere Liste enhält die Werte aller abgefragten Felder.</remarks>
+        /// <remarks>Die äußere Liste enthält alle Ergebnisse. Die innere Liste enthält die Werte aller abgefragten Felder.</remarks>
         /// <example>
         /// Die Tabelle Person hat 5 Einträge
         /// SELECT Name, LastName, Age, Sex FROM Person

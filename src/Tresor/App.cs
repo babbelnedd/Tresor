@@ -1,12 +1,12 @@
 ﻿namespace Tresor
 {
     using System;
-    using System.Diagnostics;
     using System.Windows;
+
+    using ClickOnce;
 
     using Logging;
 
-    using Utilities;
 
     internal class App : Application
     {
@@ -26,21 +26,16 @@
             Log.Trace("Anwendung wurde beendet.");
         }
 
-
         private static void RunUpdateManager()
         {
-#if RELEASE
-            var updateManager = new ClickOnceUpdateManager();
-            if (updateManager.TryManualUpdate())
-            {
-                System.Windows.Forms.Application.Restart();
-                Current.Shutdown();
-                //System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
-                //Application.Current.Shutdown();
-            }
+            const string database = "PatchNotes.s3db";
 
-            updateManager.Start();
-#endif
+            var mgr = new DeploymentManager(database) { ShowPatchNotes = true };
+
+            if (mgr.TryUpdate())
+            {
+                mgr.Restart();
+            }
         }
     }
 }
