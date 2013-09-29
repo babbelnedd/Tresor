@@ -34,6 +34,7 @@
             
             if (mgr.TryUpdate())
             {
+                Log.Trace("Anwendung wird neu gestartet.");
                 mgr.Restart();
             }
         }
