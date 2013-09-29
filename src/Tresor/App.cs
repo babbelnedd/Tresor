@@ -31,11 +31,11 @@
             const string database = "PatchNotes.s3db";
 
             var mgr = new DeploymentManager(database) { ShowPatchNotes = true };
-            
+
             if (mgr.TryUpdate())
             {
                 Log.Trace("Anwendung wird neu gestartet.");
-                mgr.Restart();
+                Log.Run(mgr.Restart);
             }
         }
     }
