@@ -83,11 +83,11 @@
 
     <Exec Command="xcopy.exe  $(OutputPath) $(ReleasePath) /e" />
 
-    <ItemGroup>
+    <!--<ItemGroup>
       <FilesToDelete Include="$(ReleasePath)\*.xml" />
       <FilesToDelete Include="$(ReleasePath)\*.pdb" />
     </ItemGroup>
-    <Delete Files="@(FilesToDelete)" />
+    <Delete Files="@(FilesToDelete)" />-->
 
   </Target>
 
