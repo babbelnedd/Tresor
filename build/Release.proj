@@ -63,8 +63,8 @@
     <RemoveDir Directories="$(OutputPath)\nl;" />
     <RemoveDir Directories="$(OutputPath)\tr;" />
     <ItemGroup>
-      <DeleteItems Include="$(OutputPath)\*.xml" />
-      <DeleteItems Include="$(OutputPath)\*.pdb" />
+      <!--<DeleteItems Include="$(OutputPath)\*.xml" />
+      <DeleteItems Include="$(OutputPath)\*.pdb" />-->
       <DeleteItems Include="$(OutputPath)\*.application" />
     </ItemGroup>
     <Delete Files="@(DeleteItems)" />
