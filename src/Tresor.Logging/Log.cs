@@ -61,12 +61,10 @@
         /// <remarks>Wird nur ausgeführt falls die Anwendung im Debug Modus läuft.</remarks>
         private static void SetupLog4View()
         {
-#if DEBUG
             var sentinelTarget = new NLogViewerTarget { Name = "sentinel", Address = "udp://127.0.0.1:9999", IncludeNLogData = false };
             var sentinalRule = new LoggingRule("*", LogLevel.Trace, sentinelTarget);
             LogManager.Configuration.AddTarget("log4view", sentinelTarget);
             LogManager.Configuration.LoggingRules.Add(sentinalRule);
-#endif
         }
 
         #endregion
