@@ -42,7 +42,7 @@
             }
             catch (Exception exc)
             {
-                Instance.ErrorException(exc.Message, exc);
+                Instance.TraceException(exc.Message, exc);
             }
         }
 
