@@ -13,8 +13,8 @@
         [STAThread]
         public static void Main()
         {
-            RunUpdateManager();
-            RunApplication();
+            Log.Run(RunUpdateManager);
+            Log.Run(RunApplication);
         }
 
         private static void RunApplication()
@@ -31,7 +31,7 @@
             const string database = "PatchNotes.s3db";
 
             var mgr = new DeploymentManager(database) { ShowPatchNotes = true };
-
+            
             if (mgr.TryUpdate())
             {
                 mgr.Restart();
