@@ -145,8 +145,10 @@
     <Exec Command='$(chmod) /parameter "775" "/tresor/ApplicationFiles"'/>
     <Exec Command='$(chmod) /parameter "775" "/tresor/ApplicationFiles/Tresor_$(OriginalVersionNummer.Replace(".","_"))"'/>
     <Exec Command='$(chmod) /parameter "775" "/tresor/ApplicationFiles/Tresor_$(OriginalVersionNummer.Replace(".","_"))/*.*"'/>
-    <Exec Command='$(chmod) /parameter "775" "/tresor/ApplicationFiles/Tresor_$(OriginalVersionNummer.Replace(".","_"))/."'/>
-    <Exec Command='$(chmod) /parameter "775" "/tresor/ApplicationFiles/Tresor_$(OriginalVersionNummer.Replace(".","_"))/./*.*"'/>
+    <Exec Command='$(chmod) /parameter "775" "/tresor/ApplicationFiles/Tresor_$(OriginalVersionNummer.Replace(".","_"))/x64"'/>
+    <Exec Command='$(chmod) /parameter "775" "/tresor/ApplicationFiles/Tresor_$(OriginalVersionNummer.Replace(".","_"))/x64/*.*"'/>
+    <Exec Command='$(chmod) /parameter "775" "/tresor/ApplicationFiles/Tresor_$(OriginalVersionNummer.Replace(".","_"))/x86"'/>
+    <Exec Command='$(chmod) /parameter "775" "/tresor/ApplicationFiles/Tresor_$(OriginalVersionNummer.Replace(".","_"))/x86/*.*"'/>
     <Message Text=".application wird aktualisiert" />
     <Exec Command='$(upload) /parameter "$(ApplicationFile)" "/tresor/"'/>
     <Message Text="Berechtigungen werden gesetzt." />
