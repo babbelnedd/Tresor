@@ -27,7 +27,7 @@
 
   <Target Name="UpdateAssemblyInfo">
     <MSBuild.ExtensionPack.Framework.AssemblyInfo
-        AssemblyBuildNumberFormat="dM"
+        AssemblyBuildNumberFormat="Mdd"
         AssemblyBuildNumberType="DateString"
         AssemblyFileBuildNumberFormat="dM"
         AssemblyFileBuildNumberType="DateString"
