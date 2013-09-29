@@ -1,12 +1,12 @@
 ﻿namespace Tresor
 {
     using System;
-    using System.Windows;
 
     using ClickOnce;
 
     using Logging;
 
+    using Application = System.Windows.Application;
 
     internal class App : Application
     {
@@ -30,7 +30,7 @@
         {
             const string database = "PatchNotes.s3db";
 
-            var mgr = new DeploymentManager(database) { ShowPatchNotes = true };
+            var mgr = new DeploymentManager(database) {ShowPatchNotes = true};
 
             if (mgr.TryUpdate())
             {
